@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!-- We can pass one model that has lots of stuff in it; we had to use individual model views, though! -->
+@model LegosListViewModel
+
+<h1>Brick Haven</h1>
+
+@foreach (Lego p in Model.Legos)
+{
+    <partial name="LegoSummary" model="p" />
+}
+
+<div page-model="@Model.PaginationInfo" page-action="Shop" page-class-enabled="true"
+     page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
+     page-url-legoType="@Model.CurrentLegoType" class="btn-group pull-right m-1">
+</div>

@@ -1,0 +1,22 @@
+﻿<!-- This is a default view for the component -->
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    bool isAuthenticated = User.Identity.IsAuthenticated;
+}
+
+@if (isAuthenticated)
+{
+    <div class="d-grid gap-2">
+        <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="Shop" asp-route-projectType="" asp-route-pageNum="">Home</a>
+
+        <!-- This is a FOR loop that gets every item based on project type -->
+        @foreach (string legoType in Model ?? Enumerable.Empty<string>())
+        {
+            <!-- Create a button for each specific project type -->
+            <a class="btn @(legoType == ViewBag.SelectedLegoType ? "btn-primary" : "btn-outline-secondary")" asp-controller="Home" asp-action="Shop" asp-route-projectType="@legoType" asp-route-pageNum="1">@legoType</a>
+        }
+    </div>
+}
