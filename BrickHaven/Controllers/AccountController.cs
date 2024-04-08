@@ -12,17 +12,17 @@ namespace BrickHaven.Controllers
     public class AccountController : Controller
     {
         //userManager will hold the UserManager instance
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly UserManager<Customer> userManager;
 
         //signInManager will hold the SignInManager instance
-        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly SignInManager<Customer> signInManager;
 
         //ISenderEmail will hold the EmailSender instance
         private readonly ISenderEmail emailSender;
 
         // UserManager, SignInManager and EmailSender services are injected into the AccountController
         // using constructor injection
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ISenderEmail emailSender)
+        public AccountController(UserManager<Customer> userManager, SignInManager<Customer> signInManager, ISenderEmail emailSender)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -42,8 +42,8 @@ namespace BrickHaven.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Copy data from RegisterViewModel to ApplicationUser
-                var user = new ApplicationUser
+                // Copy data from RegisterViewModel to Customer
+                var user = new Customer
                 {
                     UserName = model.UserName,
                     Email = model.Email,
@@ -229,7 +229,7 @@ namespace BrickHaven.Controllers
 
                     if (user == null)
                     {
-                        user = new ApplicationUser
+                        user = new Customer
                         {
                             UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
                             Email = info.Principal.FindFirstValue(ClaimTypes.Email),
@@ -308,7 +308,7 @@ namespace BrickHaven.Controllers
             return View();
         }
 
-        private async Task SendForgotPasswordEmail(string? email, ApplicationUser? user)
+        private async Task SendForgotPasswordEmail(string? email, Customer? user)
         {
             // Generate the reset password token
             var token = await userManager.GeneratePasswordResetTokenAsync(user);
@@ -422,7 +422,7 @@ namespace BrickHaven.Controllers
             return View();
         }
 
-        private async Task SendConfirmationEmail(string? email, ApplicationUser? user)
+        private async Task SendConfirmationEmail(string? email, Customer? user)
         {
             //Generate the Token
             var token = await userManager.GenerateEmailConfirmationTokenAsync(user);

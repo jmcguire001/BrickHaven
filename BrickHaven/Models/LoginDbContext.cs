@@ -7,7 +7,7 @@ using System.Reflection.Emit;
 
 namespace BrickHaven.Models
 {
-    public class LoginDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
+    public class LoginDbContext : IdentityDbContext<Customer, IdentityRole, string>
     {
         public LoginDbContext(DbContextOptions<LoginDbContext> options)
             : base(options)

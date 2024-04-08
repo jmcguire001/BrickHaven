@@ -31,7 +31,7 @@ builder.Services.AddDistributedMemoryCache(); // Allows us to use session state
 builder.Services.AddSession(); // Allows us to use session state
 
 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
+builder.Services.AddIdentity<Customer, IdentityRole>(
     options =>
     {
         // Password settings

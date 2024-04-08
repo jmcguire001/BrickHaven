@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BrickHaven.Models
 {
-    public class ApplicationUser : IdentityUser
+    public class Customer : IdentityUser
     {
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
