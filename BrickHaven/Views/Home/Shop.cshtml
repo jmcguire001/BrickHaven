@@ -1,4 +1,4 @@
-﻿@{
+﻿@* @{
     ViewData["Title"] = "Shop";
 }
 
@@ -15,4 +15,65 @@
 <div page-model="@Model.PaginationInfo" page-action="Shop" page-class-enabled="true"
      page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
      page-url-legoType="@Model.CurrentLegoType" class="btn-group pull-right m-1">
+</div> *@
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">LEGO Set Shop</h1>
+
+    <!-- Filter section -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h5>Filter by Category:</h5>
+            <select class="form-control" id="categoryFilter">
+                <option value="all">All Categories</option>
+                <option value="city">City</option>
+                <option value="starwars">Star Wars</option>
+                <option value="technic">Technic</option>
+                <!-- Add more options as needed -->
+            </select>
+        </div>
+        <div class="col-md-6">
+            <h5>Filter by Color:</h5>
+            <select class="form-control" id="colorFilter">
+                <option value="all">All Colors</option>
+                <option value="red">Red</option>
+                <option value="blue">Blue</option>
+                <option value="yellow">Yellow</option>
+                <!-- Add more options as needed -->
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <img src="https://via.placeholder.com/300" class="card-img-top" alt="LEGO Set 1" asp-for="">
+                <div class="card-body" asp-for="">
+                    <h5 class="card-title">LEGO Set 1</h5>
+                    <p class="card-text">Description of LEGO Set 1</p>
+                    @* <a href="#" class="btn btn-primary">Add to Cart</a> *@
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card" asp-for="">
+                <img src="https://via.placeholder.com/300" class="card-img-top" alt="LEGO Set 2">
+                <div class="card-body">
+                    <h5 class="card-title">LEGO Set 2</h5>
+                    <p class="card-text">Description of LEGO Set 2</p>
+                    @* <a href="#" class="btn btn-primary">Add to Cart</a> *@
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card" asp-for="">
+                <img src="https://via.placeholder.com/300" class="card-img-top" alt="LEGO Set 3">
+                <div class="card-body">
+                    <h5 class="card-title">LEGO Set 3</h5>
+                    <p class="card-text">Description of LEGO Set 3</p>
+                    @* <a href="#" class="btn btn-primary">Add to Cart</a> *@
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

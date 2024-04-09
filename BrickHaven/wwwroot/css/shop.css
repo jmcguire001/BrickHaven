@@ -1,0 +1,17 @@
+﻿.card {
+    margin-bottom: 20px;
+    border: none;
+}
+
+.card-img-top {
+    height: 300px;
+    object-fit: cover;
+}
+
+.card-title {
+    min-height: 50px;
+}
+
+.card-text {
+    min-height: 50px;
+}
