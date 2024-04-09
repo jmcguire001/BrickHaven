@@ -15,13 +15,17 @@ html {
 html {
   position: relative;
   min-height: 100%;
+  overflow-x: clip;
+}
+
+h4 {
+    color: #777;
 }
 
 body {
     margin-bottom: 60px;
 }
 
-/* PRIVACY POLICY VIEW */
 .navbar {
     background: linear-gradient(to right, #E34749, #FCAB22);
     display: flex;
@@ -65,22 +69,7 @@ body {
 
 
 /* PRIVACY POLICY VIEW */
-.privacy-policy-container {
-    border: 0.1rem solid #ccc;
-    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1); /* Adjust the values as needed */
-    border-radius: 2rem;
-    padding: 2rem 3rem 2rem 4rem;
-    margin: 2rem 2rem 2rem 4rem;
-    max-height: 33rem;
-    overflow-y: scroll;
-    scrollbar-width: thin;
-    scrollbar-color: transparent transparent;
-    font-family: 'BatmanForeverAlternate', sans-serif;
-}
 
-.privacy-hero {
-    width: 100%;
-}
 
 /* LANDING PAGE */
 .hero {
@@ -121,4 +110,14 @@ body {
 .button:hover {
     background-color: #FFC96E;
     color: #555555;
+}
+
+footer {
+    width: 100%;
+    background-color: #999; /* Example background color */
+    color: #fff; /* Example text color */
+    padding: 20px; /* Adjust padding as needed */
+    text-align: center; /* Adjust text alignment as needed */
+    position: absolute;
+    bottom: 0;
 }
