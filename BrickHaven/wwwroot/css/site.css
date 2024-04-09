@@ -30,10 +30,6 @@ body {
     color: #FFFFFF;
 }
 
-nav.nav-background {
-    background-color: #E34749;
-}
-
 .lego-guy-hero {
     height: 80vh;
 }
@@ -51,3 +47,42 @@ nav.nav-background {
     scrollbar-width: thin;
     scrollbar-color: transparent transparent;
 }
+
+/* LANDING PAGE */
+.hero {
+    background-image: url('/assets/batman-bg.jpg'); /* Replace 'path/to/your/image.jpg' with the actual path to your image */
+    background-size: cover;
+    background-position: center;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
+
+    .hero h1 {
+        font-size: 3em;
+        margin-bottom: 10px;
+    }
+
+    .hero h4 {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+    }
+
+    .button {
+        padding: 10px 20px;
+        font-size: 1.2em;
+        background-color: #FCAB22; /* Example button background color */
+        color: #FFFFFF;
+        border-radius: .6rem;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 400ms, color 400ms; /* Add transition for background-color and color */
+    }
+
+    .button:hover {
+        background-color: #FFFFFF;
+        color: #FCAB22;
+    }
