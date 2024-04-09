@@ -1,0 +1,32 @@
+﻿h1.login-h1 {
+    font-size: 3.5rem;
+    text-align: center;
+}
+
+.lego-guy-sign-in {
+    height: 100vh;
+}
+
+.form-container {
+    border-radius: 2rem;
+    padding: 2rem 6rem 2rem 6rem;
+    margin: 2rem 4rem 2rem 6rem;
+}
+
+.external-buttons {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.sign-in-container {
+    display: flex;
+    align-content: center;
+    padding-bottom: 3rem;
+    height: 90vh;
+}
+
+.grey-line {
+    border-bottom: 2px solid #ccc;
+    padding: .5rem;
+    margin: 1rem;
+}

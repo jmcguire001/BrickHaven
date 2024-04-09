@@ -1,0 +1,60 @@
+﻿.card {
+    /*width: 400px;
+    margin-bottom: 20px;*/
+    border: none;
+}
+
+.card-img-top {
+    height: 300px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.card-title {
+    min-height: 50px;
+}
+
+.card-text {
+    min-height: 50px;
+}
+
+.width {
+    margin-left: 10px;
+    margin_right: 20px;
+}
+
+/*INDEX PAGE STYLING*/
+.center {
+    padding-top: 8px;
+    text-align: center;
+}
+
+.prod {
+    padding: 10px;
+}
+
+/* Basic styling */
+.products-container {
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 30px 0;
+}
+
+.product {
+    display: inline-block;
+    width: 400px; /* Adjust width as needed */
+    margin-right: 20px;
+}
+
+.product img {
+    height: 300px;
+    width: 100%;
+    margin-right: 5px;
+}
+
+.spacing {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+

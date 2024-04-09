@@ -83,6 +83,15 @@ builder.Services.AddAuthentication()
 
 var app = builder.Build();
 
+// Enable the Content-Security-Policy (CSP) HTTP header
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; " +
+        "style-src 'self' fonts.cdnfonts.com fonts.googleapis.com 'unsafe-inline';" +
+        "font-src 'self' fonts.cdnfonts.com fonts.googleapis.com fonts.gstatic.com;"); 
+    await next.Invoke();
+});
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

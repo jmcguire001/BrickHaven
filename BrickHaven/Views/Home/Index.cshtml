@@ -2,8 +2,58 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Brick Haven is a private startup founded by Aurora to meet all your bricking needs.</p>
-    <p>Create an account to learn more!</p>
+<div class="hero">
+    <div class="text-center">
+        <h1>WELCOME TO BRICK HAVEN</h1>
+        <h4>YOUR LEGO SET PARADISE</h4><br />
+        <a class="button" style="" asp-controller="Home" asp-action="Shop">Get Started</a>
+    </div>
 </div>
+<div class="spacing" style="color: #555555">
+    <h4>Check out our top picks!</h4>
+    <div class="products-container" asp-for="ProductDetails">
+        <div class="product">
+            <img src="https://via.placeholder.com/300" alt="Product 1">
+            <h3>Product 1</h3>
+            <p>Description of Product 1</p>
+        </div>
+        <div class="product">
+            <img src="https://via.placeholder.com/300" alt="Product 2">
+            <h3>Product 2</h3>
+            <p>Description of Product 2</p>
+        </div>
+        <div class="product">
+            <img src="https://via.placeholder.com/300" alt="Product 2">
+            <h3>Product 2</h3>
+            <p>Description of Product 2</p>
+        </div>
+        <div class="product">
+            <img src="https://via.placeholder.com/300" class="card-img-top" alt="Product 2">
+            <h3>Product 2</h3>
+            <p>Description of Product 2</p>
+        </div>
+        <div class="product">
+            <img src="https://via.placeholder.com/300" alt="Product 2">
+            <h3>Product 2</h3>
+            <p>Description of Product 2</p>
+        </div>
+        <div class="product">
+            <img src="https://via.placeholder.com/300" alt="Product 2">
+            <h3>Product 2</h3>
+            <p>Description of Product 2</p>
+        </div>
+        <div class="product">
+            <img src="https://via.placeholder.com/300" alt="Product 2">
+            <h3>Product 2</h3>
+            <p>Description of Product 2</p>
+        </div>
+        <div class="product">
+            <img src="https://via.placeholder.com/300" alt="Product 2">
+            <h3>Product 2</h3>
+            <p>Description of Product 2</p>
+        </div>
+        <!-- Add more products as needed -->
+    </div>
+</div>
+
+<div class="space-y"></div><br />
