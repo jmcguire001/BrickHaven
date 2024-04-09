@@ -20,36 +20,35 @@
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
-            <div class="container-fluid">
+        <nav class="navbar">
+            <div class="navbar-container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/assets/brickhaven.jpg" class="brickhaven-img" /></a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                    <span class=""></span>
                 </button>
 
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-
+                <div class="">
+                    <ul class="nav-list">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Shop">Shop</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Shop">Shop</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">About</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="SecureMethod">Secure</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="SecureMethod">Secure</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="NonSecureMethod">Non Secure</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="NonSecureMethod">Non Secure</a>
                         </li>
 
                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
@@ -64,9 +63,7 @@
                                 </ul>
                             </li>
                         }
-                    </ul>
 
-                    <ul class="navbar-nav ml-auto">
                         @*If the user is signed-in display Logout link*@
                         @if (SignInManager.IsSignedIn(User))
                         {
