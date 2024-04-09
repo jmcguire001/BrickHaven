@@ -18,12 +18,12 @@ html {
   overflow-x: clip;
 }
 
-h4 {
+h5, h4 {
     color: #777;
 }
 
 body {
-    margin-bottom: 60px;
+    font-family: 'Poppins', sans-serif;
 }
 
 .navbar {
@@ -93,7 +93,7 @@ body {
     }
 
 .button {
-    padding: .7rem 1.5rem .9rem 1.5rem;
+    padding: .7rem 1.5rem .8rem 1.5rem;
     font-size: 1.2em;
     background-color: #FCAB22;
     color: #FFFFFF;
@@ -118,4 +118,8 @@ footer {
     text-align: center; /* Adjust text alignment as needed */
     position: absolute;
     bottom: 0;
+}
+
+.space-y {
+    padding: 2rem;
 }

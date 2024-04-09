@@ -49,30 +49,30 @@
             </div>
         </div>
 
-        <!-- Products section -->
-        <div class="col-md-9">
-            <div class="row row-cols-1 row-cols-md-3">
-                <!-- Updated class to handle varying column counts -->
-                @foreach (Lego p in Model.Legos)
-                {
-                    <partial name="LegoSummary" model="p" />
-                    <div class="col">
-                        <div class="card mb-4 prod">
-                            <a href="@Url.Action("Details", "Product", new { id = p.LegoId })">
-                                <img src="https://via.placeholder.com/400" class="img-fluid" alt="Product Image">
-                            </a>
-                            <a href="@Url.Action("Details", "Product", new { id = p.LegoId })">
-                                <h4>Product Name</h4>
-                            </a>
-                            <p>Description of the product goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            <p><strong>Price: $XX.XX</strong></p>
-                            <div class="form-group">
-                                <label for="quantity">Quantity:</label>
-                                <input type="number" id="quantity" class="form-control" value="1">
-                            </div>
+    <!-- Products section -->
+    <div class="col-md-9">
+        <div class="row row-cols-1 row-cols-md-3">
+            <!-- Updated class to handle varying column counts -->
+            @foreach (Lego p in Model.Legos)
+            {
+                <partial name="LegoSummary" model="p" />
+                <div class="col">
+                    <div class="card mb-4 prod">
+                        <a href="@Url.Action("Details", "Product", new { id = p.LegoId })">
+                            <img src="https://via.placeholder.com/400" class="img-fluid" alt="Product Image">
+                        </a>
+                        <a href="@Url.Action("Details", "Product", new { id = p.LegoId })">
+                            <h4>Product Name</h4>
+                        </a>
+                        <p>Description of the product goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <p><strong>Price: $XX.XX</strong></p>
+                        <div class="form-group">
+                            <label for="quantity">Quantity:</label>
+                            <input type="number" id="quantity" class="form-control" value="1">
                         </div>
                     </div>
-                }
+                </div>
+            }
         </div>
     </div>
 </div>
