@@ -30,7 +30,6 @@ builder.Services.AddRazorPages(); // Allows us to use MVVM
 builder.Services.AddDistributedMemoryCache(); // Allows us to use session state
 builder.Services.AddSession(); // Allows us to use session state
 
-
 builder.Services.AddIdentity<Customer, IdentityRole>(
     options =>
     {
@@ -56,6 +55,9 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LoginPath = "/Account/Login"; // Set your login path here
     options.AccessDeniedPath = "/Account/InsufficientPrivileges"; // Set the path to the page for insufficient privileges
 });
+
+// Register the UserImporter service
+builder.Services.AddScoped<UserImporter>(); // AddScoped is used here assuming it's appropriate for your scenarioo
 
 // Configure token lifespan
 builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>

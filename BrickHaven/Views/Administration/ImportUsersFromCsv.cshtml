@@ -1,0 +1,15 @@
+﻿@model IFormFile
+
+@{
+    ViewData["Title"] = "Import Users from CSV";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="csvFile">Choose CSV File:</label>
+        <input type="file" class="form-control-file" id="csvFile" name="file">
+    </div>
+    <button type="submit" class="btn btn-primary">Import Users</button>
+</form>
