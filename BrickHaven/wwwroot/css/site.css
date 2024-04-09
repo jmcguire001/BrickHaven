@@ -33,3 +33,7 @@ body {
 nav.nav-background {
     background-color: #E34749;
 }
+
+.lego-guy-hero {
+    height: 80vh;
+}
