@@ -21,14 +21,42 @@ body {
     margin-bottom: 60px;
 }
 
+/* PRIVACY POLICY VIEW */
+.navbar {
+    background: linear-gradient(to right, #E34749, #FCAB22);
+    display: flex;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .brickhaven-img {
     height: 5rem;
 }
 
+.nav-list {
+    display: flex;
+    justify-content: flex-end;
+}
 
 .nav-item {
-    color: #FFFFFF;
+    list-style: none;
+    display: inline-block;
 }
+
+.nav-link {
+    color: #FFFFFF;
+    border-bottom: 2px solid rgba(255, 255, 255, 0);
+    transition: border-bottom 300ms ease; /* Add transition property */
+}
+
+    .nav-link:hover {
+        color: #FFFFFF;
+        border-bottom: 2px solid #FFFFFF;
+    }
 
 
 /* PRIVACY POLICY VIEW */
