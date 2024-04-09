@@ -56,8 +56,8 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Account/InsufficientPrivileges"; // Set the path to the page for insufficient privileges
 });
 
-// Register the UserImporter service
-builder.Services.AddScoped<UserImporter>(); // AddScoped is used here assuming it's appropriate for your scenarioo
+//// Register the UserImporter service
+//builder.Services.AddScoped<UserImporter>(); // AddScoped is used here assuming it's appropriate for your scenario
 
 // Configure token lifespan
 builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
