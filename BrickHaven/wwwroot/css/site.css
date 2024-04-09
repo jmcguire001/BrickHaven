@@ -18,7 +18,7 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
 .brickhaven-img {
@@ -30,10 +30,6 @@ body {
     color: #FFFFFF;
 }
 
-.lego-guy-hero {
-    height: 80vh;
-}
-
 
 /* PRIVACY POLICY VIEW */
 .privacy-policy-container {
@@ -41,11 +37,15 @@ body {
     box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1); /* Adjust the values as needed */
     border-radius: 2rem;
     padding: 2rem 3rem 2rem 4rem;
-    margin: 2rem;
+    margin: 2rem 2rem 2rem 4rem;
     max-height: 37rem;
     overflow-y: scroll;
     scrollbar-width: thin;
     scrollbar-color: transparent transparent;
+}
+
+.privacy-hero {
+    width: 100%;
 }
 
 /* LANDING PAGE */
@@ -63,7 +63,7 @@ body {
 
     .hero h1 {
         font-size: 3em;
-        margin-bottom: 10px;
+        margin: 10px;
     }
 
     .hero h4 {
@@ -72,14 +72,15 @@ body {
     }
 
     .button {
-        padding: 10px 20px;
+        padding: .8rem 1.5rem;
         font-size: 1.2em;
-        background-color: #FCAB22; /* Example button background color */
+        background-color: #FCAB22;
         color: #FFFFFF;
-        border-radius: .6rem;
+        border-radius: .7rem;
         cursor: pointer;
         text-decoration: none;
-        transition: background-color 400ms, color 400ms; /* Add transition for background-color and color */
+        transition: background-color 400ms, color 400ms;
+        font-weight: 500;
     }
 
     .button:hover {
