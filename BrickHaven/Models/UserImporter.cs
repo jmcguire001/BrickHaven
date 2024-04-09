@@ -15,7 +15,7 @@ public class UserImporter
 
     public async Task ImportUsersFromCsvAsync(string csvFilePath)
     {
-        int userId = 1; // Starting ID number
+        int userId = 1; // Starting ID number for dynamic username generation
         using (var reader = new StreamReader(csvFilePath))
         {
             while (!reader.EndOfStream)
@@ -23,11 +23,38 @@ public class UserImporter
                 var line = reader.ReadLine();
                 var values = line.Split(',');
 
-                var username = $"user{userId}"; // Generate username based on ID
-                var password = "Hello123!"; // Default password
+                // Extracting values from CSV columns
+                var customerId = int.Parse(values[0]); // Assuming customerid is an INT in the CSV
+                var firstName = values[1];
+                var lastName = values[2];
+                var birthday = DateTime.Parse(values[3]); // Assuming birthday is in a valid date format in the CSV
+                var residenceCountry = values[4];
+                var gender = values[5];
+                var age = float.Parse(values[6]); // Assuming age is represented as an integer in the CSV
 
-                var user = new Customer { UserName = username };
-                var result = await _userManager.CreateAsync(user, password);
+                // Dynamic username generation
+                var username = $"user{userId}";
+                var email = $"user{userId}@brickhaven.com";
+                var emailConfirmed = true;
+                var lockoutEnabled = false;
+
+                var user = new Customer
+                {
+                    UserName = username,
+                    Email = email,
+                    EmailConfirmed = emailConfirmed,
+                    LockoutEnabled = lockoutEnabled,
+                    CustomerID = customerId,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Birthday = birthday,
+                    ResidenceCountry = residenceCountry,
+                    Gender = gender,
+                    Age = age
+                };
+
+                // Create user with password "Hello123!"
+                var result = await _userManager.CreateAsync(user, $"BrickHaven{userId}.123!");
 
                 if (result.Succeeded)
                 {
