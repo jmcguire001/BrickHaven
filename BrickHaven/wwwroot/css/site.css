@@ -15,17 +15,17 @@ html {
 html {
   position: relative;
   min-height: 100%;
+  overflow-x: clip;
+}
+
+h4 {
+    color: #777;
 }
 
 body {
     margin-bottom: 60px;
 }
 
-h1 {
-    padding: 2rem 0 1rem 0;
-}
-
-/* PRIVACY POLICY VIEW */
 .navbar {
     background: linear-gradient(to right, #E34749, #FCAB22);
     display: flex;
@@ -69,21 +69,7 @@ h1 {
 
 
 /* PRIVACY POLICY VIEW */
-.privacy-policy-container {
-    border: 0.1rem solid #ccc;
-    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1); /* Adjust the values as needed */
-    border-radius: 2rem;
-    padding: 2rem 3rem 2rem 4rem;
-    margin: 2rem 2rem 2rem 4rem;
-    max-height: 33rem;
-    overflow-y: scroll;
-    scrollbar-width: thin;
-    scrollbar-color: transparent transparent;
-}
 
-.privacy-hero {
-    width: 100%;
-}
 
 /* LANDING PAGE */
 .hero {

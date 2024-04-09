@@ -1,0 +1,20 @@
+﻿.privacy-policy-container {
+    border: 0.1rem solid #ccc;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1); /* Adjust the values as needed */
+    border-radius: 2rem;
+    padding: 2rem 3rem 2rem 4rem;
+    margin: 2rem 2rem 2rem 4rem;
+    max-height: 30rem;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
+
+.privacy-hero {
+    width: 100%;
+}
+
+.privacy-h1 {
+    text-align: center;
+    margin-top: -3rem;
+}
