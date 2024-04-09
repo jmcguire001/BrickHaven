@@ -1,10 +1,12 @@
 ﻿.card {
-    margin-bottom: 20px;
+    /*width: 400px;
+    margin-bottom: 20px;*/
     border: none;
 }
 
 .card-img-top {
     height: 300px;
+    width: 100%;
     object-fit: cover;
 }
 
@@ -16,9 +18,19 @@
     min-height: 50px;
 }
 
+.width {
+    margin-left: 10px;
+    margin_right: 20px;
+}
+
+/*INDEX PAGE STYLING*/
 .center {
     padding-top: 8px;
     text-align: center;
+}
+
+.prod {
+    padding: 10px;
 }
 
 /* Basic styling */

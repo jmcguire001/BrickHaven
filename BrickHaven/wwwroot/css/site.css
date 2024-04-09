@@ -75,6 +75,7 @@ body {
     overflow-y: scroll;
     scrollbar-width: thin;
     scrollbar-color: transparent transparent;
+    font-family: 'BatmanForeverAlternate', sans-serif;
 }
 
 .privacy-hero {
