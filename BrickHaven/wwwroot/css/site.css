@@ -37,3 +37,17 @@ nav.nav-background {
 .lego-guy-hero {
     height: 80vh;
 }
+
+
+/* PRIVACY POLICY VIEW */
+.privacy-policy-container {
+    border: 0.1rem solid #ccc;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1); /* Adjust the values as needed */
+    border-radius: 2rem;
+    padding: 2rem 3rem 2rem 4rem;
+    margin: 2rem;
+    max-height: 37rem;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}

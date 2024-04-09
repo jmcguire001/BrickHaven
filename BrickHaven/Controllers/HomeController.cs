@@ -27,6 +27,7 @@ namespace BrickHaven.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         public IActionResult Shop(int pageNum, string? legoType) // 'page' means something in dotnet
         {
             int pageSize = 1; // How many items to show per page
