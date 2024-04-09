@@ -73,9 +73,6 @@ body {
 
 /* LANDING PAGE */
 .hero {
-    /*background-image: url('/assets/batman-bg.jpg');*/ /* Replace 'path/to/your/image.jpg' with the actual path to your image */
-    /*background-size: cover;
-    background-position: center;*/
     height: 55vh;
     display: flex;
     justify-content: center;
@@ -95,22 +92,23 @@ body {
         font-weight: normal;
     }
 
-    .button {
-        padding: .8rem 1.5rem;
-        font-size: 1.2em;
-        background-color: #FCAB22;
-        color: #FFFFFF;
-        border-radius: .7rem;
-        cursor: pointer;
-        text-decoration: none;
-        transition: background-color 400ms, color 400ms;
-        font-weight: 500;
-    }
-
-.button:hover {
-    background-color: #FFC96E;
-    color: #555555;
+.button {
+    padding: .7rem 1.5rem .9rem 1.5rem;
+    font-size: 1.2em;
+    background-color: #FCAB22;
+    color: #FFFFFF;
+    border: none;
+    border-radius: .7rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 400ms, color 400ms;
+    font-weight: 500;
 }
+
+    .button:hover {
+        background-color: #FFC96E;
+        color: #FFFFFF;
+    }
 
 footer {
     width: 100%;
