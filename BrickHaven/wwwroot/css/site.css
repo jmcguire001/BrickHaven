@@ -53,10 +53,15 @@ body {
     transition: border-bottom 300ms ease; /* Add transition property */
 }
 
-    .nav-link:hover {
-        color: #FFFFFF;
-        border-bottom: 2px solid #FFFFFF;
-    }
+.nav-link:hover {
+    color: #FFFFFF;
+    border-bottom: 2px solid #FFFFFF;
+}
+
+.nav-link.active {
+    color: #FFFFFF;
+    border-bottom: 2px solid #FFFFFF;
+}
 
 
 /* PRIVACY POLICY VIEW */
@@ -66,7 +71,7 @@ body {
     border-radius: 2rem;
     padding: 2rem 3rem 2rem 4rem;
     margin: 2rem 2rem 2rem 4rem;
-    max-height: 37rem;
+    max-height: 33rem;
     overflow-y: scroll;
     scrollbar-width: thin;
     scrollbar-color: transparent transparent;
@@ -78,15 +83,15 @@ body {
 
 /* LANDING PAGE */
 .hero {
-    background-image: url('/assets/batman-bg.jpg'); /* Replace 'path/to/your/image.jpg' with the actual path to your image */
-    background-size: cover;
-    background-position: center;
+    /*background-image: url('/assets/batman-bg.jpg');*/ /* Replace 'path/to/your/image.jpg' with the actual path to your image */
+    /*background-size: cover;
+    background-position: center;*/
     height: 80vh;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    color: white;
+    color: #555555;
 }
 
     .hero h1 {
@@ -97,6 +102,7 @@ body {
     .hero h4 {
         font-size: 1.5em;
         margin-bottom: 20px;
+        font-weight: normal;
     }
 
     .button {
@@ -111,7 +117,7 @@ body {
         font-weight: 500;
     }
 
-    .button:hover {
-        background-color: #FFFFFF;
-        color: #FCAB22;
-    }
+.button:hover {
+    background-color: #FFC96E;
+    color: #555555;
+}

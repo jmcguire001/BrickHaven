@@ -15,3 +15,27 @@
 .card-text {
     min-height: 50px;
 }
+
+.center {
+    padding-top: 8px;
+    text-align: center;
+}
+
+/* Basic styling */
+.products-container {
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 20px 0;
+}
+
+.product {
+    display: inline-block;
+    width: 200px; /* Adjust width as needed */
+    margin-right: 20px;
+}
+
+.product img {
+    width: 100%;
+    height: auto;
+}
