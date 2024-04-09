@@ -121,3 +121,13 @@ body {
     background-color: #FFC96E;
     color: #555555;
 }
+
+footer {
+    width: 100%;
+    background-color: #999; /* Example background color */
+    color: #fff; /* Example text color */
+    padding: 20px; /* Adjust padding as needed */
+    text-align: center; /* Adjust text alignment as needed */
+    position: absolute;
+    bottom: 0;
+}
