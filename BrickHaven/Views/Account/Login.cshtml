@@ -4,7 +4,7 @@
     ViewBag.Title = "User Login";
 }
 
-
+<!--
 <div class="row">
     <div class="col-md-6">
         <h1 class="text-center">Welcome</h1>
@@ -65,5 +65,71 @@
 
     <div class="col-md-6">
         <img src="~/assets/lego-guy-sign-in.jpg" class="lego-guy-hero"/>
+    </div>
+</div> 
+-->
+
+
+
+<div class="row">
+    <div class="col-md-6">
+        <h1 class="text-center">Welcome</h1>
+        <h4 class="text-center">Let’s get you on your way to enjoying your new LEGO sets!</h4>
+
+        <div class="row">
+            <div class="">
+                <form method="post">
+                    <input type="hidden" name="ReturnUrl" value="@ViewData["ReturnUrl"]" />
+                    <div asp-validation-summary="All" class=""></div>
+                    <div class="form-group">
+                        <label asp-for="Username"></label>
+                        <input asp-for="Username" class="form-control" />
+                        <span asp-validation-for="Username" class=""></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password"></label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class=""></span>
+                    </div><br />
+                    <div class="form-group text-center">
+                        <button type="submit" class="">Sign In</button>
+                    </div>
+                    <br />
+                    <div>
+                        <a asp-controller="Account" asp-action="ForgotPassword">Forgot Password?</a>
+                    </div>
+                </form>
+
+            </div>
+            <div class="col-md-6">
+                <h1 class="text-center">External Login</h1>
+                <hr />
+                @{
+                    if (Model.ExternalLogins?.Count == 0)
+                    {
+                        <div>No external logins configured</div>
+                    }
+                    else
+                    {
+                        <form method="post" asp-action="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl">
+                            <div>
+                                @foreach (var provider in Model.ExternalLogins)
+                                {
+                                    <button onclick="externalLogin(@provider.Name, @Model.ReturnUrl)" type="submit" class="btn btn-primary"
+                                            name="provider" value="@provider.Name"
+                                            title="Log in using your @provider.DisplayName account">
+                                        @provider.DisplayName
+                                    </button>
+                                }
+                            </div>
+                        </form>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <img src="~/assets/lego-guy-sign-in.jpg" class="lego-guy-hero" />
     </div>
 </div>
