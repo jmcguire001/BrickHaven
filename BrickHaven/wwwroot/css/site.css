@@ -25,12 +25,9 @@ body {
 .navbar {
     background: linear-gradient(to right, #E34749, #FCAB22);
     display: flex;
-}
-
-.navbar-container {
-    display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 1rem 2rem;
 }
 
 .brickhaven-img {
@@ -40,9 +37,12 @@ body {
 .nav-list {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+    padding-top: 1rem;
 }
 
 .nav-item {
+    font-size: 1.3rem;
     list-style: none;
     display: inline-block;
 }
