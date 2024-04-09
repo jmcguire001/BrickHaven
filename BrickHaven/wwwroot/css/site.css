@@ -20,3 +20,16 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.brickhaven-img {
+    height: 5rem;
+}
+
+
+.nav-item {
+    color: #FFFFFF;
+}
+
+nav.nav-background {
+    background-color: #E34749;
+}
