@@ -1,23 +1,18 @@
-﻿@* @{
+﻿@{
     ViewData["Title"] = "Shop";
 }
 
 <!-- We can pass one model that has lots of stuff in it; we had to use individual model views, though! -->
 @model LegosListViewModel
 
-<h1>Brick Haven</h1>
 
-@foreach (Lego p in Model.Legos)
-{
-    <partial name="LegoSummary" model="p" />
-}
-
-<div page-model="@Model.PaginationInfo" page-action="Shop" page-class-enabled="true"
+@* <div page-model="@Model.PaginationInfo" page-action="Shop" page-class-enabled="true"
      page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
      page-url-legoType="@Model.CurrentLegoType" class="btn-group pull-right m-1">
 </div> *@
+
 <div class="container mt-5">
-    <h1 class="text-center mb-4">LEGO Set Shop</h1>
+    <h1 class="text-center mb-4">Shop Sets at Brick Haven</h1>
 
     <div class="row width">
         <!-- Filter section -->
@@ -58,38 +53,26 @@
         <div class="col-md-9">
             <div class="row row-cols-1 row-cols-md-3">
                 <!-- Updated class to handle varying column counts -->
-                <div class="col">
-                    <div class="card mb-4 prod">
-                        <img src="https://via.placeholder.com/300" class="card-img-top" alt="LEGO Set 1" asp-for="">
-                        <div class="card-body" asp-for="">
-                            <h5 class="card-title">LEGO Set 1</h5>
-                            <p class="card-text">Description of LEGO Set 1</p>
-                            @* <a href="#" class="btn btn-primary">Add to Cart</a> *@
+                @foreach (Lego p in Model.Legos)
+                {
+                    <partial name="LegoSummary" model="p" />
+                    <div class="col">
+                        <div class="card mb-4 prod">
+                            <a href="@Url.Action("Details", "Product", new { id = p.LegoId })">
+                                <img src="https://via.placeholder.com/400" class="img-fluid" alt="Product Image">
+                            </a>
+                            <a href="@Url.Action("Details", "Product", new { id = p.LegoId })">
+                                <h4>Product Name</h4>
+                            </a>
+                            <p>Description of the product goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            <p><strong>Price: $XX.XX</strong></p>
+                            <div class="form-group">
+                                <label for="quantity">Quantity:</label>
+                                <input type="number" id="quantity" class="form-control" value="1">
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="card mb-4 prod" asp-for="">
-                        <img src="https://via.placeholder.com/300" class="card-img-top" alt="LEGO Set 2">
-                        <div class="card-body">
-                            <h5 class="card-title">LEGO Set 2</h5>
-                            <p class="card-text">Description of LEGO Set 2</p>
-                            @* <a href="#" class="btn btn-primary">Add to Cart</a> *@
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card mb-4 prod" asp-for="">
-                        <img src="https://via.placeholder.com/300" class="card-img-top" alt="LEGO Set 3">
-                        <div class="card-body">
-                            <h5 class="card-title">LEGO Set 3</h5>
-                            <p class="card-text">Description of LEGO Set 3</p>
-                            @* <a href="#" class="btn btn-primary">Add to Cart</a> *@
-                        </div>
-                    </div>
-                </div>
-                <!-- Add more columns as needed -->
-            </div>
+                }
         </div>
     </div>
 </div>

@@ -24,7 +24,9 @@
 
 <body>
     <header>
-        <nav class="navbar">
+        @if (!ViewContext.RouteData.Values["Controller"].ToString().Equals("Account") || !ViewContext.RouteData.Values["Action"].ToString().Equals("Login"))
+        {
+            <nav class="navbar">
                 <div>
                     <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/assets/brickhaven.jpg" class="brickhaven-img" /></a>
                 </div>
@@ -117,7 +119,9 @@
                         }
                     </ul>
                 </div>
-        </nav>
+            </nav>
+        }
+        
     </header>
 
     <div class="">
@@ -131,12 +135,14 @@
             </main>
         </div>
     </div>
-
-    <footer class="footer">
-        <div class="center">
-            &copy; 2024 - Brick Haven
-        </div>
-    </footer>
+    @if (!ViewContext.RouteData.Values["Controller"].ToString().Equals("Account") || !ViewContext.RouteData.Values["Action"].ToString().Equals("Login"))
+    {
+        <footer class="footer">
+            <div class="center">
+                &copy; 2024 - Brick Haven
+            </div>
+        </footer>
+    }
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>

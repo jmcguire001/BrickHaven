@@ -74,5 +74,11 @@ namespace BrickHaven.Controllers
         {
             return View();
         }
+
+        [AllowAnonymous]
+        public IActionResult ProductDetails()
+        {
+            return View();
+        }
     }
 }
