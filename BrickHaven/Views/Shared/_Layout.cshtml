@@ -121,7 +121,6 @@
                 </div>
             </nav>
         }
-        
     </header>
 
     <div class="">
@@ -135,7 +134,7 @@
             </main>
         </div>
     </div>
-    @if (!ViewContext.RouteData.Values["Controller"].ToString().Equals("Account") || !ViewContext.RouteData.Values["Action"].ToString().Equals("Login"))
+    @if (!ViewContext.RouteData.Values["Controller"].ToString().Equals("Account") || !ViewContext.RouteData.Values["Action"].ToString().Equals("Login") || !ViewContext.RouteData.Values["Action"].ToString().Equals("Register") || !ViewContext.RouteData.Values["Action"].ToString().Equals("ForgotPassword"))
     {
         <footer class="footer">
             <div class="center">
