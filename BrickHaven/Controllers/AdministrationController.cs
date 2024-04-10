@@ -287,9 +287,33 @@ namespace BrickHaven.Controllers
         }
 
         [HttpGet]
-        public IActionResult ListUsers(int pageNum = 1, int pageSize = 10)
+        public IActionResult ListUsers(string? roleFilter, int pageNum = 1, int pageSize = 10)
         {
             var userList = new ListUsersViewModel
+            {
+                Customers = _context.Users.OrderBy(u => u.UserName).Skip((pageNum - 1) * pageSize).Take(pageSize),
+                PaginationInfo = new PaginationInfo
+                {
+                    CurrentPage = pageNum,
+                    ItemsPerPage = pageSize,
+                    TotalItems = _context.Users.Count() == 0 ? 1 : _context.Users.Count()
+                },
+
+                CurrentPageSize = pageSize,
+                Role = roleFilter
+            };
+
+            // var users = _userManager.Users;
+            return View(userList);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditUser(string UserId, int pageNum = 1, int pageSize = 10)
+        {
+            //First Fetch the User Details by UserId
+            var user = await _userManager.FindByIdAsync(UserId);
+
+            var editUserList = new ListUsersViewModel
             {
                 Customers = _context.Users.OrderBy(u => u.UserName).Skip((pageNum - 1) * pageSize).Take(pageSize),
                 PaginationInfo = new PaginationInfo
@@ -300,17 +324,7 @@ namespace BrickHaven.Controllers
                 },
 
                 CurrentPageSize = pageSize
-        };
-
-            // var users = _userManager.Users;
-            return View(userList);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> EditUser(string UserId)
-        {
-            //First Fetch the User Details by UserId
-            var user = await _userManager.FindByIdAsync(UserId);
+            };
 
             //Check if User Exists in the Database
             if (user == null)
@@ -354,6 +368,9 @@ namespace BrickHaven.Controllers
                 user.UserName = model.UserName;
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
+                user.Birthday = model.Birthday;
+                user.ResidenceCountry = model.ResidenceCountry;
+                user.Gender = model.Gender;
 
                 //UpdateAsync Method will update the user data in the AspNetUsers Identity table
                 var result = await _userManager.UpdateAsync(user);
