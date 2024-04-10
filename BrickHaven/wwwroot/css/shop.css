@@ -39,6 +39,7 @@
     overflow-x: auto;
     white-space: nowrap;
     padding: 30px 0;
+    scrollbar-color: #FCAB22 #FFC96E;
 }
 
 .product {

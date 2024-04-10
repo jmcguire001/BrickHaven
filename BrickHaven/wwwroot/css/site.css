@@ -36,6 +36,7 @@ body {
 
 .brickhaven-img {
     height: 5rem;
+    filter: invert(100%) sepia(2%) saturate(1621%) hue-rotate(231deg) brightness(120%) contrast(100%);
 }
 
 .nav-list {
