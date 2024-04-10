@@ -19,15 +19,10 @@
         <div class="col-md-3 mb-4">
             <div class="row">
                 <div class="col-md-12">
-                    <h5>Filter by Category:</h5>
-                    <select class="form-control" id="categoryFilter">
-                        <option value="all">All Categories</option>
-                        <option value="city">City</option>
-                        <option value="starwars">Star Wars</option>
-                        <option value="technic">Technic</option>
-                        <!-- Add more options as needed -->
-                    </select>
+                    <!-- Button to open modal -->
+                    <button class="btn btn-primary" id="openModal">Filter by Category</button>
                 </div>
+
                 <div class="col-md-12 mt-3">
                     <h5>Filter by Color:</h5>
                     <select class="form-control" id="colorFilter">
@@ -64,12 +59,12 @@
                             <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
                                 <h4>Product Name</h4>
                             </a>
-                            <p>Description of the product goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+@*                             <p>Description of the product goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                             <p><strong>Price: $XX.XX</strong></p>
                             <div class="form-group">
                                 <label for="quantity">Quantity:</label>
                                 <input type="number" id="quantity" class="form-control" value="1">
-                            </div>
+                            </div> *@
                         </div>
                     </div>
                 }
