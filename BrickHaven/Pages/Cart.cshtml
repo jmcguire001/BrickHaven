@@ -3,15 +3,15 @@
 @{
 }
 
-<h2>Your Cart</h2>
+<h2>Shopping Cart</h2>
 
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>Lego Name</th>
+            <th>Item</th>
+            <th>Price</th>
             <th>Quantity</th>
-            <th class="text-right">Amount</th>
-            <th class="text-right">Subtotal</th>
+            <th>Subtotal</th>
         </tr>
     </thead>
 
@@ -20,8 +20,8 @@
         {
             <tr>
                 <td class="text-left">@l.Product.Name</td>
+                <td class="text-right">@l.</td>
                 <td class="text-center">@l.Quantity</td>
-                <td class="text-right">$25</td>
                 <td class="text-right">$@(25 * l.Quantity)</td>
             </tr>
         }
