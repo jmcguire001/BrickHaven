@@ -123,3 +123,7 @@ footer {
 .space-y {
     padding: 2rem;
 }
+
+img.cart {
+    width: 2.5rem;
+}
