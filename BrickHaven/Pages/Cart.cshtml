@@ -20,9 +20,9 @@
         {
             <tr>
                 <td class="text-left">@l.Product.Name</td>
-                <td class="text-right">@l.</td>
-                <td class="text-center">@l.Quantity</td>
-                <td class="text-right">$@(25 * l.Quantity)</td>
+                <td class="text-left">$@l.Price</td>
+                <td class="text-left">@l.Quantity</td>
+                <td class="text-right">$@(l.Price * l.Quantity)</td>
             </tr>
         }
     </tbody>

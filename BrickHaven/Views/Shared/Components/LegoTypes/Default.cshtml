@@ -11,11 +11,9 @@
 {
     <div class="d-grid gap-2">
         <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="Shop" asp-route-projectType="">View All</a>
-        <!-- This is a FOR loop that gets every item based on project type -->
         @foreach (string legoType in Model ?? Enumerable.Empty<string>())
         {
-            <!-- Create a button for each specific project type -->
-            <a class="btn @(legoType == ViewBag.SelectedLegoType ? "btn-primary" : "btn-outline-secondary")" asp-controller="Home" asp-action="Shop" asp-route-projectType="@legoType" asp-route-pageNum="1">@legoType</a>
+            <a class="btn @(legoType == ViewBag.SelectedLegoType ? "btn-primary" : "btn-outline-secondary")" asp-controller="Home" asp-action="Shop" asp-route-projectType="@legoType" asp-route-pageNum="1" asp-route-pageSize="5">@legoType</a>
         }
     </div>
 }

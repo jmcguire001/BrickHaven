@@ -48,20 +48,19 @@
                 @foreach (Product p in Model.Products)
                 {
                     <div class="col item">
-                        <div class="product-image-container">
-                            <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
-                                    <img src="@p.ImgLink" class="product-image" alt="Product Image">
+                        <div class="prod">
+                            <a href="@Url.Action("ProductDetails", "Home", new { id = p.ProductId })">
+                                <img src="@p.ImgLink" class="product-image" alt="Product Image">
                             </a>
                         </div>
-                            <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
+                            <a href="@Url.Action("ProductDetails", "Home", new { id = p.ProductId })">
                                 <h3>@p.Name</h3>
                             </a>
-                            <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
+                            <a href="@Url.Action("ProductDetails", "Home", new { id = p.ProductId })">
                                 <h4>@p.Category</h4>
                             </a>
-                            <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
-                                <h4>$@p.Price</h4>
-                            </a>
+                            <h4>$@p.Price</h4>
+                        </div>
                     </div>
                 }
         </div>
