@@ -10,7 +10,6 @@
 @if (isAuthenticated)
 {
     <div class="d-grid gap-2">
-        <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="Shop" asp-route-projectType="" asp-route-pageNum="">Home</a>
 
         <!-- This is a FOR loop that gets every item based on project type -->
         @foreach (string legoType in Model ?? Enumerable.Empty<string>())
