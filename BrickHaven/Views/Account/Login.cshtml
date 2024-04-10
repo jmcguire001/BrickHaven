@@ -68,7 +68,7 @@
     </div>
 </div> 
 -->
-
+<a class="" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/assets/circle-chevron-left.svg" class="home-icon" /></a>
 <div class="sign-in-container">
     <div class="row">
         <div class="col-md-6">
@@ -94,13 +94,16 @@
 
                     <div class="form-group text-center">
                         <button type="submit" class="button">Sign In</button>
+                    </div><br />
+
+                    <div class="new-user-container">
+                        <p>Don't have an account? <a class="new-user" style="" asp-controller="Account" asp-action="Register">sign up now</a></p>
                     </div>
                 </form>
 
                 <div class="grey-line"></div>
 
-
-                <h3 class="text-center">External Login</h3><br />
+                <h3 class="text-center">Or sign in with</h3><br />
                 @{
                     if (Model.ExternalLogins?.Count == 0)
                     {
@@ -109,7 +112,7 @@
                     else
                     {
                         <form method="post" asp-action="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl">
-                            <div class="external-buttons">
+                            <div class="external-buttons-container">
                                 @foreach (var provider in Model.ExternalLogins)
                                 {
                                     <button onclick="externalLogin(@provider.Name, @Model.ReturnUrl)" type="submit" class="button"
