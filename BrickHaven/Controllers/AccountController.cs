@@ -112,7 +112,6 @@ namespace BrickHaven.Controllers
             {
                 // Attempt to sign in the user using their username and password
                 var user = await userManager.FindByNameAsync(model.Username);
-                var userEmail = user.Email;
 
                 if (user != null && !user.EmailConfirmed && (await userManager.CheckPasswordAsync(user, model.Password)))
                 {
@@ -142,6 +141,7 @@ namespace BrickHaven.Controllers
                     // Generate a 2FA token, send that token to user Email and Phone Number
                     // and redirect to the 2FA verification view
                     var TwoFactorAuthenticationToken = await userManager.GenerateTwoFactorTokenAsync(user, "Email");
+                    var userEmail = user.Email;
 
                     //Sending Email
                     await emailSender.SendEmailAsync(user.Email, "2FA Token", $"Your 2FA Token is {TwoFactorAuthenticationToken}", false);
@@ -158,6 +158,8 @@ namespace BrickHaven.Controllers
                 {
                     // Invalid login attempt
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    model = new LoginViewModel();
+                    model.ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
                     return View(model);
                 }
             }
