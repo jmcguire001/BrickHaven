@@ -9,13 +9,18 @@
 
 .form-container {
     border-radius: 2rem;
-    padding: 2rem 6rem 2rem 6rem;
+    padding: 2rem 5rem 2rem 5rem;
     margin: 2rem 4rem 2rem 6rem;
 }
 
-.external-buttons {
+.external-buttons-container {
     display: flex;
     justify-content: space-evenly;
+}
+
+.new-user-container {
+    display: flex;
+    justify-content: center;
 }
 
 .sign-in-container {
