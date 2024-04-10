@@ -6,20 +6,21 @@
 @{
 }
 
-@model Lego
+@model Product
 
 <div class="card m-1 p-1">
-    <h3>@Model.LegoName<span class="badge rounded-pill bg-primary text-white float-end"><small>@Model.LegoImpact</small></span></h3>
+    <h3>@Model.Name<span class="badge rounded-pill bg-primary text-white float-end"><small>@Model.Price</small></span></h3>
 
     <ul>
-        <li>Lego Type: @Model.LegoType</li>
-        <li>Lego Phase: @Model.LegoPhase</li>
-        <li>Installation Date: @Model.LegoInstallation</li>
+        <li>Category: @Model.Category</li>
+        <li>Number of Parts: @Model.NumParts</li>
+        <li>Description: @Model.Description</li>
+        <li>Take a look! @Model.ImgLink</li>
     </ul>
 
-    <form id=@Model.LegoId method="post" asp-page="/Cart">
+    <form id=@Model.ProductId method="post" asp-page="/Cart">
         <!-- Will take us straight to the razor page! But it does so using this route -->
-        <input type="hidden" asp-for="@Model.LegoId" />
+        <input type="hidden" asp-for="@Model.ProductId" />
         <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
         <button type="submit" class="btn-outline-success btn-sm float-end">Donate</button>
     </form>

@@ -10,7 +10,7 @@ namespace BrickHaven.Models
         public int? Year { get; set; }
         public int? NumParts { get; set; }
         public float? Price { get; set; }
-        public string ImgLink { get; set; }
+        public string? ImgLink { get; set; }
         public string? PrimaryColor { get; set; }
         public string? SecondaryColor { get; set; }
         public string? Description { get; set; }
