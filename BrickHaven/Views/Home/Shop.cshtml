@@ -5,12 +5,6 @@
 <!-- We can pass one model that has lots of stuff in it; we had to use individual model views, though! -->
 @model ProductListViewModel
 
-
-@* <div page-model="@Model.PaginationInfo" page-action="Shop" page-class-enabled="true"
-     page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
-     page-url-legoType="@Model.CurrentLegoType" class="btn-group pull-right m-1">
-</div> *@
-
 <div class="container mt-5">
     <h1 class="text-center mb-4">Shop Sets at Brick Haven</h1>
 
@@ -19,27 +13,28 @@
         <div class="col-md-3 mb-4">
             <div class="row">
                 <div class="col-md-12">
-                    <!-- Button to open modal -->
-                    <button class="btn btn-primary" id="openModal">Filter by Category</button>
-                </div>
-
-                <div class="col-md-12 mt-3">
-                    <h5>Filter by Color:</h5>
-                    <select class="form-control" id="colorFilter">
-                        <option value="all">All Colors</option>
-                        <option value="red">Red</option>
-                        <option value="blue">Blue</option>
-                        <option value="yellow">Yellow</option>
-                        <!-- Add more options as needed -->
-                    </select>
-                </div>
-                <div class="col-md-12 mt-3">
-                    <h5>Show Products per Row:</h5>
-                    <select class="form-control" id="productsPerRow">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3" selected>3</option> <!-- Default selection -->
-                    </select>
+                    <div class="col-md-12 mt-3">
+                        <h5>Show:</h5>
+                        <select class="form-control" id="productsPerPage">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20" selected>20</option> <!-- Default selection -->
+                        </select>
+                    </div>
+                    <br />
+                    <!-- Sidebar -->
+                    <div class="sidebar" id="mySidebar">
+                        <div class="col-md-12">
+                            <h5>Filter by Category:</h5>
+                            <!-- Include the contents of vc:lego-types here -->
+                            <vc:lego-types />
+                        </div>
+                        <br />
+                        <div class="col-md-12">
+                            <h5>Filter by Color:</h5>
+                            <vc:lego-colors />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -54,20 +49,42 @@
                     <div class="col">
                         <div class="card mb-4 prod">
                             <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
-                                <img src="" class="img-fluid" alt="Product Image">
+                                <img src="@p.ImgLink" class="img-fluid" alt="Product Image">
                             </a>
                             <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
-                                <h4>Product Name</h4>
+                                <h4>@p.Name</h4>
                             </a>
-@*                             <p>Description of the product goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            <p><strong>Price: $XX.XX</strong></p>
-                            <div class="form-group">
-                                <label for="quantity">Quantity:</label>
-                                <input type="number" id="quantity" class="form-control" value="1">
-                            </div> *@
+                            <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
+                                <h4>@p.GetType()</h4>
+                            </a>
+                            <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
+                                <h5>@p.Price</h5>
+                            </a>
                         </div>
                     </div>
                 }
         </div>
     </div>
 </div>
+
+<div page-model="@Model.PaginationInfo" page-action="Shop" page-class-enabled="true"
+page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
+         page-url-legoType="@Model.CurrentLegoType" class="btn-group pull-right m-1">
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get the select element
+        var selectElement = document.querySelector('#productsPerPage select');
+
+        // Add event listener to listen for changes in the select element
+        selectElement.addEventListener('change', function () {
+            // Get the selected value
+            var selectedValue = selectElement.value;
+
+            // Set the page-url-pageSize attribute of the pagination controls
+            var paginationControls = document.getElementById('paginationControls');
+            paginationControls.setAttribute('page-url-pageSize', selectedValue);
+        });
+    });
+</script>
