@@ -7,6 +7,7 @@ namespace BrickHaven.Models
 {
     public class Customer : IdentityUser
     {
+        public int? CustomerID { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public DateTime? Birthday { get; set; }
