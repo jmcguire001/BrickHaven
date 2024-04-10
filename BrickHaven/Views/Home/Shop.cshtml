@@ -20,11 +20,9 @@
                 <div class="col-md-12">
                     <div class="col-md-12 mt-3">
                         <h5>Show:</h5>
-                        <select class="form-control" id="productsPerPage">
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="20">20</option> <!-- Default selection -->
-                        </select>
+                        <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="5">5</a>
+                        <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="10">10</a>
+                        <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="20">20</a>
                     </div>
                     <br />
                     <!-- Sidebar -->
@@ -72,30 +70,7 @@
     </div>
 </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Get the select element
-        var selectElement = document.querySelector('#productsPerPage select');
 
-        // Get the stored value from sessionStorage, if available
-        var storedValue = sessionStorage.getItem('selectedPageSize');
 
-        // If a stored value exists, set it as the selected value
-        if (storedValue) {
-            selectElement.value = storedValue;
-        }
 
-        // Add event listener to listen for changes in the select element
-        selectElement.addEventListener('change', function () {
-            // Get the selected value
-            var selectedValue = selectElement.value;
 
-            // Store the selected value in sessionStorage
-            sessionStorage.setItem('selectedPageSize', selectedValue);
-
-            // Set the page-url-pageSize attribute of the pagination controls
-            var paginationControls = document.getElementById('paginationControls');
-            paginationControls.setAttribute('page-url-pageSize', selectedValue);
-        });
-    });
-</script>
