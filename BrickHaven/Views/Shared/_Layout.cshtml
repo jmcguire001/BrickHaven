@@ -77,11 +77,12 @@
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Welcome, @User?.Identity?.Name</a>
 
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">Logout</a>
-
-                                    <a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
+                                    
+                                    <button type="submit" class="dropdown-item" form="logoutForm">Logout</button>
 
                                     <a class="dropdown-item" asp-controller="Account" asp-action="UpdateProfile">Update Profile</a>
+
+                                    <a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
 
                                     @if (userDetail != null)
                                     {

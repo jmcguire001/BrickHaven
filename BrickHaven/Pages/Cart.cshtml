@@ -19,7 +19,7 @@
         @foreach (var l in Model.Cart?.Lines ?? Enumerable.Empty<Cart.CartLine>())
         {
             <tr>
-                <td class="text-left">@l.Lego.LegoName</td>
+                <td class="text-left">@l.Product.Name</td>
                 <td class="text-center">@l.Quantity</td>
                 <td class="text-right">$25</td>
                 <td class="text-right">$@(25 * l.Quantity)</td>

@@ -33,13 +33,13 @@ namespace BrickHaven.Controllers
             int pageSize = 1; // How many items to show per page
             pageNum = pageNum <= 0 ? 1 : pageNum; // If pageNum is 0, set it to 1
 
-            // This variable will hold everything from LegosListViewModel, and then be passed to Index.cshtml
-            var shopInfo = new LegosListViewModel
+            // This variable will hold everything from ProductListViewModel, and then be passed to Index.cshtml
+            var shopInfo = new ProductListViewModel
             {
                 // This info is for the legos specifically
-                Legos = _repo.Legos
-                    .Where(x => x.LegoType == legoType || legoType == null) // If legoType is null, show all legos
-                    .OrderBy(x => x.LegoName)
+                Products = _repo.Products
+                    .Where(x => x.Category == legoType || legoType == null) // If legoType is null, show all legos
+                    .OrderBy(x => x.Name)
                     .Skip((pageNum - 1) * pageSize) // NOT SURE WHAT THIS DOES
                     .Take(pageSize), // Only gets a certain number of legos
 
@@ -48,7 +48,7 @@ namespace BrickHaven.Controllers
                 {
                     CurrentPage = pageNum,
                     ItemsPerPage = pageSize,
-                    TotalItems = legoType == null ? _repo.Legos.Count() : _repo.Legos.Where(x => x.LegoType == legoType).Count() // If legoType is null, show all legos, otherwise, filter specific legos
+                    TotalItems = legoType == null ? _repo.Products.Count() : _repo.Products.Where(x => x.Category == legoType).Count() // If legoType is null, show all legos, otherwise, filter specific legos
                 },
 
                 CurrentLegoType = legoType
