@@ -28,10 +28,10 @@ namespace BrickHaven.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult Shop(int pageNum, string? legoType, int pageSize = 20) // 'page' means something in dotnet
+        public IActionResult Shop(int pageNum, string? legoType, int pageSize = 5) // 'page' means something in dotnet
         {
             // How many items to show per page
-            int pageSize2 = pageSize; // default pageSize is 20
+            int pageSize2 = pageSize; // default pageSize is 5
             pageNum = pageNum <= 0 ? 1 : pageNum; // If pageNum is 0, set it to 1
 
             // This variable will hold everything from ProductListViewModel, and then be passed to Index.cshtml

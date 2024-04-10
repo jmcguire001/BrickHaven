@@ -5,8 +5,13 @@
 <!-- We can pass one model that has lots of stuff in it; we had to use individual model views, though! -->
 @model ProductListViewModel
 
+<div page-model="@Model.PaginationInfo" page-action="Shop" page-class-enabled="true"
+     page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
+     page-url-legoType="@Model.CurrentLegoType" class="btn-group pull-right m-1">
+</div>
+
 <div class="container mt-5">
-    <h1 class="text-center mb-4">Shop Sets at Brick Haven</h1>
+    <h1 class="text-center mb-4 title_of_card">Shop Sets at Brick Haven</h1>
 
     <div class="row width">
         <!-- Filter section -->
@@ -18,7 +23,7 @@
                         <select class="form-control" id="productsPerPage">
                             <option value="5">5</option>
                             <option value="10">10</option>
-                            <option value="20" selected>20</option> <!-- Default selection -->
+                            <option value="20">20</option> <!-- Default selection -->
                         </select>
                     </div>
                     <br />
@@ -40,25 +45,25 @@
         </div>
 
         <!-- Products section -->
-        <div class="col-md-9">
+        <div class="col-md-9 contains_sets">
             <div class="row row-cols-1 row-cols-md-3">
                 <!-- Updated class to handle varying column counts -->
                 @foreach (Product p in Model.Products)
                 {
-                    <partial name="LegoSummary" model="p" />
-                    <div class="col">
-                        <div class="card mb-4 prod">
+                    <div class="col lego-set">
+                        <div class="prod">
                             <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
-                                <img src="@p.ImgLink" class="img-fluid" alt="Product Image">
+                                <img src="@p.ImgLink" class="" alt="Product Image">
+                            </a>
+                            <h2>Just In</h2>
+                            <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
+                                <h3>@p.Name</h3>
                             </a>
                             <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
-                                <h4>@p.Name</h4>
+                                <h4>@p.Category</h4>
                             </a>
                             <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
-                                <h4>@p.GetType()</h4>
-                            </a>
-                            <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
-                                <h5>@p.Price</h5>
+                                <h4>$@p.Price</h4>
                             </a>
                         </div>
                     </div>
@@ -67,20 +72,26 @@
     </div>
 </div>
 
-<div page-model="@Model.PaginationInfo" page-action="Shop" page-class-enabled="true"
-page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
-         page-url-legoType="@Model.CurrentLegoType" class="btn-group pull-right m-1">
-</div>
-
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         // Get the select element
         var selectElement = document.querySelector('#productsPerPage select');
 
+        // Get the stored value from sessionStorage, if available
+        var storedValue = sessionStorage.getItem('selectedPageSize');
+
+        // If a stored value exists, set it as the selected value
+        if (storedValue) {
+            selectElement.value = storedValue;
+        }
+
         // Add event listener to listen for changes in the select element
         selectElement.addEventListener('change', function () {
             // Get the selected value
             var selectedValue = selectElement.value;
+
+            // Store the selected value in sessionStorage
+            sessionStorage.setItem('selectedPageSize', selectedValue);
 
             // Set the page-url-pageSize attribute of the pagination controls
             var paginationControls = document.getElementById('paginationControls');
