@@ -135,6 +135,15 @@
             </main>
         </div>
     </div>
+
+    <div id="cookieConsent" style="display:none; position: fixed; bottom: 0; width: 100%; background: black; color: white; text-align: center; padding: 10px; z-index: 1000;">
+        <p>
+            We use cookies to enhance your experience. By continuing on this site, you consent to our use of cookies.
+            <a href="@Url.Action("Privacy", "Home")" style="color: #4CAF50;">Learn More</a>
+            <button onclick="acceptCookies()" style="margin-left: 15px; background-color: #4CAF50; color: white; border: none; padding: 5px 10px;">Accept</button>
+        </p>
+    </div>
+
     @if (!(ViewContext.RouteData.Values["Controller"].ToString().Equals("Account")))
     {
         <footer class="footer">
@@ -149,7 +158,6 @@
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
 
     @await RenderSectionAsync("Scripts", required: false)
 
