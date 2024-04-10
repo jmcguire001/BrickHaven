@@ -40,3 +40,8 @@ h1.fp-h1 {
     padding: .5rem;
     margin: 1rem;
 }
+
+img.auth-icons {
+    height: 2rem;
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(99deg) brightness(102%) contrast(105%);
+}

@@ -101,9 +101,9 @@
                     </div>
                 </form>
 
-                <div class="grey-line"></div>
+                <div class="grey-line"></div><br />
 
-                <h3 class="text-center">Or sign in with</h3><br />
+                <h5 class="text-center">Or sign in with</h5><br />
                 @{
                     if (Model.ExternalLogins?.Count == 0)
                     {
@@ -118,7 +118,7 @@
                                     <button onclick="externalLogin(@provider.Name, @Model.ReturnUrl)" type="submit" class="button"
                                             name="provider" value="@provider.Name"
                                             title="Log in using your @provider.DisplayName account">
-                                        @provider.DisplayName
+                                        <img src='~/assets/@(provider.DisplayName).svg' class='auth-icons' />
                                     </button>
                                 }
                             </div>
