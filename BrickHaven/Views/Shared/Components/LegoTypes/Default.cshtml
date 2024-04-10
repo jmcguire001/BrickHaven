@@ -7,10 +7,10 @@
     bool isAuthenticated = User.Identity.IsAuthenticated;
 }
 
-@if (isAuthenticated)
+@if (ViewContext.RouteData.Values["Action"].ToString().Equals("Shop"))
 {
     <div class="d-grid gap-2">
-
+        <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="Shop" asp-route-projectType="">View All</a>
         <!-- This is a FOR loop that gets every item based on project type -->
         @foreach (string legoType in Model ?? Enumerable.Empty<string>())
         {
