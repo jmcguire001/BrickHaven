@@ -15,24 +15,26 @@
                 <p>@Model.Description</p>
                 <p>@Model.Category</p>
             <p id="price"><strong>Price: $@Model.Price</strong></p>
-                <form method="post">
-                    <div class="form-group">
-                        <label for="quantity">Quantity:</label>
-                        <input type="number" id="quantity" class="form-control" value="1">
-
-                        <label>Total Price: </label>
-                        <p id="totalPrice">$@Model.Price</p>
-                        <button type="submit" class="button">Add to Cart</button>
-                    </div>
-                </form>
-            </div>
+            <form id=@Model.ProductId method="post" asp-page="/Cart">
+                <div class="form-group">
+                    <input type="hidden" asp-for="@Model.ProductId" />
+                    <input type="hidden" name="ReturnUrl" value="Home/Shop" />
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" class="form-control" value="1">
+                    <label>Total Price: </label>
+                    <p id="totalPrice">$</p>
+                </div>
+                <!-- Will take us straight to the razor page! But it does so using this route -->
+                <button type="submit" class="btn-outline-success btn-sm float-end">Add to Cart</button>
+            </form>
+        </div>
     </div>
 </div>
 
 <script>
     function calculateTotal() {
         var quantity = parseInt(document.getElementById('quantity').value);
-        var price = parseFloat(document.getElementById('price').innerText.replace('Price: $', ''));
+        var price = parseFloat(document.getElementById('price').innerText.replace('$', ''));
         var totalPrice = quantity * price;
         document.getElementById('totalPrice').innerText = '$' + totalPrice.toFixed(2);
         return false; // Prevent form submission

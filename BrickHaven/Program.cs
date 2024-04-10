@@ -90,7 +90,7 @@ app.Use(async (context, next) =>
         "style-src 'self' fonts.cdnfonts.com fonts.googleapis.com 'unsafe-inline';" +
         "font-src 'self' fonts.cdnfonts.com fonts.googleapis.com fonts.gstatic.com; " +
         "script-src 'self' ajax.googleapis.com 'unsafe-inline';" +
-        "img-src 'self' m.media-amazon.com lego.com/cdn brickset.com brickeconomy.com images.brickset.com ");
+        "img-src 'self' https://bwbricks.azurewebsites.net https://www.youtube.com https://www.lego.com https://m.media-amazon.com https://images.brickset.com https://www.brickeconomy.com;");
     await next.Invoke();
 });
 

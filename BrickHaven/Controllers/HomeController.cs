@@ -102,7 +102,6 @@ namespace BrickHaven.Controllers
             {
                 // Add the new record; this action comes from ITasksRepository and EFTasksRepository
                 _repo.AddToCart(product);
-
                 return View("Confirmation", product);
             }
             else
