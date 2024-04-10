@@ -31,12 +31,11 @@ builder.Services.AddIdentity<Customer, IdentityRole>(
     {
         // Password settings
         options.Password.RequireDigit = true;
-        options.Password.RequiredLength = 8;
+        options.Password.RequiredLength = 9;
         options.Password.RequireNonAlphanumeric = true;
         options.Password.RequireUppercase = true;
         options.Password.RequireLowercase = true;
         options.Password.RequiredUniqueChars = 4;
-        // Other settings can be configured here
 
     })
     .AddEntityFrameworkStores<LoginDbContext>()
