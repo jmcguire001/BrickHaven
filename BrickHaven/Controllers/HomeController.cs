@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using BrickHaven.Models;
 using BrickHaven.Models.ViewModels;
+using Azure;
 
 namespace BrickHaven.Controllers
 {
@@ -76,10 +77,38 @@ namespace BrickHaven.Controllers
             return View();
         }
 
+        [HttpGet]
         [AllowAnonymous]
-        public IActionResult ProductDetails()
+        public IActionResult ProductDetails(int id)
         {
-            return View();
+            // Retrieve product details by calling the method from the repository
+            Product product = _repo.GetProductById(id);
+
+            // Check if product exists
+            if (product == null)
+            {
+                return NotFound(); // Return a 404 Not Found response
+            }
+
+            // Pass the product to the view
+            return View(product);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult ProductDetails(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                // Add the new record; this action comes from ITasksRepository and EFTasksRepository
+                _repo.AddToCart(product);
+
+                return View("Confirmation", product);
+            }
+            else
+            {
+                return View();
+            }
         }
     }
 }

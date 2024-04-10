@@ -52,19 +52,17 @@
                 {
                     <div class="col lego-set">
                         <div class="prod">
-                            <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
+                            <a href="@Url.Action("ProductDetails", "Home", new { id = p.ProductId })">
                                 <img src="@p.ImgLink" class="" alt="Product Image">
                             </a>
                             <h2>Just In</h2>
-                            <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
+                            <a href="@Url.Action("ProductDetails", "Home", new { id = p.ProductId })">
                                 <h3>@p.Name</h3>
                             </a>
-                            <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
+                            <a href="@Url.Action("ProductDetails", "Home", new { id = p.ProductId })">
                                 <h4>@p.Category</h4>
                             </a>
-                            <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
-                                <h4>$@p.Price</h4>
-                            </a>
+                            <h4>$@p.Price</h4>
                         </div>
                     </div>
                 }
