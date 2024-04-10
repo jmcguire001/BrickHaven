@@ -80,25 +80,7 @@
                                     
                                     <button type="submit" class="dropdown-item" form="logoutForm">Logout</button>
 
-                                    <a class="dropdown-item" asp-controller="Account" asp-action="UpdateProfile">Update Profile</a>
-
-                                    <a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
-
-                                    @if (userDetail != null)
-                                    {
-                                        @if (userDetail.TwoFactorEnabled)
-                                        {
-                                            <a class="dropdown-item" asp-controller="Account" asp-action="ManageTwoFactorAuthentication">Disable 2FA</a>
-                                        }
-                                        else
-                                        {
-                                            <a class="dropdown-item" asp-controller="Account" asp-action="ManageTwoFactorAuthentication">Enable 2FA</a>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <span class="dropdown-item disabled">No users found</span>
-                                    }
+                                    <a class="dropdown-item" asp-controller="Account" asp-action="UpdateProfile">Profile Settings</a>
                                 </ul>
                             </li>
                         }

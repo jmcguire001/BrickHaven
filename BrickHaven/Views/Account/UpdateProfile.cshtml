@@ -1,7 +1,12 @@
-﻿@model UpdateProfileViewModel
+﻿@using Microsoft.AspNetCore.Identity
 
+@model UpdateProfileViewModel
+@inject SignInManager<Customer> SignInManager
+@inject UserManager<Customer> UserManager
 @{
     ViewBag.Title = "Update Profile";
+
+    var userDetail = await UserManager.GetUserAsync(User);
 }
 
 <h1>Update Profile</h1>
@@ -41,6 +46,30 @@
         </div>
     </div>
 
+    <div class="form-group row">
+        <label asp-for="Birthday" class="col-sm-2 col-form-label"></label>
+
+        <div class="col-sm-10">
+            <input asp-for="Birthday" class="form-control">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="ResidenceCountry" class="col-sm-2 col-form-label"></label>
+
+        <div class="col-sm-10">
+            <input asp-for="ResidenceCountry" class="form-control">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Gender" class="col-sm-2 col-form-label"></label>
+
+        <div class="col-sm-10">
+            <input asp-for="Gender" class="form-control">
+        </div>
+    </div>
+
     <div asp-validation-summary="All" class="text-danger"></div>
 
     <div class="form-group row">
@@ -57,3 +86,21 @@
         </div>
     </div>
 </form>
+
+<a class="btn-info" asp-controller="Account" asp-action="ChangePassword">Change Password</a><br />
+
+@if (userDetail != null)
+{
+    @if (userDetail.TwoFactorEnabled)
+    {
+        <a class="btn-info" asp-controller="Account" asp-action="ManageTwoFactorAuthentication">Disable 2FA</a>
+    }
+    else
+    {
+        <a class="btn-info" asp-controller="Account" asp-action="ManageTwoFactorAuthentication">Enable 2FA</a>
+    }
+}
+else
+{
+    <span class="dropdown-item disabled">No users found</span>
+}
