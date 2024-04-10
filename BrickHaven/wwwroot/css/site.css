@@ -117,10 +117,10 @@ body {
 
 footer {
     width: 100%;
-    background-color: #999; /* Example background color */
-    color: #fff; /* Example text color */
-    padding: 20px; /* Adjust padding as needed */
-    text-align: center; /* Adjust text alignment as needed */
+    background-color: #999; 
+    color: #fff;
+    padding: 20px; 
+    text-align: center;
     position: absolute;
     bottom: 0;
 }
