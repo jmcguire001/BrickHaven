@@ -3,6 +3,11 @@
     text-align: center;
 }
 
+h1.fp-h1 {
+    font-size: 3rem;
+    text-align: center;
+}
+
 .lego-guy-sign-in {
     height: 100vh;
 }
