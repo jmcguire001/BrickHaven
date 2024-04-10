@@ -5,14 +5,13 @@
 <!-- We can pass one model that has lots of stuff in it; we had to use individual model views, though! -->
 @model ProductListViewModel
 
-<div page-model="@Model.PaginationInfo" page-action="Shop" page-class-enabled="true"
-     page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
-     page-url-legoType="@Model.CurrentLegoType" class="btn-group pull-right m-1">
+<div class="page-buttons">
+    <div page-model="@Model.PaginationInfo" page-action="Shop" page-class-enabled="true"
+         page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
+         page-url-legoType="@Model.CurrentLegoType" page-url-pageSize="@Model.CurrentPageSize" class="btn-group pull-right m-1">
+    </div>
 </div>
-
-<div class="container mt-5">
-    <h1 class="text-center mb-4 title_of_card">Shop Sets at Brick Haven</h1>
-
+<div class="">
     <div class="row width">
         <!-- Filter section -->
         <div class="col-md-3 mb-4">
@@ -48,12 +47,12 @@
                 <!-- Updated class to handle varying column counts -->
                 @foreach (Product p in Model.Products)
                 {
-                    <div class="col lego-set">
-                        <div class="prod">
+                    <div class="col item">
+                        <div class="product-image-container">
                             <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
-                                <img src="@p.ImgLink" class="" alt="Product Image">
+                                    <img src="@p.ImgLink" class="product-image" alt="Product Image">
                             </a>
-                            <h2>Just In</h2>
+                        </div>
                             <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
                                 <h3>@p.Name</h3>
                             </a>
@@ -63,7 +62,6 @@
                             <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
                                 <h4>$@p.Price</h4>
                             </a>
-                        </div>
                     </div>
                 }
         </div>

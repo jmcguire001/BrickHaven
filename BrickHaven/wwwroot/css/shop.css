@@ -4,7 +4,7 @@
     padding: 20px;
 }
 
-.lego-set {
+/*.lego-set {
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -51,7 +51,7 @@
 
 .lego-set h4 {
     font-size: 14px;
-}
+}*/
 
 
 
@@ -95,4 +95,35 @@
 .spacing {
     margin-left: 20px;
     margin-right: 20px;
+}
+
+.page-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 1rem 1rem 0 0;
+ 
+}
+
+
+/*PRODUCT CSS*/
+.product-image {
+    max-height: 10rem;
+    max-width: 10rem;
+
+}
+
+.product-image-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 1rem;
+    width: 10rem;
+    height 10rem;
+}
+
+.item {
+    width: 20rem;
+    height: 30rem;
+    border: 1px solid #ccc;
+    border-radius: 2rem;
 }
