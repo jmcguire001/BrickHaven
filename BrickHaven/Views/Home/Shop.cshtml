@@ -5,14 +5,13 @@
 <!-- We can pass one model that has lots of stuff in it; we had to use individual model views, though! -->
 @model ProductListViewModel
 
-<div page-model="@Model.PaginationInfo" page-action="Shop" page-class-enabled="true"
-     page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
-     page-url-legoType="@Model.CurrentLegoType" class="btn-group pull-right m-1">
+<div class="page-buttons">
+    <div page-model="@Model.PaginationInfo" page-action="Shop" page-class-enabled="true"
+         page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
+         page-url-legoType="@Model.CurrentLegoType" page-url-pageSize="@Model.CurrentPageSize" class="btn-group pull-right m-1">
+    </div>
 </div>
-
-<div class="container mt-5">
-    <h1 class="text-center mb-4 title_of_card">Shop Sets at Brick Haven</h1>
-
+<div class="">
     <div class="row width">
         <!-- Filter section -->
         <div class="col-md-3 mb-4">
@@ -20,11 +19,9 @@
                 <div class="col-md-12">
                     <div class="col-md-12 mt-3">
                         <h5>Show:</h5>
-                        <select class="form-control" id="productsPerPage">
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="20">20</option> <!-- Default selection -->
-                        </select>
+                        <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="5">5</a>
+                        <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="10">10</a>
+                        <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="20">20</a>
                     </div>
                     <br />
                     <!-- Sidebar -->
@@ -50,12 +47,12 @@
                 <!-- Updated class to handle varying column counts -->
                 @foreach (Product p in Model.Products)
                 {
-                    <div class="col lego-set">
+                    <div class="col item">
                         <div class="prod">
                             <a href="@Url.Action("ProductDetails", "Home", new { id = p.ProductId })">
-                                <img src="@p.ImgLink" class="" alt="Product Image">
+                                <img src="@p.ImgLink" class="product-image" alt="Product Image">
                             </a>
-                            <h2>Just In</h2>
+                        </div>
                             <a href="@Url.Action("ProductDetails", "Home", new { id = p.ProductId })">
                                 <h3>@p.Name</h3>
                             </a>
@@ -70,30 +67,7 @@
     </div>
 </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Get the select element
-        var selectElement = document.querySelector('#productsPerPage select');
 
-        // Get the stored value from sessionStorage, if available
-        var storedValue = sessionStorage.getItem('selectedPageSize');
 
-        // If a stored value exists, set it as the selected value
-        if (storedValue) {
-            selectElement.value = storedValue;
-        }
 
-        // Add event listener to listen for changes in the select element
-        selectElement.addEventListener('change', function () {
-            // Get the selected value
-            var selectedValue = selectElement.value;
 
-            // Store the selected value in sessionStorage
-            sessionStorage.setItem('selectedPageSize', selectedValue);
-
-            // Set the page-url-pageSize attribute of the pagination controls
-            var paginationControls = document.getElementById('paginationControls');
-            paginationControls.setAttribute('page-url-pageSize', selectedValue);
-        });
-    });
-</script>

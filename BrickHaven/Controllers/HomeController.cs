@@ -29,7 +29,7 @@ namespace BrickHaven.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult Shop(int pageNum, string? legoType, int pageSize = 5) // 'page' means something in dotnet
+        public IActionResult Shop(int pageNum, string? legoType, int pageSize=5) // 'page' means something in dotnet
         {
             // How many items to show per page
             pageNum = pageNum <= 0 ? 1 : pageNum; // If pageNum is 0, set it to 1
@@ -52,7 +52,8 @@ namespace BrickHaven.Controllers
                     TotalItems = legoType == null ? _repo.Products.Count() : _repo.Products.Where(x => x.Category == legoType).Count() // If legoType is null, show all legos, otherwise, filter specific legos
                 },
 
-                CurrentLegoType = legoType
+                CurrentLegoType = legoType,
+                CurrentPageSize = pageSize
             };
 
             return View(shopInfo);
