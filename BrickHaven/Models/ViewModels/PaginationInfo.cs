@@ -1,4 +1,6 @@
-﻿namespace BrickHaven.Models.ViewModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace BrickHaven.Models.ViewModels
 {
     public class PaginationInfo
     {

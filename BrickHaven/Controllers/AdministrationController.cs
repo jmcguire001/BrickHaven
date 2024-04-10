@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BrickHaven.Models.ViewModels;
+using SQLitePCL;
 
 namespace BrickHaven.Controllers
 {
@@ -15,11 +16,15 @@ namespace BrickHaven.Controllers
 
         //private readonly UserImporter _userImporter;
 
-        public AdministrationController(RoleManager<IdentityRole> roleManager, UserManager<Customer> userManager)// , UserImporter userImporter)
+        private LoginDbContext _context;
+
+        public AdministrationController(RoleManager<IdentityRole> roleManager, UserManager<Customer> userManager, LoginDbContext temp)// , UserImporter userImporter)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             // _userImporter = userImporter;
+
+            _context = temp;
         }
 
         [HttpGet]
@@ -282,10 +287,23 @@ namespace BrickHaven.Controllers
         }
 
         [HttpGet]
-        public IActionResult ListUsers()
+        public IActionResult ListUsers(int pageNum = 1, int pageSize = 10)
         {
-            var users = _userManager.Users;
-            return View(users);
+            var userList = new ListUsersViewModel
+            {
+                Customers = _context.Users.OrderBy(u => u.UserName).Skip((pageNum - 1) * pageSize).Take(pageSize),
+                PaginationInfo = new PaginationInfo
+                {
+                    CurrentPage = pageNum,
+                    ItemsPerPage = pageSize,
+                    TotalItems = _context.Users.Count()
+                },
+
+                CurrentPageSize = pageSize
+        };
+
+            // var users = _userManager.Users;
+            return View(userList);
         }
 
         [HttpGet]

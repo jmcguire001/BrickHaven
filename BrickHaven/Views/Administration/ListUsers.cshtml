@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Customer>
+﻿@model ListUsersViewModel
 
 @{
     ViewBag.Title = "All Users";
@@ -6,14 +6,18 @@
 
 <h1>All Users</h1>
 
-@if (Model.Any())
-{
-    <a asp-action="Register" asp-controller="Account"
-       class="btn btn-primary mb-3" style="width:auto">
-        Add New User
-    </a>
+<div page-model="@Model.PaginationInfo" page-action="ListUsers" page-class-enabled="true"
+     page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
+     page-url-pageSize="@Model.CurrentPageSize" class="btn-group pull-right m-1">
+</div>
 
-    @foreach (var user in Model)
+<a asp-action="Register" asp-controller="Account"
+    class="btn btn-primary mb-3" style="width:auto">
+    Add New User
+</a>
+
+<div class="container">
+    @foreach (var user in Model.Customers)
     {
         <div class="card mb-3">
             <div class="card-header">
@@ -32,16 +36,7 @@
             </div>
         </div>
     }
-
-}
-else
-{
-    <div class="card">
-        <div class="card-header">
-            No Users Added Yet
-        </div>
-    </div>
-}
+</div>
 
 <script>
     function confirmDelete() {
