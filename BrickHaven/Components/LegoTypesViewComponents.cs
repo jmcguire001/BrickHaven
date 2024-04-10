@@ -17,10 +17,10 @@ namespace BrickHaven.Components
         public IViewComponentResult Invoke()
         {
             // Get the lego type from the URL; store it in the ViewBag
-            ViewBag.SelectedLegoType = RouteData?.Values["legoType"]; // RouteData is a dictionary that holds the URL info
+            ViewBag.SelectedLegoType = RouteData?.Values["Category"]; // RouteData is a dictionary that holds the URL info
 
-            var legoTypes = _repo.Legos
-                .Select(x => x.LegoType)
+            var legoTypes = _repo.Products
+                .Select(x => x.Category)
                 .Distinct()
                 .OrderBy(x => x);
 

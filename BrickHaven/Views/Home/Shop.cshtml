@@ -3,7 +3,7 @@
 }
 
 <!-- We can pass one model that has lots of stuff in it; we had to use individual model views, though! -->
-@model LegosListViewModel
+@model ProductListViewModel
 
 
 @* <div page-model="@Model.PaginationInfo" page-action="Shop" page-class-enabled="true"
@@ -53,15 +53,15 @@
         <div class="col-md-9">
             <div class="row row-cols-1 row-cols-md-3">
                 <!-- Updated class to handle varying column counts -->
-                @foreach (Lego p in Model.Legos)
+                @foreach (Product p in Model.Products)
                 {
                     <partial name="LegoSummary" model="p" />
                     <div class="col">
                         <div class="card mb-4 prod">
-                            <a href="@Url.Action("Details", "Product", new { id = p.LegoId })">
+                            <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
                                 <img src="" class="img-fluid" alt="Product Image">
                             </a>
-                            <a href="@Url.Action("Details", "Product", new { id = p.LegoId })">
+                            <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
                                 <h4>Product Name</h4>
                             </a>
                             <p>Description of the product goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>

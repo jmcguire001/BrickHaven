@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BrickHaven.Migrations
 {
     [DbContext(typeof(LoginDbContext))]
-    [Migration("20240409180649_loginInitial")]
-    partial class loginInitial
+    [Migration("20240410021359_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,7 +33,7 @@ namespace BrickHaven.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<float>("Age")
+                    b.Property<float?>("Age")
                         .HasColumnType("real");
 
                     b.Property<DateTime?>("Birthday")
@@ -42,9 +42,6 @@ namespace BrickHaven.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("CustomerId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
