@@ -29,7 +29,7 @@
 
 <body>
     <header>
-        @if (!ViewContext.RouteData.Values["Controller"].ToString().Equals("Account") || !ViewContext.RouteData.Values["Action"].ToString().Equals("Login") || !ViewContext.RouteData.Values["Action"].ToString().Equals("Register") || !ViewContext.RouteData.Values["Action"].ToString().Equals("ForgotPassword"))
+        @if (!(ViewContext.RouteData.Values["Controller"].ToString().Equals("Account")))
         {
             <nav class="navbar">
                 <div>
@@ -134,7 +134,7 @@
             </main>
         </div>
     </div>
-    @if (!ViewContext.RouteData.Values["Controller"].ToString().Equals("Account") || !ViewContext.RouteData.Values["Action"].ToString().Equals("Login") || !ViewContext.RouteData.Values["Action"].ToString().Equals("Register") || !ViewContext.RouteData.Values["Action"].ToString().Equals("ForgotPassword"))
+    @if (!(ViewContext.RouteData.Values["Controller"].ToString().Equals("Account")))
     {
         <footer class="footer">
             <div class="center">
