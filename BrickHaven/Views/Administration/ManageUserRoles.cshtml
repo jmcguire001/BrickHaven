@@ -22,9 +22,7 @@
                     <input type="hidden" asp-for="@Model[i].RoleName" />
 
                     <input asp-for="@Model[i].IsSelected" class="form-check-input" />
-                    <label class="form-check-label" asp-for="@Model[i].IsSelected">
-                        @Model[i].RoleName
-                    </label>
+                    <label class="form-check-label" asp-for="@Model[i].IsSelected">@Model[i].RoleName</label>
                 </div>
             }
 
@@ -32,10 +30,8 @@
         </div>
 
         <div class="card-footer">
-            <input type="submit" value="Update" class="btn btn-primary"
-                   style="width:auto" />
-            <a asp-action="EditUser" asp-route-UserId="@UserId"
-               class="btn btn-primary" style="width:auto">Cancel</a>
+            <input type="submit" value="Update" class="btn btn-primary" style="width:auto" />
+            <button type="button" class="btn btn-danger" style="width:auto" onclick="history.back()">Cancel</button>
         </div>
     </div>
 </form>

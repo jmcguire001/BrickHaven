@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BrickHaven.Models.ViewModels;
+using SQLitePCL;
 
 namespace BrickHaven.Controllers
 {
@@ -15,11 +16,17 @@ namespace BrickHaven.Controllers
 
         //private readonly UserImporter _userImporter;
 
-        public AdministrationController(RoleManager<IdentityRole> roleManager, UserManager<Customer> userManager)// , UserImporter userImporter)
+        private LoginDbContext _context;
+        private readonly ILegoRepository _legoRepository;
+
+        public AdministrationController(RoleManager<IdentityRole> roleManager, UserManager<Customer> userManager, LoginDbContext temp, ILegoRepository legoRepository)// , UserImporter userImporter)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             // _userImporter = userImporter;
+
+            _context = temp;
+            _legoRepository = legoRepository;
         }
 
         [HttpGet]
@@ -282,17 +289,44 @@ namespace BrickHaven.Controllers
         }
 
         [HttpGet]
-        public IActionResult ListUsers()
+        public IActionResult ListUsers(string? roleFilter, int pageNum = 1, int pageSize = 10)
         {
-            var users = _userManager.Users;
-            return View(users);
+            var userList = new ListUsersViewModel
+            {
+                Customers = _context.Users.OrderBy(u => u.UserName).Skip((pageNum - 1) * pageSize).Take(pageSize),
+                PaginationInfo = new PaginationInfo
+                {
+                    CurrentPage = pageNum,
+                    ItemsPerPage = pageSize,
+                    TotalItems = _context.Users.Count() == 0 ? 1 : _context.Users.Count()
+                },
+
+                CurrentPageSize = pageSize,
+                Role = roleFilter
+            };
+
+            // var users = _userManager.Users;
+            return View(userList);
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditUser(string UserId)
+        public async Task<IActionResult> EditUser(string UserId, int pageNum = 1, int pageSize = 10)
         {
             //First Fetch the User Details by UserId
             var user = await _userManager.FindByIdAsync(UserId);
+
+            var editUserList = new ListUsersViewModel
+            {
+                Customers = _context.Users.OrderBy(u => u.UserName).Skip((pageNum - 1) * pageSize).Take(pageSize),
+                PaginationInfo = new PaginationInfo
+                {
+                    CurrentPage = pageNum,
+                    ItemsPerPage = pageSize,
+                    TotalItems = _context.Users.Count()
+                },
+
+                CurrentPageSize = pageSize
+            };
 
             //Check if User Exists in the Database
             if (user == null)
@@ -336,6 +370,9 @@ namespace BrickHaven.Controllers
                 user.UserName = model.UserName;
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
+                user.Birthday = model.Birthday;
+                user.ResidenceCountry = model.ResidenceCountry;
+                user.Gender = model.Gender;
 
                 //UpdateAsync Method will update the user data in the AspNetUsers Identity table
                 var result = await _userManager.UpdateAsync(user);
@@ -477,7 +514,28 @@ namespace BrickHaven.Controllers
                 }
             }
 
-            return RedirectToAction("EditUser", new { UserId = UserId });
+            return RedirectToAction("ManageUserRoles", new { UserId = UserId });
+        }
+
+        [HttpGet]
+        public IActionResult ListProducts(string? productCategory, int pageNum = 1, int pageSize = 10)
+        {
+            var productList = new ListProductsViewModel
+            {
+                Products = _legoRepository.Products.OrderBy(p => p.Name).Skip((pageNum - 1) * pageSize).Take(pageSize),
+                PaginationInfo = new PaginationInfo
+                {
+                    CurrentPage = pageNum,
+                    ItemsPerPage = pageSize,
+                    TotalItems = _legoRepository.Products.Count() == 0 ? 1 : _legoRepository.Products.Count()
+                },
+
+                CurrentPageSize = pageSize,
+                Category = productCategory
+            };
+
+            // var users = _userManager.Users;
+            return View(productList);
         }
 
         //// Action method to display a view where the user can trigger CSV import
