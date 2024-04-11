@@ -6,11 +6,11 @@ namespace BrickHaven.Models
     {
         public List<CartLine> Lines { get; set; } = new List<CartLine>(); // Equals sign means if we haven't built a list, then build one
 
-        public void AddItem(Lego p, int quantity)
+        public void AddItem(Product p, int quantity)
         {
             // Add the item to the cart first
             CartLine? line = Lines
-                .Where(x => x.Lego.LegoId == p.LegoId)
+                .Where(x => x.Product.ProductId == p.ProductId)
                 .FirstOrDefault(); // Makes sure you only get one
 
             // Has this item already been added to the cart?
@@ -18,8 +18,9 @@ namespace BrickHaven.Models
             {
                 Lines.Add(new CartLine
                 {
-                    Lego = p,
-                    Quantity = quantity
+                    Product = p,
+                    Quantity = quantity,
+                    Price = (float)p.Price,
                 });
             }
             else
@@ -29,17 +30,18 @@ namespace BrickHaven.Models
         }
 
         //
-        public void RemoveLine(Lego p) => Lines.RemoveAll(x => x.Lego.LegoId == p.LegoId);
+        public void RemoveLine(Product p) => Lines.RemoveAll(x => x.Product.ProductId == p.ProductId);
 
         public void Clear() => Lines.Clear();
 
-        public decimal CalculateTotal() => Lines.Sum(x => 25 * x.Quantity); // Use Lambda function to get total
+        public float CalculateTotal() => Lines.Sum(x => x.Price * x.Quantity); // Use Lambda function to get total
 
         public class CartLine
         {
             public int CartLineId { get; set; }
-            public Lego Lego { get; set; }
+            public Product Product { get; set; }
             public int Quantity { get; set; }
+            public float Price { get; set; }
         }
     }
 }

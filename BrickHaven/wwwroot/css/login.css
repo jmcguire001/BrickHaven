@@ -3,19 +3,29 @@
     text-align: center;
 }
 
+h1.fp-h1 {
+    font-size: 3rem;
+    text-align: center;
+}
+
 .lego-guy-sign-in {
     height: 100vh;
 }
 
 .form-container {
     border-radius: 2rem;
-    padding: 2rem 6rem 2rem 6rem;
+    padding: 2rem 5rem 2rem 5rem;
     margin: 2rem 4rem 2rem 6rem;
 }
 
-.external-buttons {
+.external-buttons-container {
     display: flex;
     justify-content: space-evenly;
+}
+
+.new-user-container {
+    display: flex;
+    justify-content: center;
 }
 
 .sign-in-container {
@@ -29,4 +39,9 @@
     border-bottom: 2px solid #ccc;
     padding: .5rem;
     margin: 1rem;
+}
+
+img.auth-icons {
+    height: 2rem;
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(99deg) brightness(102%) contrast(105%);
 }

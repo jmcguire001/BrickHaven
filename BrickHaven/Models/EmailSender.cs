@@ -14,20 +14,12 @@ namespace BrickHaven.Models
 
     public class EmailSender : ISenderEmail
     {
-        private readonly IConfiguration _configuration;
-
-        public EmailSender(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
-
         public Task SendEmailAsync(string ToEmail, string Subject, string Body, bool IsBodyHtml = false)
         {
-            string MailServer = _configuration["EmailSettings:MailServer"];
-            string FromEmail = _configuration["EmailSettings:FromEmail"];
-            string Password = _configuration["EmailSettings:Password"];
-            int MailPort = int.Parse(_configuration["EmailSettings:MailPort"]);
-
+            string MailServer = Environment.GetEnvironmentVariable("MailServer");
+            string FromEmail = Environment.GetEnvironmentVariable("FromEmail");
+            string Password = Environment.GetEnvironmentVariable("Password");
+            int MailPort = int.Parse(Environment.GetEnvironmentVariable("MailPort"));
 
             var client = new SmtpClient(MailServer, MailPort)
             {

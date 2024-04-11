@@ -3,12 +3,12 @@ using BrickHaven.Models;
 
 namespace BrickHaven.Components
 {
-    public class LegoTypesViewComponent : ViewComponent
+    public class LegoColorsViewComponent : ViewComponent
     {
         private ILegoRepository _repo;
 
         // Constructor
-        public LegoTypesViewComponent(ILegoRepository temp)
+        public LegoColorsViewComponent(ILegoRepository temp)
         {
             _repo = temp;
         }
@@ -17,15 +17,15 @@ namespace BrickHaven.Components
         public IViewComponentResult Invoke()
         {
             // Get the lego type from the URL; store it in the ViewBag
-            ViewBag.SelectedLegoType = RouteData?.Values["Category"]; // RouteData is a dictionary that holds the URL info
+            ViewBag.SelectedLegoColor = RouteData?.Values["Primary Color"]; // RouteData is a dictionary that holds the URL info
 
-            var legoTypes = _repo.Products
-                .Select(x => x.Category)
+            var legoColors = _repo.Products
+                .Select(x => x.PrimaryColor)
                 .Distinct()
                 .OrderBy(x => x);
 
             // Return to the default view
-            return View(legoTypes);
+            return View(legoColors);
         }
     }
 }

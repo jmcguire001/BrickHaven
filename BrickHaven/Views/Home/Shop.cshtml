@@ -3,76 +3,73 @@
 }
 
 <!-- We can pass one model that has lots of stuff in it; we had to use individual model views, though! -->
-@model LegosListViewModel
+@model ProductListViewModel
 
-
-@* <div page-model="@Model.PaginationInfo" page-action="Shop" page-class-enabled="true"
-     page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
-     page-url-legoType="@Model.CurrentLegoType" class="btn-group pull-right m-1">
-</div> *@
-
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Shop Sets at Brick Haven</h1>
-
+<div class="page-buttons">
+    <div page-model="@Model.PaginationInfo" page-action="Shop" page-class-enabled="true"
+         page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
+         page-url-legoType="@Model.CurrentLegoType" page-url-pageSize="@Model.CurrentPageSize" class="btn-group pull-right m-1">
+    </div>
+</div>
+<div class="">
     <div class="row width">
         <!-- Filter section -->
-        <div class="col-md-3 mb-4">
+        <div class="col-md-2 mb-4">
             <div class="row">
                 <div class="col-md-12">
-                    <h5>Filter by Category:</h5>
-                    <select class="form-control" id="categoryFilter">
-                        <option value="all">All Categories</option>
-                        <option value="city">City</option>
-                        <option value="starwars">Star Wars</option>
-                        <option value="technic">Technic</option>
-                        <!-- Add more options as needed -->
-                    </select>
-                </div>
-                <div class="col-md-12 mt-3">
-                    <h5>Filter by Color:</h5>
-                    <select class="form-control" id="colorFilter">
-                        <option value="all">All Colors</option>
-                        <option value="red">Red</option>
-                        <option value="blue">Blue</option>
-                        <option value="yellow">Yellow</option>
-                        <!-- Add more options as needed -->
-                    </select>
-                </div>
-                <div class="col-md-12 mt-3">
-                    <h5>Show Products per Row:</h5>
-                    <select class="form-control" id="productsPerRow">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3" selected>3</option> <!-- Default selection -->
-                    </select>
+                    <div class="col-md-12 mt-3">
+                        <h5>Show:</h5>
+                        <div class="show-option">
+                            <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="5">5</a>
+                        </div>
+                        <div class="show-option">
+                            <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="10">10</a>
+                        </div>
+                        <div class="show-option">
+                            <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="20">20</a>
+                        </div>
+                    </div>
+                    <br />
+                    <!-- Sidebar -->
+                    <div class="sidebar" id="mySidebar">
+                        <div class="col-md-12">
+                            <h5>Filter by Category:</h5>
+                            <!-- Include the contents of vc:lego-types here -->
+                            <vc:lego-types />
+                        </div>
+                        <br />
+                        <div class="col-md-12">
+                            <h5>Filter by Color:</h5>
+                            <vc:lego-colors />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Products section -->
-        <div class="col-md-9">
+        <div class="col-md-9 contains_sets">
             <div class="row row-cols-1 row-cols-md-3">
                 <!-- Updated class to handle varying column counts -->
-                @foreach (Lego p in Model.Legos)
+                @foreach (Product p in Model.Products)
                 {
-                    <partial name="LegoSummary" model="p" />
-                    <div class="col">
-                        <div class="card mb-4 prod">
-                            <a href="@Url.Action("Details", "Product", new { id = p.LegoId })">
-                                <img src="" class="img-fluid" alt="Product Image">
+                    <div class="col item">
+                        <div class="product-image-container">
+                            <a href="@Url.Action("ProductDetails", "Home", new { id = p.ProductId })">
+                                <img src="@p.ImgLink" class="product-image" alt="Product Image">
                             </a>
-                            <a href="@Url.Action("Details", "Product", new { id = p.LegoId })">
-                                <h4>Product Name</h4>
-                            </a>
-                            <p>Description of the product goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            <p><strong>Price: $XX.XX</strong></p>
-                            <div class="form-group">
-                                <label for="quantity">Quantity:</label>
-                                <input type="number" id="quantity" class="form-control" value="1">
-                            </div>
-                        </div>
+                        </div><br />
+                            <a href="@Url.Action("ProductDetails", "Home", new { id = p.ProductId })">
+                                <h3>@p.Name</h3>
+                            </a><br />
+                            <h4>$@p.Price.00</h4>
                     </div>
                 }
         </div>
     </div>
 </div>
+
+
+
+
+

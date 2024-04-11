@@ -3,30 +3,40 @@
 *@
 @{
 }
-
+@model Product
 
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
-            <img src="https://via.placeholder.com/400" class="img-fluid" alt="Product Image">
+            <img src="@Model.ImgLink" class="img-fluid" alt="Product Image">
         </div>
-        <div class="col-md-6">
-            <h2>Product Name</h2>
-            <p>Description of the product goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            <p id="price"><strong>Price: $XX.XX</strong></p>
-            <form action="post">
+            <div class="col-md-6">
+                <h2>@Model.Name</h2>
+                <p>@Model.Description</p>
+                <p>@Model.Category</p>
+            <p id="price"><strong>Price: $@Model.Price</strong></p>
+            <form id=@Model.ProductId method="post" asp-page="/Cart">
                 <div class="form-group">
+                    <input type="hidden" asp-for="@Model.ProductId" />
+                    <input type="hidden" name="ReturnUrl" value="Home/Shop" />
                     <label for="quantity">Quantity:</label>
                     <input type="number" id="quantity" class="form-control" value="1">
+                    <label>Total Price: </label>
+                    <p id="totalPrice">$</p>
                 </div>
-                <label>Total Price: </label>
-                <button type="submit" class="btn btn-primary">Add to Cart</button>
+                <!-- Will take us straight to the razor page! But it does so using this route -->
+                <button type="submit" class="btn-outline-success btn-sm float-end">Add to Cart</button>
             </form>
         </div>
     </div>
 </div>
 
-<!-- Bootstrap JS (Optional, for certain components) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function calculateTotal() {
+        var quantity = parseInt(document.getElementById('quantity').value);
+        var price = parseFloat(document.getElementById('price').innerText.replace('$', ''));
+        var totalPrice = quantity * price;
+        document.getElementById('totalPrice').innerText = '$' + totalPrice.toFixed(2);
+        return false; // Prevent form submission
+    }
+</script>

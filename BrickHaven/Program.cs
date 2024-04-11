@@ -10,14 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // THIS IS FOR DOTNET IDENTITY
-var connectionString = builder.Configuration.GetConnectionString("BrickHavenConnection")
+string connectionString = Environment.GetEnvironmentVariable("BrickHavenConnection")
     ?? throw new InvalidOperationException("Connection string not found");
 
 // Add contexts to the system
-//// THIS IS FOR SQLITE
-//builder.Services.AddDbContext<LoginDbContext>(options => options.UseSqlite(connectionString));
-//builder.Services.AddDbContext<LegoContext>(options => options.UseSqlite(connectionString));
-
 // THIS IS FOR SQLSERVER
 builder.Services.AddDbContext<LoginDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddDbContext<LegoContext>(options => options.UseSqlServer(connectionString));
@@ -66,18 +62,22 @@ builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
     options.TokenLifespan = TimeSpan.FromHours(2);
 });
 
+string googleClientId = Environment.GetEnvironmentVariable("GoogleClientId");
+string googleClientSecret = Environment.GetEnvironmentVariable("GoogleClientSecret");
+string microsoftClientId = Environment.GetEnvironmentVariable("MicrosoftClientId");
+string microsoftClientSecret = Environment.GetEnvironmentVariable("MicrosoftClientSecret");
+
 builder.Services.AddAuthentication()
     .AddGoogle(options =>
     {
-        options.ClientId = "756498149145-mrar76ae92g6tq44ga3k27q3tu59u244.apps.googleusercontent.com";
-        options.ClientSecret = "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";
+        options.ClientId = googleClientId;
+        options.ClientSecret = googleClientSecret;
     })
     .AddMicrosoftAccount(microsoftOptions =>
     {
-        microsoftOptions.ClientId = "94b6a9d3-ee11-42ca-ad9f-7338b0e19cc3";
-        microsoftOptions.ClientSecret = "ZD~8Q~8XandPTRYXucsHFvCcPkNgtb_mGY_zCc.A";
-    }
-);
+        microsoftOptions.ClientId = microsoftClientId;
+        microsoftOptions.ClientSecret = microsoftClientSecret;
+    });
 
 // END DOTNET IDENTITY STUFF
 
@@ -88,7 +88,9 @@ app.Use(async (context, next) =>
 {
     context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; " +
         "style-src 'self' fonts.cdnfonts.com fonts.googleapis.com 'unsafe-inline';" +
-        "font-src 'self' fonts.cdnfonts.com fonts.googleapis.com fonts.gstatic.com;"); 
+        "font-src 'self' fonts.cdnfonts.com fonts.googleapis.com fonts.gstatic.com; " +
+        "script-src 'self' ajax.googleapis.com 'unsafe-inline';" +
+        "img-src 'self' https://bwbricks.azurewebsites.net https://www.youtube.com https://www.lego.com https://m.media-amazon.com https://images.brickset.com https://www.brickeconomy.com;");
     await next.Invoke();
 });
 

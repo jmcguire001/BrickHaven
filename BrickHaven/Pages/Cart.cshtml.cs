@@ -23,19 +23,19 @@ namespace BrickHaven.Pages
             Cart = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
         }
 
-        public IActionResult OnPost(int legoId)
+        public IActionResult OnPost(int productId, string returnUrl)
         {
-            Lego lego = _repo.Legos
-                .FirstOrDefault(x => x.LegoId == legoId);
+            Product product = _repo.Products
+                .FirstOrDefault(x => x.ProductId == productId);
 
-            if (lego != null)
+            if (product != null)
             {
                 Cart = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
-                Cart.AddItem(lego, 1);
+                Cart.AddItem(product, 1);
                 HttpContext.Session.SetJson("cart", Cart);
             }
 
-            return RedirectToPage(new { returnUrl = ReturnUrl });
+            return RedirectToPage(new {returnUrl = returnUrl});
         }
     }
 }
