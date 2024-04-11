@@ -118,7 +118,8 @@
     justify-content: center;
     padding-top: 1rem;
     width: 10rem;
-    height 10rem;
+    height: 10rem;
+
 }
 
 .item {
@@ -126,4 +127,15 @@
     height: 30rem;
     border: 1px solid #ccc;
     border-radius: 2rem;
+    margin: 1rem;
+}
+
+.show-option {
+    text-decoration: none;
+    color: #FFF;
+    background-color: #FCAB22;
+    width: 2rem;
+    height: 2rem;
+    border-radius: .6rem;
+    text-align: center;
 }
