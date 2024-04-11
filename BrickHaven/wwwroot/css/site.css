@@ -143,6 +143,15 @@ img.cart {
         animation: moveLeftRight .5s 1;
     }
 
+.back-icon {
+    height: 3rem;
+    filter: invert(86%) sepia(2%) saturate(24%) hue-rotate(350deg) brightness(99%) contrast(85%);
+}
+
+.back-icon:hover {
+    animation: moveLeftRight .5s 1;
+}
+
 @keyframes moveLeftRight {
     0% {
         transform: translateX(0);
