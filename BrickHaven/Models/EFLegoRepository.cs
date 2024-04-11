@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BrickHaven.Models.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 
 namespace BrickHaven.Models
@@ -71,7 +72,7 @@ namespace BrickHaven.Models
         public async void AddToCart(Product product)
         {
             _context.Products.Add(product);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
     }
 }

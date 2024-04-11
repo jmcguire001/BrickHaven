@@ -288,11 +288,34 @@ namespace BrickHaven.Controllers
             }
         }
 
+        public IActionResult ListOrders(string? transactionType, int pageNum = 1, int pageSize = 10)
+        {
+            var orderList = new ListOrdersViewModel
+            {
+                Orders = _legoRepository.Orders.OrderBy(o => o.TransactionId).Skip((pageNum - 1) * pageSize).Take(pageSize),
+                PaginationInfo = new PaginationInfo
+                {
+                    CurrentPage = pageNum,
+                    ItemsPerPage = pageSize,
+                    TotalItems = _legoRepository.Orders.Count() == 0 ? 1 : _legoRepository.Orders.Count()
+                },
+
+                CurrentPageSize = pageSize,
+                TransactionType = transactionType
+            };
+
+            // var users = _userManager.Users;
+            return View(orderList);
+
+        }
+
         [HttpGet]
         public IActionResult ListUsers(string? roleFilter, int pageNum = 1, int pageSize = 10)
         {
             var userList = new ListUsersViewModel
             {
+                Orders = _legoRepository.Orders.OrderBy(o => o.TransactionId).Skip((pageNum - 1) * pageSize).Take(pageSize),
+
                 Customers = _context.Users.OrderBy(u => u.UserName).Skip((pageNum - 1) * pageSize).Take(pageSize),
                 PaginationInfo = new PaginationInfo
                 {
@@ -698,60 +721,61 @@ namespace BrickHaven.Controllers
             return View(orderList);
 
          }
-            //// Action method to display a view where the user can trigger CSV import
-            //[HttpGet]
-            //public IActionResult ImportUsersFromCsv()
-            //{
-            //    return View();
-            //}
 
-            //// Action method to handle the CSV import
-            //[HttpPost]
-            //public async Task<IActionResult> ImportUsersFromCsv(IFormFile file)
-            //{
-            //    // Ensure a file was provided
-            //    if (file == null || file.Length == 0)
-            //    {
-            //        ModelState.AddModelError("", "Please select a file to import.");
-            //        return View();
-            //    }
+        //// Action method to display a view where the user can trigger CSV import
+        //[HttpGet]
+        //public IActionResult ImportUsersFromCsv()
+        //{
+        //    return View();
+        //}
 
-            //    // Check if the file is a CSV file
-            //    if (!file.FileName.EndsWith(".csv", StringComparison.OrdinalIgnoreCase))
-            //    {
-            //        ModelState.AddModelError("", "Please select a CSV file.");
-            //        return View();
-            //    }
+        //// Action method to handle the CSV import
+        //[HttpPost]
+        //public async Task<IActionResult> ImportUsersFromCsv(IFormFile file)
+        //{
+        //    // Ensure a file was provided
+        //    if (file == null || file.Length == 0)
+        //    {
+        //        ModelState.AddModelError("", "Please select a file to import.");
+        //        return View();
+        //    }
 
-            //    try
-            //    {
-            //        // Get the path to the temporary file on the server
-            //        var filePath = Path.GetTempFileName();
+        //    // Check if the file is a CSV file
+        //    if (!file.FileName.EndsWith(".csv", StringComparison.OrdinalIgnoreCase))
+        //    {
+        //        ModelState.AddModelError("", "Please select a CSV file.");
+        //        return View();
+        //    }
 
-            //        // Copy the uploaded file to the temporary file
-            //        using (var stream = new FileStream(filePath, FileMode.Create))
-            //        {
-            //            await file.CopyToAsync(stream);
-            //        }
+        //    try
+        //    {
+        //        // Get the path to the temporary file on the server
+        //        var filePath = Path.GetTempFileName();
 
-            //        // Call the method to import users from the CSV file
-            //        await _userImporter.ImportUsersFromCsvAsync(filePath);
+        //        // Copy the uploaded file to the temporary file
+        //        using (var stream = new FileStream(filePath, FileMode.Create))
+        //        {
+        //            await file.CopyToAsync(stream);
+        //        }
 
-            //        // Optionally, delete the temporary file
-            //        System.IO.File.Delete(filePath);
+        //        // Call the method to import users from the CSV file
+        //        await _userImporter.ImportUsersFromCsvAsync(filePath);
 
-            //        // Redirect to a success page or return a success message
-            //        return RedirectToAction("Index", "Home");
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        // Log the exception and display an error message
-            //        ModelState.AddModelError("", "An error occurred while importing users from CSV.");
-            //        // Log the exception
-            //        // Log.Error("An error occurred while importing users from CSV.", ex);
-            //        return View();
-            //    }
-            //}
+        //        // Optionally, delete the temporary file
+        //        System.IO.File.Delete(filePath);
+
+        //        // Redirect to a success page or return a success message
+        //        return RedirectToAction("Index", "Home");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Log the exception and display an error message
+        //        ModelState.AddModelError("", "An error occurred while importing users from CSV.");
+        //        // Log the exception
+        //        // Log.Error("An error occurred while importing users from CSV.", ex);
+        //        return View();
+        //    }
+        //}
 
         //// Action method to display a view where the user can trigger CSV import
         //[HttpGet]
