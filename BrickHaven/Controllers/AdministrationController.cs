@@ -518,20 +518,23 @@ namespace BrickHaven.Controllers
         }
 
         [HttpGet]
-        public IActionResult ListProducts(string? productCategory, int pageNum = 1, int pageSize = 10)
+        public IActionResult ListProducts(string? legoType, int pageNum = 1, int pageSize = 10)
         {
+            pageNum = pageNum <= 0 ? 1 : pageNum; // If pageNum is 0, set it to 1
+
             var productList = new ListProductsViewModel
             {
-                Products = _legoRepository.Products.OrderBy(p => p.Name).Skip((pageNum - 1) * pageSize).Take(pageSize),
+                Products = _legoRepository.Products.Where(x => (x.Category == legoType || legoType == null)) // If legoType is null, show all legos
+                    .OrderBy(p => p.Name).Skip((pageNum - 1) * pageSize).Take(pageSize),
                 PaginationInfo = new PaginationInfo
                 {
                     CurrentPage = pageNum,
                     ItemsPerPage = pageSize,
-                    TotalItems = _legoRepository.Products.Count() == 0 ? 1 : _legoRepository.Products.Count()
+                    TotalItems = legoType == null ? _legoRepository.Products.Count() : _legoRepository.Products.Where(x => x.Category == legoType).Count() // If legoType is null, show all legos, otherwise, filter specific legos
                 },
 
                 CurrentPageSize = pageSize,
-                CurrentLegoType = productCategory
+                CurrentLegoType = legoType
             };
 
             // var users = _userManager.Users;
@@ -539,7 +542,7 @@ namespace BrickHaven.Controllers
         }
 
         [HttpGet]
-        public IActionResult ListOrders(int pageNum = 1, int pageSize = 10)
+        public IActionResult ListOrders(string? legoType, int pageNum = 1, int pageSize = 10)
         {
             pageNum = pageNum <= 0 ? 1 : pageNum; // If pageNum is 0, set it to 1
 
@@ -552,7 +555,8 @@ namespace BrickHaven.Controllers
                     ItemsPerPage = pageSize,
                     TotalItems = _legoRepository.Orders.Count() == 0 ? 1 : _legoRepository.Orders.Count()
                 },
-                CurrentPageSize = pageSize
+                CurrentPageSize = pageSize,
+                CurrentLegoType = legoType
             };
 
             // var users = _userManager.Users;

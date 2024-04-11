@@ -177,29 +177,5 @@ namespace BrickHaven.Controllers
                 return View();
             }
         }
-
-        [AllowAnonymous]
-        [HttpGet]
-        public IActionResult ProductsTable(string? legoType, string? legoColor, int pageNum = 1, int pageSize = 10)
-        {
-            pageNum = pageNum <= 0 ? 1 : pageNum; // If pageNum is 0, set it to 1
-
-            var productList = new ListProductsViewModel
-            {
-                Products = _repo.Products.Where(x => (x.Category == legoType || legoType == null) && (x.PrimaryColor == legoColor || legoColor == null)) // If legoType is null, show all legos
-                    .OrderBy(p => p.Name).Skip((pageNum - 1) * pageSize).Take(pageSize),
-                PaginationInfo = new PaginationInfo
-                {
-                    CurrentPage = pageNum,
-                    ItemsPerPage = pageSize,
-                    TotalItems = legoType == null ? _repo.Products.Count() : _repo.Products.Where(x => x.Category == legoType).Count() // If legoType is null, show all legos, otherwise, filter specific legos
-                },
-                CurrentLegoType = legoType,
-                CurrentPageSize = pageSize
-            };
-
-            // var users = _userManager.Users;
-            return View(productList);
-        }
     }
 }

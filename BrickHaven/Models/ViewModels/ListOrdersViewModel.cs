@@ -6,5 +6,6 @@
         public IQueryable<Order> Orders { get; set; }
         public PaginationInfo PaginationInfo { get; set; } = new PaginationInfo();
         public int? CurrentPageSize { get; set; }
+        public string? CurrentLegoType { get; set; }
     }
 }

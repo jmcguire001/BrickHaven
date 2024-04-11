@@ -6,70 +6,96 @@
 
 <h1>All Products</h1>
 
-<div><vc:lego-types /></div>
-
-<div page-model="@Model.PaginationInfo" page-action="ListProducts" page-class-enabled="true"
-     page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
-     page-url-legoType="Model.CurrentLegoType" page-url-pageSize="@Model.CurrentPageSize" class="btn-group pull-right m-1">
+<div class="page-buttons-container">
+    <div class="page-buttons">
+        <div page-model="@Model.PaginationInfo" page-action="ListProducts" page-class-enabled="true"
+             page-class-normal="btn-outline-dark" page-class-selected="page-button-selected" page-class="page-button"
+             page-url-legoType="@Model.CurrentLegoType" page-url-pageSize="@Model.CurrentPageSize" class="btn-group pull-right m-1">
+        </div>
+    </div>
 </div>
 
-
-<a asp-action="" asp-controller="Account" class="btn btn-primary mb-3" style="width:auto">Add New Product</a>
-
-@if (!Model.Products.Any())
-{
-    <p>There are no products in the database</p>
-}
-else
-{
-    <table class="product-table-unlike-any-other">
-        <thead>
-            <tr>
-                <th>Product Name</th>
-                <th>Description</th>
-                <th>Category</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Product 1</td>
-                <td>Description of Product 1</td>
-                <td>Category 1</td>
-                <td>$10.00</td>
-            </tr>
-            <tr>
-                <td>Product 2</td>
-                <td>Description of Product 2</td>
-                <td>Category 2</td>
-                <td>$20.00</td>
-            </tr>
-            <!-- Add more rows as needed -->
-        </tbody>
-    </table>
-
-    @* <div class="container">
-        @foreach (var product in Model.Products)
-        {
-            <div class="card mb-3">
-                <div class="card-header">
-                    Product Id : @product.ProductId
+<div class="row width">
+    <div class="col-md-2 mb-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-12 mt-3">
+                    <h5>Show:</h5>
+                    <div class="show-option-container">
+                        <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="5" class="show-option-link">5</a>
+                        <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="10" class="show-option-link">10</a>
+                        <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="20" class="show-option-link">20</a>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <h5 class="card-title">@product.Name</h5>
-                </div>
-                <div class="card-footer">
-
-                    <form method="post" asp-action="DeleteProduct" asp-route-UserId="@product.ProductId" onsubmit="return confirmDelete()">
-                        <a asp-controller="Administration" asp-action="EditProduct" asp-route-UserId="@product.ProductId" class="btn btn-primary">Edit</a>
-
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
+                <br />
+                <a asp-action="" asp-controller="Account" class="btn btn-primary mb-3" style="width:auto">Add New Product</a>
+                <br />
+                <!-- Sidebar -->
+                <div class="sidebar" id="mySidebar">
+                    <div class="col-md-12">
+                        <h5>Filter by Category:</h5>
+                        <!-- Include the contents of vc:lego-types here -->
+                        <vc:lego-types />
+                    </div>
                 </div>
             </div>
-        }
-    </div> *@
-}
+        </div>
+    </div>
+    <div class="col-md-10 contains_sets">
+        <div class="row row-cols-md-4">
+            <!-- Updated class to handle varying column counts -->
+            @if (!Model.Products.Any())
+            {
+                <p>There are no products in the database</p>
+            }
+            else
+            {
+
+                <table class="product-table-unlike-any-other">
+                    <thead>
+                        <tr>
+                            <th>Product Id</th>
+                            <th>Product Name</th>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th>Year</th>
+                            <th>Number of Parts</th>
+                            <th>Price</th>
+                            <th>Primary Color</th>
+                            <th>Secondary Color</th>
+                            <th>Image Link</th>
+                            <th>Edit/Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in Model.Products)
+                        {
+                            <tr>
+                                <td>@product.ProductId</td>
+                                <td>@product.Name</td>
+                                <td>@product.Category</td>
+                                <td>@product.Description</td>
+                                <td>@product.Year</td>
+                                <td>@product.NumParts</td>
+                                <td>@product.Price</td>
+                                <td>@product.PrimaryColor</td>
+                                <td>@product.SecondaryColor</td>
+                                <td>@product.ImgLink</td>
+                                <td>
+                                    <form method="post" asp-action="DeleteProduct" asp-route-UserId="@product.ProductId" onsubmit="return confirmDelete()">
+                                        <a asp-controller="Administration" asp-action="EditProduct" asp-route-UserId="@product.ProductId" class="btn btn-primary">Edit</a>
+
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
 
 <script>
     function confirmDelete() {
