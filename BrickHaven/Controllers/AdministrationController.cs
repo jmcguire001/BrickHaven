@@ -4,6 +4,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BrickHaven.Models.ViewModels;
+using Microsoft.AspNetCore.Http;
+using Microsoft.ML.OnnxRuntime.Tensors;
+using Microsoft.ML.OnnxRuntime;
+using Microsoft.Extensions.Logging;
 
 namespace BrickHaven.Controllers
 {
@@ -13,13 +17,33 @@ namespace BrickHaven.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<Customer> _userManager;
 
+        private ILegoRepository _repo;
+        private readonly InferenceSession _session;
+        private readonly ILogger<HomeController> _logger;
+        private readonly string _onnxPath;
+
         //private readonly UserImporter _userImporter;
 
-        public AdministrationController(RoleManager<IdentityRole> roleManager, UserManager<Customer> userManager)// , UserImporter userImporter)
+        public AdministrationController(RoleManager<IdentityRole> roleManager, UserManager<Customer> userManager, ILegoRepository temp, ILogger<HomeController> logger, IHostEnvironment hostEnvironment)// , UserImporter userImporter)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             // _userImporter = userImporter;
+
+            _repo = temp;
+            _logger = logger;
+            _onnxPath = System.IO.Path.Combine(hostEnvironment.ContentRootPath, "fraud_model.onnx");
+
+            // Initialize the InferenceSession here; ensure the path is correct.
+            try
+            {
+                _session = new InferenceSession(_onnxPath);
+                _logger.LogInformation("ONNX model loaded successfully.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error loading the ONNX model: {ex.Message}");
+            }
         }
 
         [HttpGet]
@@ -478,6 +502,86 @@ namespace BrickHaven.Controllers
             }
 
             return RedirectToAction("EditUser", new { UserId = UserId });
+        }
+
+        [AllowAnonymous]
+        public IActionResult ReviewOrders()
+        {
+            var records = _repo.Orders
+                .OrderByDescending(o => o.Date)
+                .Take(20)
+                .ToList(); //Fetch the 20 most recent records
+
+            var predictions = new List<OrderPrediction>(); // Viewmodel for the view
+
+            // Dictionary mapping the numeric prediction to a fraud type
+            var class_type_dict = new Dictionary<int, string>
+            {
+                { 0, "Not Fraud" },
+                { 1, "Fraud" }
+            };
+
+            foreach (var record in records)
+            {
+                var input = new List<float>
+                {
+                    (float)record.TransactionId,
+                    (float)record.Time,
+                    (float)(record.Amount ?? 0),
+
+                    // Check the dummy coded
+                    record.Weekday == "Mon" ? 1 : 0,
+                    record.Weekday == "Sat" ? 1 : 0,
+                    record.Weekday == "Sun" ? 1 : 0,
+                    record.Weekday == "Thu" ? 1 : 0,
+                    record.Weekday == "Tue" ? 1 : 0,
+                    record.Weekday == "Wed" ? 1 : 0,
+
+                    record.EntryMode == "Pin" ? 1 : 0,
+                    record.EntryMode == "Tap" ? 1 :0,
+
+                    record.TransactionType == "Online" ? 1 : 0,
+                    record.TransactionType == "POS" ? 1 : 0,
+
+                    record.TransactionCountry == "India" ? 1 : 0,
+                    record.TransactionCountry == "Russia" ? 1 : 0,
+                    record.TransactionCountry == "USA" ? 1 : 0,
+                    record.TransactionCountry == "UnitedKingdom" ? 1 : 0,
+
+                    // Use CountryOfTransaction if ShippingAddress is null
+                    (record.ShippingAddress ?? record.TransactionCountry) == "India" ? 1 : 0,
+                    (record.ShippingAddress ?? record.TransactionCountry) == "Russia" ? 1 : 0,
+                    (record.ShippingAddress ?? record.TransactionCountry) == "USA" ? 1 : 0,
+                    (record.ShippingAddress ?? record.TransactionCountry) == "UnitedKingdom" ? 1 : 0,
+
+                    record.Bank == "HSBC" ? 1 :0,
+                    record.Bank == "Halifax" ? 1 :0,
+                    record.Bank == "Lloyds" ? 1 :0,
+                    record.Bank == "Metro" ? 1 :0,
+                    record.Bank == "Monzo" ? 1 :0,
+                    record.Bank == "RBS" ? 1 :0,
+
+                    record.CardType == "Visa" ? 1 : 0
+                };
+
+                var inputTensor = new DenseTensor<float>(input.ToArray(), new[] { 1, input.Count });
+
+                var inputs = new List<NamedOnnxValue>
+                {
+                    NamedOnnxValue.CreateFromTensor("float_input", inputTensor)
+                };
+
+                string predictionResult;
+                using (var results = _session.Run(inputs))
+                {
+                    var prediction = results.FirstOrDefault(item => item.Name == "output_label")?.AsTensor<long>().ToArray();
+                    predictionResult = prediction != null && prediction.Length > 0 ? class_type_dict.GetValueOrDefault((int)prediction[0], "Unknown") : "Error in prediction";
+                }
+
+                predictions.Add(new OrderPrediction { Orders = record, Prediction = predictionResult });
+            }
+
+            return View(predictions);
         }
 
         //// Action method to display a view where the user can trigger CSV import

@@ -4,6 +4,10 @@ using BrickHaven.Models;
 using BrickHaven.Models.ViewModels;
 using Azure;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.ML;
+using Microsoft.ML.OnnxRuntime;
+using Microsoft.ML.OnnxRuntime.Tensors;
+using System;
 
 namespace BrickHaven.Controllers
 {
@@ -12,12 +16,13 @@ namespace BrickHaven.Controllers
     {
         private ILegoRepository _repo;
 
-        public HomeController(ILegoRepository temp)
+        public HomeController(ILegoRepository temp, ILogger<HomeController> logger, IHostEnvironment hostEnvironment)
         {
             _repo = temp;
         }
 
         [AllowAnonymous]
+
         public async Task<IActionResult> Index()
         {
             // List of top-rated product IDs
@@ -31,6 +36,7 @@ namespace BrickHaven.Controllers
             // Passing the list of top-rated products to the view
             return View(topRatedProducts);
         }
+
 
         [Authorize(Roles = "Admin")]
         public IActionResult SecureMethod()
