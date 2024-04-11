@@ -14,6 +14,8 @@ namespace BrickHaven.Models
         // Queries from the context file, but is an additional layer
         public IQueryable<Product> Products => _context.Products;
 
+        public IQueryable<Order> Orders => _context.Orders;
+
         public void UpdateProduct(Product product)
         {
             _context.Products.Update(product);
@@ -39,6 +41,24 @@ namespace BrickHaven.Models
         public async Task AddProduct(Product product)
         {
             _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateOrderAsync(Order order)
+        {
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteOrderAsync(Order order)
+        {
+            _context.Orders.Remove(order);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task AddOrder(Order order)
+        {
+            _context.Orders.Add(order);
             await _context.SaveChangesAsync();
         }
     }

@@ -674,6 +674,27 @@ namespace BrickHaven.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public IActionResult ListOrders(string? transactionType, int pageNum = 1, int pageSize = 10)
+        {
+            var orderList = new ListOrdersViewModel
+            {
+                Orders = _legoRepository.Orders.OrderBy(o => o.TransactionId).Skip((pageNum - 1) * pageSize).Take(pageSize),
+                PaginationInfo = new PaginationInfo
+                {
+                    CurrentPage = pageNum,
+                    ItemsPerPage = pageSize,
+                    TotalItems = _legoRepository.Orders.Count() == 0 ? 1 : _legoRepository.Orders.Count()
+                },
+
+                CurrentPageSize = pageSize,
+                TransactionType = transactionType
+            };
+
+            // var users = _userManager.Users;
+            return View(orderList);
+        }
+
         //// Action method to display a view where the user can trigger CSV import
         //[HttpGet]
         //public IActionResult ImportUsersFromCsv()
