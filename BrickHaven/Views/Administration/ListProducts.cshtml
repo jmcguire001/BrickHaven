@@ -6,95 +6,69 @@
 
 <h1 class="list-header">All Products</h1>
 
-<div class="page-buttons-container">
-    <div class="page-buttons">
-        <div page-model="@Model.PaginationInfo" page-action="ListProducts" page-class-enabled="true"
-             page-class-normal="btn-outline-dark" page-class-selected="page-button-selected" page-class="page-button"
-             page-url-legoType="@Model.CurrentLegoType" page-url-pageSize="@Model.CurrentPageSize" class="btn-group pull-right m-1">
-        </div>
+<div class="corner-button">
+    <a asp-action="CreateProduct" asp-controller="Administration" class="edit-button" style="width:auto">Add New Product</a>
+</div>
+
+<div class="button-bar">
+    <div page-model="@Model.PaginationInfo" page-action="ListProducts" page-class-enabled="true"
+         page-class-normal="btn-outline-dark" page-class-selected="page-button-selected" page-class="page-button"
+         page-url-legoType="@Model.CurrentLegoType" page-url-pageSize="@Model.CurrentPageSize" class="btn-group pull-right m-1">
     </div>
 </div>
 
-
-<div class="row width">
-    <div class="col-md-2 mb-4">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-12 mt-3">
-                    <h5>Show:</h5>
-                    <div class="show-option-container">
-                        <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="5" class="show-option-link">5</a>
-                        <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="10" class="show-option-link">10</a>
-                        <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="20" class="show-option-link">20</a>
-                    </div>
-                </div>
-                <br />
-                <a asp-action="CreateProduct" asp-controller="Administration" class="btn btn-primary mb-3" style="width:auto">Add New Product</a>
-                <br />
-                <!-- Sidebar -->
-                <div class="sidebar" id="mySidebar">
-                    <div class="col-md-12">
-                        <h5>Filter by Category:</h5>
-                        <!-- Include the contents of vc:lego-types here -->
-                        <vc:lego-types />
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- Updated class to handle varying column counts -->
+@if (!Model.Products.Any())
+{
+    <p>There are no products in the database</p>
+}
+else
+{
+    <div class="table-container">
+        <table class="product-table-unlike-any-other">
+            <thead>
+                <tr>
+                    <th>Product Id</th>
+                    <th>Product Name</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Year</th>
+                    <th>Number of Parts</th>
+                    <th>Price</th>
+                    <th>Primary Color</th>
+                    <th>Secondary Color</th>
+                    <th>Image Link</th>
+                    <th>Edit/Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model.Products)
+                {
+                    <tr>
+                        <td>@product.ProductId</td>
+                        <td>@product.Name</td>
+                        <td>@product.Category</td>
+                        <td>@product.Description</td>
+                        <td>@product.Year</td>
+                        <td>@product.NumParts</td>
+                        <td>@product.Price</td>
+                        <td>@product.PrimaryColor</td>
+                        <td>@product.SecondaryColor</td>
+                        <td>@product.ImgLink</td>
+                        <td>
+                            <form method="post" asp-action="DeleteProduct" asp-route-ProductId="@product.ProductId" onsubmit="return confirmDelete()">
+                                <div class="edit-delete-buttons-container">
+                                    <a asp-controller="Administration" asp-action="EditProduct" asp-route-ProductId="@product.ProductId" class="edit-button">Edit</a>
+                                    <button type="submit" class="delete-button"><img src="~/assets/trash.svg" class="trash-button" /></button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
-    <div class="col-md-10 contains_sets">
-        <div class="row row-cols-md-4">
-            <!-- Updated class to handle varying column counts -->
-            @if (!Model.Products.Any())
-            {
-                <p>There are no products in the database</p>
-            }
-            else
-            {
-                <table class="product-table-unlike-any-other">
-                    <thead>
-                        <tr>
-                            <th>Product Id</th>
-                            <th>Product Name</th>
-                            <th>Category</th>
-                            <th>Description</th>
-                            <th>Year</th>
-                            <th>Number of Parts</th>
-                            <th>Price</th>
-                            <th>Primary Color</th>
-                            <th>Secondary Color</th>
-                            <th>Image Link</th>
-                            <th>Edit/Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var product in Model.Products)
-                        {
-                            <tr>
-                                <td>@product.ProductId</td>
-                                <td>@product.Name</td>
-                                <td>@product.Category</td>
-                                <td>@product.Description</td>
-                                <td>@product.Year</td>
-                                <td>@product.NumParts</td>
-                                <td>@product.Price</td>
-                                <td>@product.PrimaryColor</td>
-                                <td>@product.SecondaryColor</td>
-                                <td>@product.ImgLink</td>
-                                <td>
-                                    <form method="post" asp-action="DeleteProduct" asp-route-ProductId="@product.ProductId" onsubmit="return confirmDelete()">
-                                        <a asp-controller="Administration" asp-action="EditProduct" asp-route-ProductId="@product.ProductId" class="btn btn-primary">Edit</a>
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            }
-        </div>
-    </div>
-</div>
+}
 
 <script>
     function confirmDelete() {
