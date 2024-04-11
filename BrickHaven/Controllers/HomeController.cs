@@ -8,6 +8,8 @@ using Microsoft.ML;
 using Microsoft.ML.OnnxRuntime;
 using Microsoft.ML.OnnxRuntime.Tensors;
 using System;
+using System.Security.Claims;
+using SQLitePCL;
 
 namespace BrickHaven.Controllers
 {
@@ -25,16 +27,50 @@ namespace BrickHaven.Controllers
 
         public async Task<IActionResult> Index()
         {
-            // List of top-rated product IDs
-            var topRatedProductIds = new List<int> { 27, 33, 34, 37, 24 };
+            //var productsQuery = _repo.Products.AsQueryable();
 
-            // Fetching products that match the top-rated product IDs
-            var topRatedProducts = await _repo.Products
-                                              .Where(p => topRatedProductIds.Contains(p.ProductId))
-                                              .ToListAsync();
+            //if (User.Identity.IsAuthenticated)
+            //{
+            //    // Assuming you can get the customer ID from the user's claims or related user data
+            //    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //    var customerId = await _repo.Customers
+            //                                    .Where(u => u.Id == userId)
+            //                                    .Select(u => u.CustomerId) // Assuming there's a CustomerId property
+            //                                    .FirstOrDefaultAsync();
 
-            // Passing the list of top-rated products to the view
-            return View(topRatedProducts);
+            //    if (customerId != null)
+            //    {
+            //        // Adjust the query to include products based on customer's orders
+            //        var customerProductIds = await _repo.Orders
+            //                                               .Where(o => o.CustomerId == customerId)
+            //                                               .SelectMany(o => o.LineItems)
+            //                                               .Select(li => li.ProductId)
+            //                                               .Distinct()
+            //                                               .ToListAsync();
+
+            //        // Combine with top-rated products
+            //        customerProductIds.AddRange(topRatedProductIds);
+
+            //        productsQuery = productsQuery.Where(p => customerProductIds.Contains(p.ProductId));
+            //    }
+            //}
+            //else
+            //{
+                // List of top-rated product IDs
+                var topRatedProductIds = new List<int> { 27, 33, 34, 37, 24 };
+
+                // Fetching products that match the top-rated product IDs
+                var topRatedProducts = await _repo.Products
+                                                  .Where(p => topRatedProductIds.Contains(p.ProductId))
+                                                  .ToListAsync();
+
+                // Passing the list of top-rated products to the view
+                return View(topRatedProducts);
+            //}
+
+            //var products = await productsQuery.ToListAsync();
+
+            //return View(products);
         }
 
 
@@ -45,7 +81,7 @@ namespace BrickHaven.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult Shop(int pageNum, string? legoType, int pageSize=5) // 'page' means something in dotnet
+        public IActionResult Shop(int pageNum, string? legoType, string? legoColor, int pageSize=5) // 'page' means something in dotnet
         {
             // How many items to show per page
             pageNum = pageNum <= 0 ? 1 : pageNum; // If pageNum is 0, set it to 1
@@ -55,7 +91,7 @@ namespace BrickHaven.Controllers
             {
                 // This info is for the legos specifically
                 Products = _repo.Products
-                    .Where(x => x.Category == legoType || legoType == null) // If legoType is null, show all legos
+                    .Where(x => (x.Category == legoType || legoType == null) && (x.PrimaryColor == legoColor || legoColor == null)) // If legoType is null, show all legos
                     .OrderBy(x => x.Name)
                     .Skip((pageNum - 1) * pageSize) // NOT SURE WHAT THIS DOES
                     .Take(pageSize), // Only gets a certain number of legos
@@ -95,9 +131,10 @@ namespace BrickHaven.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult ProductDetails(int id)
+        public async Task<IActionResult> ProductDetails(int id)
         {
             // Retrieve product details by calling the method from the repository
+            // Product product = await _repo.GetProductByIdAsync(id);
             Product product = _repo.GetProductById(id);
 
             // Check if product exists
@@ -106,8 +143,28 @@ namespace BrickHaven.Controllers
                 return NotFound(); // Return a 404 Not Found response
             }
 
+            var recommendationIds = new List<int?>
+            {
+                product.Recommendation1,
+                product.Recommendation2,
+                product.Recommendation3,
+                product.Recommendation4,
+                product.Recommendation5,
+            }.Where(id => id.HasValue).Select(id => id.Value);
+
+            var recommendedProducts = await _repo.Products
+                .Where(p => recommendationIds.Contains(p.ProductId))
+                .ToListAsync();
+
+            var viewModel = new ProductRecommendationsViewModel
+            {
+                Product = product,
+                RecommendedProducts = recommendedProducts
+            };
+
+
             // Pass the product to the view
-            return View(product);
+            return View(viewModel);
         }
 
         [Authorize]

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.ML.OnnxRuntime.Tensors;
 using Microsoft.ML.OnnxRuntime;
 using Microsoft.Extensions.Logging;
+using SQLitePCL;
 
 namespace BrickHaven.Controllers
 {
@@ -24,13 +25,16 @@ namespace BrickHaven.Controllers
 
         //private readonly UserImporter _userImporter;
 
-        public AdministrationController(RoleManager<IdentityRole> roleManager, UserManager<Customer> userManager, ILegoRepository temp, ILogger<HomeController> logger, IHostEnvironment hostEnvironment)// , UserImporter userImporter)
+        private LoginDbContext _context;
+        private readonly ILegoRepository _legoRepository;
+
+        public AdministrationController(RoleManager<IdentityRole> roleManager, UserManager<Customer> userManager, LoginDbContext temp, ILegoRepository legoRepository, ILogger<HomeController> logger, IHostEnvironment hostEnvironment)// , UserImporter userImporter)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             // _userImporter = userImporter;
-
-            _repo = temp;
+            _context = temp;
+            _repo = legoRepository;
             _logger = logger;
             _onnxPath = System.IO.Path.Combine(hostEnvironment.ContentRootPath, "fraud_model.onnx");
 
@@ -306,17 +310,44 @@ namespace BrickHaven.Controllers
         }
 
         [HttpGet]
-        public IActionResult ListUsers()
+        public IActionResult ListUsers(string? roleFilter, int pageNum = 1, int pageSize = 10)
         {
-            var users = _userManager.Users;
-            return View(users);
+            var userList = new ListUsersViewModel
+            {
+                Customers = _context.Users.OrderBy(u => u.UserName).Skip((pageNum - 1) * pageSize).Take(pageSize),
+                PaginationInfo = new PaginationInfo
+                {
+                    CurrentPage = pageNum,
+                    ItemsPerPage = pageSize,
+                    TotalItems = _context.Users.Count() == 0 ? 1 : _context.Users.Count()
+                },
+
+                CurrentPageSize = pageSize,
+                Role = roleFilter
+            };
+
+            // var users = _userManager.Users;
+            return View(userList);
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditUser(string UserId)
+        public async Task<IActionResult> EditUser(string UserId, int pageNum = 1, int pageSize = 10)
         {
             //First Fetch the User Details by UserId
             var user = await _userManager.FindByIdAsync(UserId);
+
+            var editUserList = new ListUsersViewModel
+            {
+                Customers = _context.Users.OrderBy(u => u.UserName).Skip((pageNum - 1) * pageSize).Take(pageSize),
+                PaginationInfo = new PaginationInfo
+                {
+                    CurrentPage = pageNum,
+                    ItemsPerPage = pageSize,
+                    TotalItems = _context.Users.Count()
+                },
+
+                CurrentPageSize = pageSize
+            };
 
             //Check if User Exists in the Database
             if (user == null)
@@ -360,6 +391,9 @@ namespace BrickHaven.Controllers
                 user.UserName = model.UserName;
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
+                user.Birthday = model.Birthday;
+                user.ResidenceCountry = model.ResidenceCountry;
+                user.Gender = model.Gender;
 
                 //UpdateAsync Method will update the user data in the AspNetUsers Identity table
                 var result = await _userManager.UpdateAsync(user);
@@ -501,8 +535,244 @@ namespace BrickHaven.Controllers
                 }
             }
 
-            return RedirectToAction("EditUser", new { UserId = UserId });
+            return RedirectToAction("ManageUserRoles", new { UserId = UserId });
         }
+
+        [HttpGet]
+        public IActionResult ListProducts(string? legoType, int pageNum = 1, int pageSize = 10)
+        {
+            pageNum = pageNum <= 0 ? 1 : pageNum; // If pageNum is 0, set it to 1
+
+            var productList = new ListProductsViewModel
+            {
+                Products = _legoRepository.Products.Where(x => (x.Category == legoType || legoType == null)) // If legoType is null, show all legos
+                    .OrderBy(p => p.Name).Skip((pageNum - 1) * pageSize).Take(pageSize),
+                PaginationInfo = new PaginationInfo
+                {
+                    CurrentPage = pageNum,
+                    ItemsPerPage = pageSize,
+                    TotalItems = legoType == null ? _legoRepository.Products.Count() : _legoRepository.Products.Where(x => x.Category == legoType).Count() // If legoType is null, show all legos, otherwise, filter specific legos
+                },
+
+                CurrentPageSize = pageSize,
+                CurrentLegoType = legoType
+            };
+
+            // var users = _userManager.Users;
+            return View(productList);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditProduct(string? category, int ProductId, int pageNum = 1, int pageSize = 10)
+        {
+            //First Fetch the User Details by UserId
+            var product = await _legoRepository.Products.FirstOrDefaultAsync(p => p.ProductId == ProductId);
+
+            var editProductList = new ListProductsViewModel
+            {
+                // Products = _legoRepository.Products.OrderBy(p => p.Name).Skip((pageNum - 1) * pageSize).Take(pageSize),
+                PaginationInfo = new PaginationInfo
+                {
+                    CurrentPage = pageNum,
+                    ItemsPerPage = pageSize,
+                    TotalItems = _legoRepository.Products.Count()
+                },
+
+                CurrentPageSize = pageSize,
+                CurrentLegoType = category
+            };
+
+            //Check if User Exists in the Database
+            if (product == null)
+            {
+                ViewBag.ErrorMessage = $"{product.Name} cannot be found";
+                return View("NotFound");
+            }
+
+            //Store all the information in the EditUserViewModel instance
+            var model = new EditProductViewModel
+            {
+                Id = product.ProductId,
+                Name = product.Name,
+                Year = product.Year,
+                NumParts = product.NumParts,
+                Price = product.Price,
+                ImgLink = product.ImgLink,
+                PrimaryColor = product.PrimaryColor,
+                SecondaryColor = product.SecondaryColor,
+                Description = product.Description,
+                Category = product.Category
+            };
+
+            //Pass the Model to the View
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditProduct(EditProductViewModel model)
+        {
+            var product = await _legoRepository.Products.FirstOrDefaultAsync(p => p.ProductId == model.Id);
+
+            if (product == null)
+            {
+                ViewBag.ErrorMessage = $"User with Id = {model.Id} cannot be found";
+                return View("NotFound");
+            }
+            else
+            {
+                product.ProductId = model.Id;
+                product.Name = model.Name;
+                product.Year = model.Year;
+                product.NumParts = model.NumParts;
+                product.Price = model.Price;
+                product.ImgLink = model.ImgLink;
+                product.PrimaryColor = model.PrimaryColor;
+                product.SecondaryColor = model.SecondaryColor;
+                product.Description = model.Description;
+                product.Category = model.Category;
+
+                await _legoRepository.UpdateProductAsync(product);
+                await _legoRepository.SaveChangesAsync();
+
+                //Once user data updated redirect to the ListUsers view
+                return RedirectToAction("EditProduct", "Administration", new { category = product.Category, ProductId = product.ProductId });
+            }
+
+            return View(model);
+        }
+
+        // Method to delete a product
+        [HttpPost]
+        public async Task<IActionResult> DeleteProduct(string? category, Product product)
+        {
+            if (product == null)
+            {
+                // Handle the case where the product wasn't found
+                ViewBag.ErrorMessage = $"{product.Name} cannot be found";
+                return View("NotFound");
+            }
+
+            // Attempt to delete the product
+            await _legoRepository.DeleteProductAsync(product);
+            await _legoRepository.SaveChangesAsync();
+
+            // Handle a successful delete
+            return RedirectToAction("ListProducts", new { productCategory = category });
+        }
+
+        // GET method for creating a new product
+        [HttpGet]
+        public IActionResult CreateProduct(string? category)
+        {
+            return View();
+        }
+
+        // POST method for creating a new product
+        [HttpPost]
+        public async Task<IActionResult> CreateProduct(EditProductViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Create the product
+                Product product = new Product
+                {
+                    Name = model.Name,
+                    Year = model.Year,
+                    NumParts = model.NumParts,
+                    Price = model.Price,
+                    ImgLink = model.ImgLink,
+                    PrimaryColor = model.PrimaryColor,
+                    SecondaryColor = model.SecondaryColor,
+                    Description = model.Description,
+                    Category = model.Category
+                };
+
+                // Add the product to the database
+                await _legoRepository.AddProduct(product);
+                await _legoRepository.SaveChangesAsync();
+
+                // Redirect to the list of products
+                return RedirectToAction("ListProducts", "Administration");
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult ListOrders(string? transactionType, int pageNum = 1, int pageSize = 10)
+        {
+            var orderList = new ListOrdersViewModel
+            {
+                Orders = _legoRepository.Orders.OrderBy(o => o.TransactionId).Skip((pageNum - 1) * pageSize).Take(pageSize),
+                PaginationInfo = new PaginationInfo
+                {
+                    CurrentPage = pageNum,
+                    ItemsPerPage = pageSize,
+                    TotalItems = _legoRepository.Orders.Count() == 0 ? 1 : _legoRepository.Orders.Count()
+                },
+
+                CurrentPageSize = pageSize,
+                TransactionType = transactionType
+            };
+
+            // var users = _userManager.Users;
+            return View(orderList);
+
+         }
+            //// Action method to display a view where the user can trigger CSV import
+            //[HttpGet]
+            //public IActionResult ImportUsersFromCsv()
+            //{
+            //    return View();
+            //}
+
+            //// Action method to handle the CSV import
+            //[HttpPost]
+            //public async Task<IActionResult> ImportUsersFromCsv(IFormFile file)
+            //{
+            //    // Ensure a file was provided
+            //    if (file == null || file.Length == 0)
+            //    {
+            //        ModelState.AddModelError("", "Please select a file to import.");
+            //        return View();
+            //    }
+
+            //    // Check if the file is a CSV file
+            //    if (!file.FileName.EndsWith(".csv", StringComparison.OrdinalIgnoreCase))
+            //    {
+            //        ModelState.AddModelError("", "Please select a CSV file.");
+            //        return View();
+            //    }
+
+            //    try
+            //    {
+            //        // Get the path to the temporary file on the server
+            //        var filePath = Path.GetTempFileName();
+
+            //        // Copy the uploaded file to the temporary file
+            //        using (var stream = new FileStream(filePath, FileMode.Create))
+            //        {
+            //            await file.CopyToAsync(stream);
+            //        }
+
+            //        // Call the method to import users from the CSV file
+            //        await _userImporter.ImportUsersFromCsvAsync(filePath);
+
+            //        // Optionally, delete the temporary file
+            //        System.IO.File.Delete(filePath);
+
+            //        // Redirect to a success page or return a success message
+            //        return RedirectToAction("Index", "Home");
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        // Log the exception and display an error message
+            //        ModelState.AddModelError("", "An error occurred while importing users from CSV.");
+            //        // Log the exception
+            //        // Log.Error("An error occurred while importing users from CSV.", ex);
+            //        return View();
+            //    }
+            //}
 
         [AllowAnonymous]
         public IActionResult ReviewOrders()

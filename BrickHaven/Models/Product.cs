@@ -20,6 +20,5 @@ namespace BrickHaven.Models
         public int? Recommendation3 { get; set; }
         public int? Recommendation4 { get; set; }
         public int? Recommendation5 { get; set; }
-
     }
 }

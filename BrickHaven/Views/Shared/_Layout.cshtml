@@ -19,6 +19,14 @@
     <link rel="stylesheet" href="~/css/about.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/privacy.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/ProductDetails.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/list.css" asp-append-version="true" />
+
+
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+
+    <link rel="stylesheet" href="~/css/products-table.css" />
+    <link rel="stylesheet" href="~/css/add-edit-products.css" />
 
     <link href="https://fonts.cdnfonts.com/css/batman-forever" rel="stylesheet">
     <!-- Google Fonts-->
@@ -63,8 +71,9 @@
 
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <a class="dropdown-item" asp-controller="Administration" asp-action="ListUsers">Users</a>
-
                                     <a class="dropdown-item" asp-controller="Administration" asp-action="ListRoles">Roles</a>
+                                    <a class="dropdown-item" asp-controller="Administration" asp-action="ListProducts">Products</a>
+                                    <a class="dropdown-item" asp-controller="Administration" asp-action="ListOrders">Orders</a>
                                 </ul>
                             </li>
                         }
@@ -81,25 +90,7 @@
                                     
                                     <button type="submit" class="dropdown-item" form="logoutForm">Logout</button>
 
-                                    <a class="dropdown-item" asp-controller="Account" asp-action="UpdateProfile">Update Profile</a>
-
-                                    <a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
-
-                                    @if (userDetail != null)
-                                    {
-                                        @if (userDetail.TwoFactorEnabled)
-                                        {
-                                            <a class="dropdown-item" asp-controller="Account" asp-action="ManageTwoFactorAuthentication">Disable 2FA</a>
-                                        }
-                                        else
-                                        {
-                                            <a class="dropdown-item" asp-controller="Account" asp-action="ManageTwoFactorAuthentication">Enable 2FA</a>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <span class="dropdown-item disabled">No users found</span>
-                                    }
+                                    <a class="dropdown-item" asp-controller="Account" asp-action="UpdateProfile">Profile Settings</a>
                                 </ul>
                             </li>
                         }
@@ -121,16 +112,21 @@
     </header>
 
     <div class="">
-        @* <div class="">
-            <vc:lego-types />
-        </div>
- *@
         <div class="">
             <main role="main" class="">
                 @RenderBody()
             </main>
         </div>
     </div>
+
+    <div id="cookieConsent" style="display:none; position: fixed; bottom: 0; width: 100%; background: black; color: white; text-align: center; padding: 10px; z-index: 1000;">
+        <p>
+            We use cookies to enhance your experience. By continuing on this site, you consent to our use of cookies.
+            <a href="@Url.Action("Privacy", "Home")" style="color: #4CAF50;">Learn More</a>
+            <button onclick="acceptCookies()" style="margin-left: 15px; background-color: #4CAF50; color: white; border: none; padding: 5px 10px;">Accept</button>
+        </p>
+    </div>
+
     @if (!(ViewContext.RouteData.Values["Controller"].ToString().Equals("Account")))
     {
 @*         <footer>
@@ -145,7 +141,6 @@
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
 
     @await RenderSectionAsync("Scripts", required: false)
 

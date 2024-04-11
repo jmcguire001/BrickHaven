@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using BrickHaven.Models.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,5 +14,6 @@ namespace BrickHaven.Models
         public string? ResidenceCountry { get; set; }
         public string? Gender { get; set; }
         public float? Age { get; set; }
+        public bool? CookieEnabled { get; set; } = false;
     }
 }
