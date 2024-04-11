@@ -1,4 +1,14 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
+﻿document.addEventListener("DOMContentLoaded", function () {
+    var consent = localStorage.getItem('cookieConsent');
+    if (!consent) {
+        var el = document.getElementById('cookieConsent');
+        el.style.display = 'block';
+        el.style.animation = 'slideUp 1s forwards';
+    }
+});
+function acceptCookies() {
+    localStorage.setItem('cookieConsent', 'true');
+    var el = document.getElementById('cookieConsent');
+    el.style.animation = 'slideDown 1s forwards';
+    setTimeout(function () { el.style.display = 'none'; }, 1000);
+}
