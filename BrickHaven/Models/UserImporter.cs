@@ -15,7 +15,6 @@ public class UserImporter
 
     public async Task ImportUsersFromCsvAsync(string csvFilePath)
     {
-        int userId = 1; // Starting ID number for dynamic username generation
         using (var reader = new StreamReader(csvFilePath))
         {
             while (!reader.EndOfStream)
@@ -32,11 +31,12 @@ public class UserImporter
                 var gender = values[5];
                 var age = float.Parse(values[6]); // Assuming age is represented as an integer in the CSV
 
-                // Dynamic username generation
-                var username = $"brickmaster{userId}";
-                var email = $"user{userId}@brickhaven.com";
+                // Dynamic username generation (but still brickmaster#)
+                var username = $"brickmaster{customerId}";
+                var email = $"user{customerId}@brickhaven.com";
                 var emailConfirmed = true;
                 var lockoutEnabled = false;
+                var cookieEnabled = false;
 
                 var user = new Customer
                 {
@@ -53,8 +53,8 @@ public class UserImporter
                     Age = age
                 };
 
-                // Create user with password "Hello123!"
-                var result = await _userManager.CreateAsync(user, $"BrickHaven{userId}.123!");
+                // Create user with password "BrickHaven#.123!"
+                var result = await _userManager.CreateAsync(user, $"BrickHaven{customerId}.123!");
 
                 if (result.Succeeded)
                 {
@@ -68,8 +68,6 @@ public class UserImporter
                         Console.WriteLine($"Error: {error.Description}");
                     }
                 }
-
-                userId++; // Increment ID for the next user
             }
         }
     }
