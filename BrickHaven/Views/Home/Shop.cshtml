@@ -14,14 +14,20 @@
 <div class="">
     <div class="row width">
         <!-- Filter section -->
-        <div class="col-md-3 mb-4">
+        <div class="col-md-2 mb-4">
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-12 mt-3">
                         <h5>Show:</h5>
-                        <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="5">5</a>
-                        <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="10">10</a>
-                        <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="20">20</a>
+                        <div class="show-option">
+                            <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="5">5</a>
+                        </div>
+                        <div class="show-option">
+                            <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="10">10</a>
+                        </div>
+                        <div class="show-option">
+                            <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="20">20</a>
+                        </div>
                     </div>
                     <br />
                     <!-- Sidebar -->
@@ -48,19 +54,15 @@
                 @foreach (Product p in Model.Products)
                 {
                     <div class="col item">
-                        <div class="prod">
+                        <div class="product-image-container">
                             <a href="@Url.Action("ProductDetails", "Home", new { id = p.ProductId })">
                                 <img src="@p.ImgLink" class="product-image" alt="Product Image">
                             </a>
-                        </div>
+                        </div><br />
                             <a href="@Url.Action("ProductDetails", "Home", new { id = p.ProductId })">
                                 <h3>@p.Name</h3>
-                            </a>
-                            <a href="@Url.Action("ProductDetails", "Home", new { id = p.ProductId })">
-                                <h4>@p.Category</h4>
-                            </a>
-                            <h4>$@p.Price</h4>
-                        </div>
+                            </a><br />
+                            <h4>$@p.Price.00</h4>
                     </div>
                 }
         </div>
