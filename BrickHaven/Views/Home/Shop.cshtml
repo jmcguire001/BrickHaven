@@ -5,12 +5,7 @@
 <!-- We can pass one model that has lots of stuff in it; we had to use individual model views, though! -->
 @model ProductListViewModel
 
-<div class="page-buttons">
-    <div page-model="@Model.PaginationInfo" page-action="Shop" page-class-enabled="true"
-         page-class-normal="btn-outline-dark" page-class-selected="page-button-selected" page-class="page-button"
-         page-url-legoType="@Model.CurrentLegoType" page-url-pageSize="@Model.CurrentPageSize" class="btn-group pull-right m-1">
-    </div>
-</div>
+
 <div class="">
     <div class="row width">
         <!-- Filter section -->
@@ -44,22 +39,22 @@
         </div>
 
         <!-- Products section -->
-        <div class="col-md-9 contains_sets">
-            <div class="row row-cols-1 row-cols-md-3">
+        <div class="col-md-10 contains_sets">
+            <div class="row row-cols-md-4">
                 <!-- Updated class to handle varying column counts -->
                 @foreach (Product p in Model.Products)
                 {
-                    <div class="col item">
-                        <div class="product-image-container">
-                            <a href="@Url.Action("ProductDetails", "Home", new { id = p.ProductId })">
+                    <a href="@Url.Action("ProductDetails", "Home", new { id = p.ProductId })" class="text-decoration-none">
+                        <div class="col item">
+                            <div >
                                 <img src="@p.ImgLink" class="product-image" alt="Product Image">
-                            </a>
-                        </div><br />
-                            <a href="@Url.Action("ProductDetails", "Home", new { id = p.ProductId })">
-                                <h3>@p.Name</h3>
-                            </a><br />
+                            </div><br />
+                            <div class="item-header-container">
+                                <h3 class="item-header">@p.Name</h3>
+                            </div>
                             <h4>$@p.Price.00</h4>
-                    </div>
+                        </div>
+                    </a>
                 }
         </div>
     </div>
