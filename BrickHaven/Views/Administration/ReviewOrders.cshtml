@@ -10,44 +10,48 @@
     };
 }
 
-<h2>Predictions</h2>
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>TransactionId</th>
-            <th>Date</th>
-            <th>Day of The Week</th>
-            <th>Time (Military Time)</th>
-            <th>Entry Mode</th>
-            <th>Amount</th>
-            <th>Type of Transaction</th>
-            <th>Country of Transaction</th>
-            <th>Shipping Address</th>
-            <th>Bank</th>
-            <th>Type of Card</th>
-            <th>Fraud</th>
-            <th class="prediction-cell">Fraud Prediction</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Orders.TransactionId</td>
-                <td>@item.Orders.Date</td>
-                <td>@item.Orders.Weekday</td>
-                <td>@item.Orders.Time</td>
-                <td>@item.Orders.EntryMode</td>
-                <td>@item.Orders.Amount</td>
-                <td>@item.Orders.TransactionType</td>
-                <td>@item.Orders.TransactionCountry</td>
-                <td>@item.Orders.ShippingAddress</td>
-                <td>@item.Orders.Bank</td>
-                <td>@item.Orders.CardType</td>
-                <td>@item.Orders.IsFraud</td>
-                <td class="prediction-cell">@item.Prediction</td>
-            </tr>
+<h1 class="admin-table-header">Detect Fraud</h1>
 
-        }
-    </tbody>
-</table>
+<br /><br />
+<div class="table-container">
+    <table class="product-table-unlike-any-other">
+        <thead>
+            <tr>
+                <th>TransactionId</th>
+                <th>Date</th>
+                <th>Day of The Week</th>
+                <th>Time (Military Time)</th>
+                <th>Entry Mode</th>
+                <th>Amount</th>
+                <th>Type of Transaction</th>
+                <th>Country of Transaction</th>
+                <th>Shipping Address</th>
+                <th>Bank</th>
+                <th>Type of Card</th>
+                <th>Fraud</th>
+                <th class="prediction-cell">Fraud Prediction</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Orders.TransactionId</td>
+                    <td>@item.Orders.Date</td>
+                    <td>@item.Orders.Weekday</td>
+                    <td>@item.Orders.Time</td>
+                    <td>@item.Orders.EntryMode</td>
+                    <td>@item.Orders.Amount</td>
+                    <td>@item.Orders.TransactionType</td>
+                    <td>@item.Orders.TransactionCountry</td>
+                    <td>@item.Orders.ShippingAddress</td>
+                    <td>@item.Orders.Bank</td>
+                    <td>@item.Orders.CardType</td>
+                    <td>@item.Orders.IsFraud</td>
+                    <td class="prediction-cell">@item.Prediction</td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>
