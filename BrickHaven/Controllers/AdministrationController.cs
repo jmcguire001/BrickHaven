@@ -558,7 +558,7 @@ namespace BrickHaven.Controllers
                 },
 
                 CurrentPageSize = pageSize,
-                Category = category
+                CurrentLegoType = category
             };
 
             //Check if User Exists in the Database

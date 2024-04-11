@@ -17,7 +17,10 @@ namespace BrickHaven.Models
 
         public IQueryable<Order> Orders => _context.Orders;
 
-        public Product GetProductById(int productId);
+        public Product GetProductById(int productId)
+        {
+            return _context.Products.FirstOrDefault(p => p.ProductId == productId);
+        }
 
         public void UpdateProduct(Product product)
         {
@@ -41,7 +44,31 @@ namespace BrickHaven.Models
             await _context.SaveChangesAsync();
         }
 
+        public async Task UpdateOrderAsync(Order order)
+        {
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteOrderAsync(Order order)
+        {
+            _context.Orders.Remove(order);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task AddProduct(Product product)
+        {
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task AddOrder(Order order)
+        {
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
+        }
+
+        public async void AddToCart(Product product)
         {
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
