@@ -169,13 +169,13 @@ namespace BrickHaven.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult ProductDetails(Product product)
+        public IActionResult ProductDetails(ProductRecommendationsViewModel productRecs)
         {
             if (ModelState.IsValid)
             {
                 // Add the new record; this action comes from ITasksRepository and EFTasksRepository
-                _repo.AddToCart(product);
-                return View("Confirmation", product);
+                _repo.AddToCart(productRecs.Product);
+                return View("/Cart", productRecs.Product);
             }
             else
             {

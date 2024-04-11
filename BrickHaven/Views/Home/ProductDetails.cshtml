@@ -13,14 +13,14 @@
     </div>
     <div class="center-main-product">
         <div class="center-form">
-            <form id=@Model.Product.ProductId method="post" asp-page="/Cart">
+            <form id=@Model.Product.ProductId method="post">
                 <div class="format-product-details">
                     <h2 class="form-header">@Model.Product.Name</h2><br />
                     <div class="contain-description">
                         <p>@Model.Product.Description</p>
                     </div>
                     <input type="hidden" asp-for="@Model.Product.ProductId" />
-                    <input type="hidden" name="ReturnUrl" value="Home/Shop" /><br />
+                    <input type="hidden" name="returnUrl" value="Home/Shop" /><br />
                     <div class="align-quantity-price">
                         <div class="">
                             <label for="quantity">Quantity:</label><br />

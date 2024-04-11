@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BrickHaven.Models.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace BrickHaven.Models
 {
