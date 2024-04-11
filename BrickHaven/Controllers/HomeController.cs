@@ -4,6 +4,10 @@ using BrickHaven.Models;
 using BrickHaven.Models.ViewModels;
 using Azure;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.ML;
+using Microsoft.ML.OnnxRuntime;
+using Microsoft.ML.OnnxRuntime.Tensors;
+using System;
 using System.Security.Claims;
 using SQLitePCL;
 
@@ -14,12 +18,13 @@ namespace BrickHaven.Controllers
     {
         private ILegoRepository _repo;
 
-        public HomeController(ILegoRepository temp)
+        public HomeController(ILegoRepository temp, ILogger<HomeController> logger, IHostEnvironment hostEnvironment)
         {
             _repo = temp;
         }
 
         [AllowAnonymous]
+
         public async Task<IActionResult> Index()
         {
             //var productsQuery = _repo.Products.AsQueryable();

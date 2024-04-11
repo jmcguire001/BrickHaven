@@ -61,7 +61,8 @@
 
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        </li>                        
+
 
                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         {
@@ -72,7 +73,7 @@
                                     <a class="dropdown-item" asp-controller="Administration" asp-action="ListUsers">Users</a>
                                     <a class="dropdown-item" asp-controller="Administration" asp-action="ListRoles">Roles</a>
                                     <a class="dropdown-item" asp-controller="Administration" asp-action="ListProducts">Products</a>
-                                    <a class="dropdown-item" asp-controller="Administration" asp-action="ListOrders">Orders</a>
+                                    <a class="dropdown-item" asp-controller="Administration" asp-action="ReviewOrders">Orders</a>
                                 </ul>
                             </li>
                         }
