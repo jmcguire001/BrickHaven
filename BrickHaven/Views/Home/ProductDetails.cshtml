@@ -50,11 +50,13 @@
     <div class="recommend-container" asp-for="ProductDetails">
         @foreach (var recProduct in Model.RecommendedProducts)
         {
-            <div class="recommend-item">
+
+
+            <a href="@Url.Action("ProductDetails", "Home", new { id = recProduct.ProductId })" class="recommend-item">
                 <img src="@recProduct.ImgLink" alt="@recProduct.Name" class="recommend-img">
                 <h3 class="recommend-header">@recProduct.Name</h3>
                 <!-- Add more details as needed -->
-            </div>
+            </a>
         }
     </div>
 </div><br /><br />
