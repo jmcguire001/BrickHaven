@@ -14,7 +14,7 @@
 </div>
 
 
-<a asp-action="" asp-controller="Account" class="btn btn-primary mb-3" style="width:auto">Add New Product</a>
+<a asp-action="CreateProduct" asp-controller="Administration" class="btn btn-primary mb-3" style="width:auto">Add New Product</a>
 
 @if (!Model.Products.Any())
 {
@@ -34,8 +34,8 @@ else
                 </div>
                 <div class="card-footer">
 
-                    <form method="post" asp-action="DeleteProduct" asp-route-UserId="@product.ProductId" onsubmit="return confirmDelete()">
-                        <a asp-controller="Administration" asp-action="EditProduct" asp-route-UserId="@product.ProductId" class="btn btn-primary">Edit</a>
+                    <form method="post" asp-action="DeleteProduct" asp-route-ProductId="@product.ProductId" onsubmit="return confirmDelete()">
+                        <a asp-controller="Administration" asp-action="EditProduct" asp-route-ProductId="@product.ProductId" class="btn btn-primary">Edit</a>
 
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>

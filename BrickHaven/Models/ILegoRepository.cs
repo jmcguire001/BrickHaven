@@ -6,6 +6,13 @@ namespace BrickHaven.Models
     {
         // Query the instances from Lego model and save to set Lego
         public IQueryable<Product> Products { get; }
+
+        // Update the product
+        Task<int> SaveChangesAsync();
+        Task UpdateProductAsync(Product product);
+        Task DeleteProductAsync(Product product);
+        Task AddProduct (Product product);
+
         public Product GetProductById(int id);
 
         public void AddToCart(Product product); 
