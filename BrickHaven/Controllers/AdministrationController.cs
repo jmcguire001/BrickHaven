@@ -538,6 +538,142 @@ namespace BrickHaven.Controllers
             return View(productList);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> EditProduct(string? category, int ProductId, int pageNum = 1, int pageSize = 10)
+        {
+            //First Fetch the User Details by UserId
+            var product = await _legoRepository.Products.FirstOrDefaultAsync(p => p.ProductId == ProductId);
+
+            var editProductList = new ListProductsViewModel
+            {
+                // Products = _legoRepository.Products.OrderBy(p => p.Name).Skip((pageNum - 1) * pageSize).Take(pageSize),
+                PaginationInfo = new PaginationInfo
+                {
+                    CurrentPage = pageNum,
+                    ItemsPerPage = pageSize,
+                    TotalItems = _legoRepository.Products.Count()
+                },
+
+                CurrentPageSize = pageSize,
+                Category = category
+            };
+
+            //Check if User Exists in the Database
+            if (product == null)
+            {
+                ViewBag.ErrorMessage = $"{product.Name} cannot be found";
+                return View("NotFound");
+            }
+
+            //Store all the information in the EditUserViewModel instance
+            var model = new EditProductViewModel
+            {
+                Id = product.ProductId,
+                Name = product.Name,
+                Year = product.Year,
+                NumParts = product.NumParts,
+                Price = product.Price,
+                ImgLink = product.ImgLink,
+                PrimaryColor = product.PrimaryColor,
+                SecondaryColor = product.SecondaryColor,
+                Description = product.Description,
+                Category = product.Category
+            };
+
+            //Pass the Model to the View
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditProduct(EditProductViewModel model)
+        {
+            var product = await _legoRepository.Products.FirstOrDefaultAsync(p => p.ProductId == model.Id);
+
+            if (product == null)
+            {
+                ViewBag.ErrorMessage = $"User with Id = {model.Id} cannot be found";
+                return View("NotFound");
+            }
+            else
+            {
+                product.ProductId = model.Id;
+                product.Name = model.Name;
+                product.Year = model.Year;
+                product.NumParts = model.NumParts;
+                product.Price = model.Price;
+                product.ImgLink = model.ImgLink;
+                product.PrimaryColor = model.PrimaryColor;
+                product.SecondaryColor = model.SecondaryColor;
+                product.Description = model.Description;
+                product.Category = model.Category;
+
+                await _legoRepository.UpdateProductAsync(product);
+                await _legoRepository.SaveChangesAsync();
+
+                //Once user data updated redirect to the ListUsers view
+                return RedirectToAction("EditProduct", "Administration", new { category = product.Category, ProductId = product.ProductId });
+            }
+
+            return View(model);
+        }
+
+        // Method to delete a product
+        [HttpPost]
+        public async Task<IActionResult> DeleteProduct(string? category, Product product)
+        {
+            if (product == null)
+            {
+                // Handle the case where the product wasn't found
+                ViewBag.ErrorMessage = $"{product.Name} cannot be found";
+                return View("NotFound");
+            }
+
+            // Attempt to delete the product
+            await _legoRepository.DeleteProductAsync(product);
+            await _legoRepository.SaveChangesAsync();
+
+            // Handle a successful delete
+            return RedirectToAction("ListProducts", new { productCategory = category });
+        }
+
+        // GET method for creating a new product
+        [HttpGet]
+        public IActionResult CreateProduct(string? category)
+        {
+            return View();
+        }
+
+        // POST method for creating a new product
+        [HttpPost]
+        public async Task<IActionResult> CreateProduct(EditProductViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Create the product
+                Product product = new Product
+                {
+                    Name = model.Name,
+                    Year = model.Year,
+                    NumParts = model.NumParts,
+                    Price = model.Price,
+                    ImgLink = model.ImgLink,
+                    PrimaryColor = model.PrimaryColor,
+                    SecondaryColor = model.SecondaryColor,
+                    Description = model.Description,
+                    Category = model.Category
+                };
+
+                // Add the product to the database
+                await _legoRepository.AddProduct(product);
+                await _legoRepository.SaveChangesAsync();
+
+                // Redirect to the list of products
+                return RedirectToAction("ListProducts", "Administration");
+            }
+
+            return View(model);
+        }
+
         //// Action method to display a view where the user can trigger CSV import
         //[HttpGet]
         //public IActionResult ImportUsersFromCsv()
