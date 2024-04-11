@@ -1,11 +1,11 @@
 ﻿.privacy2,
-.products {
+.products45 {
     position: relative;
     display: none;
     min-width: 87px;
 }
 
-.products {
+.products45 {
     min-width: 111px;
 }
 
@@ -42,7 +42,7 @@
     display: none;
 }
 
-.navbar-child1 {
+.navbar-child145 {
     height: 122px;
     width: 1440px;
     position: relative;
@@ -148,13 +148,13 @@
     font-family: var(--font-poppins);
 }
 
-.frame-nav,
-.navbar3 {
+.frame-nav45,
+.navbar345 {
     display: flex;
     box-sizing: border-box;
 }
 
-.frame-nav {
+.frame-nav45 {
     margin: 0;
     width: 462px;
     flex-direction: column;
@@ -164,7 +164,7 @@
     max-width: 100%;
 }
 
-.navbar3 {
+.navbar345 {
     margin-top: -144px;
     margin-right: -40px;
     width: 1440px;
@@ -197,7 +197,7 @@
     max-width: 100%;
 }
 
-.products-container {
+.products-container45 {
     width: 905px;
     display: flex;
     flex-direction: row;
@@ -315,7 +315,7 @@
     flex-shrink: 0;
 }
 
-.add-product {
+.add-product45 {
     position: relative;
     font-size: var(--font-size-xs);
     display: inline-block;
@@ -325,7 +325,7 @@
     min-width: 77px;
 }
 
-.div,
+.div45,
 .fluentadd-16-filled-parent {
     display: flex;
     flex-direction: row;
@@ -347,7 +347,7 @@
         background-color: var(--color-chocolate);
     }
 
-.div {
+.div45 {
     align-self: stretch;
     background-color: var(--color-white);
     justify-content: space-between;
@@ -384,6 +384,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
+    text-align: center;
 }
 
 .year {
@@ -507,13 +508,15 @@
     width: 1359px;
     background-color: var(--color-white);
     overflow-x: auto;
-    display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     padding: var(--padding-base);
     box-sizing: border-box;
     gap: var(--gap-base);
+    display: flex;
+    justify-content: space-between;
+    padding-left: 60px;
 }
 
 .div2 {
@@ -1953,7 +1956,7 @@
     align-items: flex-start;
     justify-content: flex-start;
     max-width: 100%;
-    font-size: var(--font-size-sm);
+    font-size: 18px;
 }
 
 .div26,
@@ -2038,7 +2041,7 @@
     white-space: nowrap;
 }
 
-.next-nav,
+.next-nav45,
 .previous-parent {
     display: flex;
     flex-direction: row;
@@ -2051,7 +2054,7 @@
     gap: var(--gap-xs);
 }
 
-.next-nav {
+.next-nav45 {
     align-self: stretch;
     background-color: var(--color-white);
     padding: var(--padding-base) var(--padding-xl);
@@ -2063,18 +2066,18 @@
 
 .frame-main,
 .products-table,
-.table {
+.table45 {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
 }
 
-.table {
+.table45 {
     align-self: stretch;
     align-items: flex-start;
     max-width: 100%;
     text-align: left;
-    font-size: var(--font-size-xs);
+    font-size: 18px;
     color: var(--color-black);
     font-family: var(--font-poppins);
 }
@@ -2111,7 +2114,7 @@
 }
 
 @media screen and (max-width: 900px) {
-    .navbar3 {
+    .navbar345 {
         padding-right: var(--padding-5xl);
         box-sizing: border-box;
     }
@@ -2120,7 +2123,7 @@
         font-size: var(--font-size-21xl);
     }
 
-    .div {
+    .div45 {
         flex-wrap: wrap;
     }
 
@@ -2130,11 +2133,11 @@
 }
 
 @media screen and (max-width: 675px) {
-    .frame-nav {
+    .frame-nav45 {
         display: none;
     }
 
-    .navbar3 {
+    .navbar345 {
         width: 978px;
     }
 
@@ -2148,7 +2151,7 @@
         font-size: var(--font-size-11xl);
     }
 
-    .next-nav {
+    .next-nav45 {
         gap: 334px;
     }
 }

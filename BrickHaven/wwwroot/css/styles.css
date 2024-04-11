@@ -1,0 +1,30 @@
+﻿/* Base styles for the table */
+.product-table-unlike-any-other {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    /* Styles for table header */
+    .product-table-unlike-any-other th {
+        background-color: #f2f2f2;
+        color: #333;
+        font-weight: bold;
+        padding: 10px;
+        text-align: left;
+    }
+
+    /* Styles for table body */
+    .product-table-unlike-any-other td {
+        border: 1px solid #ddd;
+        padding: 10px;
+    }
+
+    /* Alternate row color */
+    .product-table-unlike-any-other tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    /* Hover effect */
+    .product-table-unlike-any-other tr:hover {
+        background-color: #f2f2f2;
+    }
