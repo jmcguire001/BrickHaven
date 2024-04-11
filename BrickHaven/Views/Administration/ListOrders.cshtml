@@ -1,16 +1,22 @@
-﻿@model ListProductsViewModel 
-
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
 @{
-    ViewBag.Title = "All Products";
 }
 
-<h1 class="list-header">All Products</h1>
+@model ListOrdersViewModel
 
-<div><vc:lego-types /></div>
+@{
+    ViewBag.Title = "All Orders";
+}
 
-<div page-model="@Model.PaginationInfo" page-action="ListProducts" page-class-enabled="true"
+<h1>All Orders</h1>
+
+@* <div><vc:lego-types /></div> *@
+
+<div page-model="@Model.PaginationInfo" page-action="ListOrders" page-class-enabled="true"
      page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
-     page-url-legoType="Model.CurrentLegoType" page-url-pageSize="@Model.CurrentPageSize" class="btn-group pull-right m-1">
+      page-url-pageSize="@Model.CurrentPageSize" class="btn-group pull-right m-1">
 </div>
 
 
