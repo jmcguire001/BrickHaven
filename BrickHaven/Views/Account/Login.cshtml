@@ -38,7 +38,7 @@
             <div class="col-md-6">
                 <h1 class="text-center">External Login</h1>
                 <hr />
-                @{
+                @*@{
                     if (Model.ExternalLogins?.Count == 0)
                     {
                         <div>No external logins configured</div>
@@ -58,7 +58,7 @@
                             </div>
                         </form>
                     }
-                }
+                }*@
             </div>
         </div>
     </div>
@@ -95,17 +95,17 @@
                     <div class="form-group text-center">
                         <button type="submit" class="button">Sign In</button>
                     </div><br />
-
-                    <div class="new-user-container">
-                        <p>Don't have an account? <a class="new-user" style="" asp-controller="Account" asp-action="Register">sign up now</a></p>
-                    </div>
                 </form>
+
+                <div class="new-user-container">
+                    <p>Don't have an account? <a class="new-user" style="" asp-controller="Account" asp-action="Register">sign up now</a></p>
+                </div>
 
                 <div class="grey-line"></div><br />
 
                 <h5 class="text-center">Or sign in with</h5><br />
                 @{
-                    if (Model.ExternalLogins?.Count == 0)
+                    if (Model.ExternalLogins?.Count == 0 || Model.ExternalLogins?.Count == null)
                     {
                         <div>No external logins configured</div>
                     }
