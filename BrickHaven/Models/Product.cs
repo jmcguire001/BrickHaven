@@ -15,5 +15,6 @@ namespace BrickHaven.Models
         public string? SecondaryColor { get; set; }
         public string? Description { get; set; }
         public string? Category { get; set; }
+
     }
 }

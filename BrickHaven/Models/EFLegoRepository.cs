@@ -13,6 +13,7 @@ namespace BrickHaven.Models
 
         // Queries from the context file, but is an additional layer
         public IQueryable<Lego> Legos => _context.Legos;
+        public IQueryable<Product> Products => _context.Products;
 
     }
 }
