@@ -2,9 +2,9 @@
 {
     public class ListOrdersViewModel
     {
-        public IQueryable<Product> Products { get; set; }
-        public IQueryable<Order> Orders { get; set; }
+        public IEnumerable<Order> Orders { get; set; }
         public PaginationInfo PaginationInfo { get; set; } = new PaginationInfo();
         public int? CurrentPageSize { get; set; }
+        public string? TransactionType { get; set; }
     }
 }

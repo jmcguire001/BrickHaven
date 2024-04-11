@@ -1,0 +1,74 @@
+﻿@model EditProductViewModel
+
+@{
+    ViewBag.Title = "Create A New Product";
+}
+
+<div class="sign-in-container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-container">
+                <h1 class="login-h1">Create A New Product</h1><br />
+
+                <form method="post">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control" />
+
+                    <label asp-for="Year"></label>
+                    <input asp-for="Year" class="form-control" />
+
+                    <label asp-for="NumParts"></label>
+                    <input asp-for="NumParts" class="form-control" />
+
+                    <label asp-for="Price"></label>
+                    <input asp-for="Price" class="form-control" />
+
+                    <label asp-for="ImgLink"></label>
+                    <input asp-for="ImgLink" class="form-control" />
+
+                    <label asp-for="PrimaryColor"></label>
+                    <input asp-for="PrimaryColor" class="form-control" />
+
+                    <label asp-for="SecondaryColor"></label>
+                    <input asp-for="SecondaryColor" class="form-control" />
+
+                    <label asp-for="Description"></label>
+                    <input asp-for="Description" class="form-control" />
+
+                    <label asp-for="Category">Category bins</label>
+                    <select asp-for="Category" class="form-control" id="categoryDropdown">
+                        <option value="">Select Category</option>
+                        <option value="Colorful">Colorful</option>
+                        <option value="Construction">Construction</option>
+                        <option value="Minifig">Minifigs</option>
+                        <option value="Vehicle">Vehicle</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <div id="newCategoryInput" style="display: none;">
+                        <label for="newCategory">New Category:</label>
+                        <input type="text" id="newCategory" class="form-control" />
+                    </div>
+
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    <div class="form-group text-center">
+                        <button type="submit" class="button">Create</button>
+                        <button type="button" class="button" style="width:auto" onclick="history.back()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Function to show/hide the new category input based on the selected option
+    document.getElementById('categoryDropdown').addEventListener('change', function () {
+        var selectedOption = this.value;
+        if (selectedOption === 'Other') {
+            document.getElementById('newCategoryInput').style.display = 'block';
+        } else {
+            document.getElementById('newCategoryInput').style.display = 'none';
+        }
+    });
+</script>

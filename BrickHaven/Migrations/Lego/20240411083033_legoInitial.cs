@@ -6,35 +6,17 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BrickHaven.Migrations.Lego
 {
     /// <inheritdoc />
-    public partial class legoinitial : Migration
+    public partial class legoInitial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Legos",
-                columns: table => new
-                {
-                    LegoId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    LegoName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProgramName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LegoType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LegoImpact = table.Column<int>(type: "int", nullable: false),
-                    LegoInstallation = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LegoPhase = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Legos", x => x.LegoId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "LineItems",
                 columns: table => new
                 {
-                    TransactionId = table.Column<int>(type: "int", nullable: false),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    TransactionId = table.Column<int>(type: "int", nullable: true),
+                    ProductId = table.Column<int>(type: "int", nullable: true),
                     Quantity = table.Column<int>(type: "int", nullable: true),
                     Rating = table.Column<int>(type: "int", nullable: true)
                 },
@@ -48,8 +30,9 @@ namespace BrickHaven.Migrations.Lego
                 {
                     TransactionId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Date = table.Column<DateOnly>(type: "date", nullable: true),
+                    CustomerId = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Weekday = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Time = table.Column<int>(type: "int", nullable: true),
                     CardType = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -80,7 +63,12 @@ namespace BrickHaven.Migrations.Lego
                     PrimaryColor = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SecondaryColor = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Category = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Recommendation1 = table.Column<int>(type: "int", nullable: true),
+                    Recommendation2 = table.Column<int>(type: "int", nullable: true),
+                    Recommendation3 = table.Column<int>(type: "int", nullable: true),
+                    Recommendation4 = table.Column<int>(type: "int", nullable: true),
+                    Recommendation5 = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -91,6 +79,14 @@ namespace BrickHaven.Migrations.Lego
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "LineItems");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
+
+            migrationBuilder.DropTable(
+                name: "Products");
         }
     }
 }

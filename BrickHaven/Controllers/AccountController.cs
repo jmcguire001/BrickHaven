@@ -29,7 +29,6 @@ namespace BrickHaven.Controllers
             this.emailSender = emailSender;
         }
 
-
         [HttpGet]
         public IActionResult Register()
         {
