@@ -7,7 +7,7 @@
 
 <div class="page-buttons">
     <div page-model="@Model.PaginationInfo" page-action="Shop" page-class-enabled="true"
-         page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
+         page-class-normal="btn-outline-dark" page-class-selected="page-button-selected" page-class="page-button"
          page-url-legoType="@Model.CurrentLegoType" page-url-pageSize="@Model.CurrentPageSize" class="btn-group pull-right m-1">
     </div>
 </div>
@@ -19,14 +19,10 @@
                 <div class="col-md-12">
                     <div class="col-md-12 mt-3">
                         <h5>Show:</h5>
-                        <div class="show-option">
-                            <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="5">5</a>
-                        </div>
-                        <div class="show-option">
-                            <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="10">10</a>
-                        </div>
-                        <div class="show-option">
-                            <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="20">20</a>
+                        <div class="show-option-container">
+                            <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="5" class="show-option-link">5</a>
+                            <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="10" class="show-option-link">10</a>
+                            <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="20" class="show-option-link">20</a>
                         </div>
                     </div>
                     <br />
