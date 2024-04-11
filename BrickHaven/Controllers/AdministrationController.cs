@@ -518,20 +518,23 @@ namespace BrickHaven.Controllers
         }
 
         [HttpGet]
-        public IActionResult ListProducts(string? productCategory, int pageNum = 1, int pageSize = 10)
+        public IActionResult ListProducts(string? legoType, int pageNum = 1, int pageSize = 10)
         {
+            pageNum = pageNum <= 0 ? 1 : pageNum; // If pageNum is 0, set it to 1
+
             var productList = new ListProductsViewModel
             {
-                Products = _legoRepository.Products.OrderBy(p => p.Name).Skip((pageNum - 1) * pageSize).Take(pageSize),
+                Products = _legoRepository.Products.Where(x => (x.Category == legoType || legoType == null)) // If legoType is null, show all legos
+                    .OrderBy(p => p.Name).Skip((pageNum - 1) * pageSize).Take(pageSize),
                 PaginationInfo = new PaginationInfo
                 {
                     CurrentPage = pageNum,
                     ItemsPerPage = pageSize,
-                    TotalItems = _legoRepository.Products.Count() == 0 ? 1 : _legoRepository.Products.Count()
+                    TotalItems = legoType == null ? _legoRepository.Products.Count() : _legoRepository.Products.Where(x => x.Category == legoType).Count() // If legoType is null, show all legos, otherwise, filter specific legos
                 },
 
                 CurrentPageSize = pageSize,
-                Category = productCategory
+                CurrentLegoType = legoType
             };
 
             // var users = _userManager.Users;
@@ -693,7 +696,62 @@ namespace BrickHaven.Controllers
 
             // var users = _userManager.Users;
             return View(orderList);
-        }
+
+         }
+            //// Action method to display a view where the user can trigger CSV import
+            //[HttpGet]
+            //public IActionResult ImportUsersFromCsv()
+            //{
+            //    return View();
+            //}
+
+            //// Action method to handle the CSV import
+            //[HttpPost]
+            //public async Task<IActionResult> ImportUsersFromCsv(IFormFile file)
+            //{
+            //    // Ensure a file was provided
+            //    if (file == null || file.Length == 0)
+            //    {
+            //        ModelState.AddModelError("", "Please select a file to import.");
+            //        return View();
+            //    }
+
+            //    // Check if the file is a CSV file
+            //    if (!file.FileName.EndsWith(".csv", StringComparison.OrdinalIgnoreCase))
+            //    {
+            //        ModelState.AddModelError("", "Please select a CSV file.");
+            //        return View();
+            //    }
+
+            //    try
+            //    {
+            //        // Get the path to the temporary file on the server
+            //        var filePath = Path.GetTempFileName();
+
+            //        // Copy the uploaded file to the temporary file
+            //        using (var stream = new FileStream(filePath, FileMode.Create))
+            //        {
+            //            await file.CopyToAsync(stream);
+            //        }
+
+            //        // Call the method to import users from the CSV file
+            //        await _userImporter.ImportUsersFromCsvAsync(filePath);
+
+            //        // Optionally, delete the temporary file
+            //        System.IO.File.Delete(filePath);
+
+            //        // Redirect to a success page or return a success message
+            //        return RedirectToAction("Index", "Home");
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        // Log the exception and display an error message
+            //        ModelState.AddModelError("", "An error occurred while importing users from CSV.");
+            //        // Log the exception
+            //        // Log.Error("An error occurred while importing users from CSV.", ex);
+            //        return View();
+            //    }
+            //}
 
         //// Action method to display a view where the user can trigger CSV import
         //[HttpGet]

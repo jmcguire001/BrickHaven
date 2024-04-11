@@ -1,51 +1,102 @@
+
 ﻿@model ListOrdersViewModel
 
 @{
     ViewBag.Title = "All Orders";
 }
 
-<h1>All Products</h1>
+<h1>All Orders</h1>
 
-<div><vc:order-types /></div>
-
-<div page-model="@Model.PaginationInfo" page-action="ListOrders" page-class-enabled="true"
-     page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
-     page-url-transactionType="Model.TransactionType" page-url-pageSize="@Model.CurrentPageSize" class="btn-group pull-right m-1">
+<div class="page-buttons-container">
+    <div class="page-buttons">
+        <div page-model="@Model.PaginationInfo" page-action="ListOrders" page-class-enabled="true"
+             page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
+             page-url-transactionType="Model.TransactionType" page-url-pageSize="@Model.CurrentPageSize" class="btn-group pull-right m-1">
+        </div>
+    </div>
 </div>
 
-<a asp-action="CreateOrder" asp-controller="Administration" class="btn btn-primary mb-3" style="width:auto">Add New Order</a>
-
-@if (!Model.Orders.Any())
-{
-    <p>There are no orders in the database</p>
-}
-else
-{
-    <div class="container">
-        @foreach (var order in Model.Orders)
-        {
-            <div class="card mb-3">
-                <div class="card-header">
-                    Transaction Id: @order.TransactionId
+<div class="row width">
+    <div class="col-md-2 mb-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-12 mt-3">
+                    <h5>Show:</h5>
+                    <div class="show-option-container">
+                        <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="5" class="show-option-link">5</a>
+                        <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="10" class="show-option-link">10</a>
+                        <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="20" class="show-option-link">20</a>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <h5 class="card-title">User ID: @order.UserId</h5>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Order Date: @order.Date</h5>
-                </div>
-                <div class="card-footer">
-
-                    <form method="post" asp-action="DeleteOrder" asp-route-TransactionId="@order.TransactionId" onsubmit="return confirmDelete()">
-                        <a asp-controller="Administration" asp-action="EditOrder" asp-route-TransactionId="@order.TransactionId" class="btn btn-primary">Edit</a>
-
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                </div>
+                <br />
+                    <a asp-action="CreateOrder" asp-controller="Administration" class="btn btn-primary mb-3" style="width:auto">Add New Order</a>
+                <br />
             </div>
-        }
+        </div>
     </div>
-}
+    <div class="col-md-10 contains_sets">
+        <div class="row row-cols-md-4">
+            <!-- Updated class to handle varying column counts -->
+            @if (!Model.Orders.Any())
+            {
+                <p>There are no orders in the database</p>
+            }
+            else
+            {
+
+                <table class="product-table-unlike-any-other">
+                    <thead>
+                        <tr>
+                            <th>Transaction Id</th>
+                            <th>User Id</th>
+                            <th>Date</th>
+                            <th>Weekday</th>
+                            <th>Time</th>
+                            <th>Card Type</th>
+                            <th>Entry Mode</th>
+                            <th>Amount</th>
+                            <th>Transaction Type</th>
+                            <th>Transaction Country</th>
+                            <th>Shipping Address</th>
+                            <th>Bank</th>
+                            <th>Fraud Indicator</th>
+                            <th>Edit/Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model.Orders)
+                        {
+                            <tr>
+                                <td>@order.TransactionId</td>
+                                <td>@order.UserId</td>
+                                <td>@order.Date</td>
+                                <td>@order.Weekday</td>
+                                <td>@order.Time</td>
+                                <td>@order.CardType</td>
+                                <td>@order.EntryMode</td>
+                                <td>@order.Amount</td>
+                                <td>@order.TransactionType</td>
+                                <td>@order.TransactionCountry</td>
+                                <td>@order.ShippingAddress</td>
+                                <td>@order.Bank</td>
+                                <td>@order.IsFraud</td>
+                                <td>
+
+                                    <form method="post" asp-action="DeleteOrder" asp-route-TransactionId="@order.TransactionId" onsubmit="return confirmDelete()">
+                                        <a asp-controller="Administration" asp-action="EditOrder" asp-route-TransactionId="@order.TransactionId" class="btn btn-primary">Edit</a>
+
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+
 
 <script>
     function confirmDelete() {

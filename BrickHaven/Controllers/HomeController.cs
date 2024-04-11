@@ -4,6 +4,8 @@ using BrickHaven.Models;
 using BrickHaven.Models.ViewModels;
 using Azure;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using SQLitePCL;
 
 namespace BrickHaven.Controllers
 {
@@ -20,16 +22,50 @@ namespace BrickHaven.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            // List of top-rated product IDs
-            var topRatedProductIds = new List<int> { 27, 33, 34, 37, 24 };
+            //var productsQuery = _repo.Products.AsQueryable();
 
-            // Fetching products that match the top-rated product IDs
-            var topRatedProducts = await _repo.Products
-                                              .Where(p => topRatedProductIds.Contains(p.ProductId))
-                                              .ToListAsync();
+            //if (User.Identity.IsAuthenticated)
+            //{
+            //    // Assuming you can get the customer ID from the user's claims or related user data
+            //    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //    var customerId = await _repo.Customers
+            //                                    .Where(u => u.Id == userId)
+            //                                    .Select(u => u.CustomerId) // Assuming there's a CustomerId property
+            //                                    .FirstOrDefaultAsync();
 
-            // Passing the list of top-rated products to the view
-            return View(topRatedProducts);
+            //    if (customerId != null)
+            //    {
+            //        // Adjust the query to include products based on customer's orders
+            //        var customerProductIds = await _repo.Orders
+            //                                               .Where(o => o.CustomerId == customerId)
+            //                                               .SelectMany(o => o.LineItems)
+            //                                               .Select(li => li.ProductId)
+            //                                               .Distinct()
+            //                                               .ToListAsync();
+
+            //        // Combine with top-rated products
+            //        customerProductIds.AddRange(topRatedProductIds);
+
+            //        productsQuery = productsQuery.Where(p => customerProductIds.Contains(p.ProductId));
+            //    }
+            //}
+            //else
+            //{
+                // List of top-rated product IDs
+                var topRatedProductIds = new List<int> { 27, 33, 34, 37, 24 };
+
+                // Fetching products that match the top-rated product IDs
+                var topRatedProducts = await _repo.Products
+                                                  .Where(p => topRatedProductIds.Contains(p.ProductId))
+                                                  .ToListAsync();
+
+                // Passing the list of top-rated products to the view
+                return View(topRatedProducts);
+            //}
+
+            //var products = await productsQuery.ToListAsync();
+
+            //return View(products);
         }
 
 

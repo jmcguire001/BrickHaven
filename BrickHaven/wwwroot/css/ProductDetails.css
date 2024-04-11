@@ -47,7 +47,7 @@ z
 
 .price-border {
     border: 1.5px solid #000;
-    width: 8rem;
+    width: 9rem;
     padding: .2rem 0;
     text-align: center;
     border-radius: 1rem;
@@ -63,12 +63,37 @@ z
     overflow-x: scroll;
     scrollbar-color: #FCAB22 #FFC96E;
     padding: 2rem;
+    margin: 0 2rem;
 }
 
 .recommend-header {
     font-size: 1.7rem;
+    color: #666666;
 }
 
 .recommend-item {
     padding: 0 2rem;
+    text-decoration: none;
+}
+
+.ymal {
+    padding-left: 3rem;
+    font-size: 3rem;
+}
+
+.form-header {
+    text-align: center;
+    font-size: 3rem;
+    color: #555
+}
+
+.center-item {
+    display: flex;
+    justify-content: center;
+}
+
+.back-button {
+    border: none;
+    background-color: rgba(255, 0, 0, 0);
+    padding: 2rem 0 0 2rem;
 }
