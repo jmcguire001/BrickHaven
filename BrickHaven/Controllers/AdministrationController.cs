@@ -774,7 +774,6 @@ namespace BrickHaven.Controllers
             //    }
             //}
 
-        [AllowAnonymous]
         public IActionResult ReviewOrders()
         {
             var records = _repo.Orders
