@@ -8,9 +8,7 @@ namespace BrickHaven.Models
     {
         [Key]
         public int TransactionId { get; set; }
-        public int? CustomerId { get; set; }
-
-        //[ForeignKey("Customer")]
+        [ForeignKey("Customer")]
         public string? UserId { get; set; }
         public DateTime? Date { get; set; }
         public string? Weekday { get; set; }
