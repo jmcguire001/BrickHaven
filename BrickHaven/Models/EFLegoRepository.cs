@@ -16,8 +16,6 @@ namespace BrickHaven.Models
         public IQueryable<Product> Products => _context.Products;
         public IQueryable<Order> Orders => _context.Orders;
 
-        public IQueryable<Order> Orders => _context.Orders;
-
         public Product GetProductById(int productId)
         {
             return _context.Products.FirstOrDefault(p => p.ProductId == productId);
