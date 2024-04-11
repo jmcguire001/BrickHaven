@@ -18,7 +18,6 @@ namespace BrickHaven.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<Customer> _userManager;
 
-        private ILegoRepository _repo;
         private readonly InferenceSession _session;
         private readonly ILogger<HomeController> _logger;
         private readonly string _onnxPath;
@@ -34,7 +33,7 @@ namespace BrickHaven.Controllers
             _userManager = userManager;
             // _userImporter = userImporter;
             _context = temp;
-            _repo = legoRepository;
+            _legoRepository = legoRepository;
             _logger = logger;
             _onnxPath = System.IO.Path.Combine(hostEnvironment.ContentRootPath, "fraud_model.onnx");
 
@@ -328,29 +327,6 @@ namespace BrickHaven.Controllers
             // var users = _userManager.Users;
             return View(orderList);
 
-        }
-
-        [HttpGet]
-        public IActionResult ListUsers(string? roleFilter, int pageNum = 1, int pageSize = 10)
-        {
-            var userList = new ListUsersViewModel
-            {
-                Orders = _legoRepository.Orders.OrderBy(o => o.TransactionId).Skip((pageNum - 1) * pageSize).Take(pageSize),
-
-                Customers = _context.Users.OrderBy(u => u.UserName).Skip((pageNum - 1) * pageSize).Take(pageSize),
-                PaginationInfo = new PaginationInfo
-                {
-                    CurrentPage = pageNum,
-                    ItemsPerPage = pageSize,
-                    TotalItems = _context.Users.Count() == 0 ? 1 : _context.Users.Count()
-                },
-
-                CurrentPageSize = pageSize,
-                Role = roleFilter
-            };
-
-            // var users = _userManager.Users;
-            return View(userList);
         }
 
         [HttpGet]
@@ -722,7 +698,7 @@ namespace BrickHaven.Controllers
         }
 
         [HttpGet]
-        public IActionResult ListOrders(string? transactionType, int pageNum = 1, int pageSize = 10)
+        public IActionResult ListOrders( int pageNum = 1, int pageSize = 10)
         {
             var orderList = new ListOrdersViewModel
             {
@@ -734,8 +710,7 @@ namespace BrickHaven.Controllers
                     TotalItems = _legoRepository.Orders.Count() == 0 ? 1 : _legoRepository.Orders.Count()
                 },
 
-                CurrentPageSize = pageSize,
-                TransactionType = transactionType
+                CurrentPageSize = pageSize
             };
 
             // var users = _userManager.Users;
@@ -798,14 +773,23 @@ namespace BrickHaven.Controllers
         //    }
         //}
 
-        public IActionResult ReviewOrders()
+        public IActionResult ReviewOrders(int pageNum = 1, int pageSize = 20)
         {
-            var records = _repo.Orders
-                .OrderByDescending(o => o.Date)
-                .Take(20)
-                .ToList(); //Fetch the 20 most recent records
+            var ordersQuery = _legoRepository.Orders.OrderByDescending(o => o.Date);
 
-            var predictions = new List<OrderPrediction>(); // Viewmodel for the view
+            var totalItems = ordersQuery.Count();
+
+            var records = ordersQuery.Skip((pageNum - 1) * pageSize)
+                                    .Take(pageSize)
+                                    .ToList();
+
+            //var records = _legoRepository.Orders
+            //    .OrderByDescending(o => o.Date)
+            //    .Take(20)
+            //    .ToList(); //Fetch the 20 most recent records
+
+            var predictions = new List<OrderPrediction>();
+            // Viewmodel for the view
 
             // Dictionary mapping the numeric prediction to a fraud type
             var class_type_dict = new Dictionary<int, string>
@@ -873,6 +857,13 @@ namespace BrickHaven.Controllers
 
                 predictions.Add(new OrderPrediction { Orders = record, Prediction = predictionResult });
             }
+
+            ViewData["PaginationInfo"] = new PaginationInfo
+            {
+                CurrentPage = pageNum,
+                ItemsPerPage = pageSize,
+                TotalItems = totalItems
+            };
 
             return View(predictions);
         }
