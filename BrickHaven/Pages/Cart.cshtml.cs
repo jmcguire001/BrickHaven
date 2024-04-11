@@ -23,7 +23,7 @@ namespace BrickHaven.Pages
             Cart = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
         }
 
-        public IActionResult OnPost(int productId)
+        public IActionResult OnPost(int productId, string returnUrl)
         {
             Product product = _repo.Products
                 .FirstOrDefault(x => x.ProductId == productId);
@@ -35,7 +35,7 @@ namespace BrickHaven.Pages
                 HttpContext.Session.SetJson("cart", Cart);
             }
 
-            return RedirectToPage(new { returnUrl = ReturnUrl });
+            return RedirectToPage(new {returnUrl = returnUrl});
         }
     }
 }

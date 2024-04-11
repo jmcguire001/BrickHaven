@@ -5,21 +5,29 @@
 <!-- We can pass one model that has lots of stuff in it; we had to use individual model views, though! -->
 @model ProductListViewModel
 
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Shop Sets at Brick Haven</h1>
-
+<div class="page-buttons">
+    <div page-model="@Model.PaginationInfo" page-action="Shop" page-class-enabled="true"
+         page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
+         page-url-legoType="@Model.CurrentLegoType" page-url-pageSize="@Model.CurrentPageSize" class="btn-group pull-right m-1">
+    </div>
+</div>
+<div class="">
     <div class="row width">
         <!-- Filter section -->
-        <div class="col-md-3 mb-4">
+        <div class="col-md-2 mb-4">
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-12 mt-3">
                         <h5>Show:</h5>
-                        <select class="form-control" id="productsPerPage">
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="20" selected>20</option> <!-- Default selection -->
-                        </select>
+                        <div class="show-option">
+                            <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="5">5</a>
+                        </div>
+                        <div class="show-option">
+                            <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="10">10</a>
+                        </div>
+                        <div class="show-option">
+                            <a asp-controller="Home" asp-action="Shop" asp-route-pageSize="20">20</a>
+                        </div>
                     </div>
                     <br />
                     <!-- Sidebar -->
@@ -40,51 +48,28 @@
         </div>
 
         <!-- Products section -->
-        <div class="col-md-9">
+        <div class="col-md-9 contains_sets">
             <div class="row row-cols-1 row-cols-md-3">
                 <!-- Updated class to handle varying column counts -->
                 @foreach (Product p in Model.Products)
                 {
-                    <partial name="LegoSummary" model="p" />
-                    <div class="col">
-                        <div class="card mb-4 prod">
-                            <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
-                                <img src="@p.ImgLink" class="img-fluid" alt="Product Image">
+                    <div class="col item">
+                        <div class="product-image-container">
+                            <a href="@Url.Action("ProductDetails", "Home", new { id = p.ProductId })">
+                                <img src="@p.ImgLink" class="product-image" alt="Product Image">
                             </a>
-                            <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
-                                <h4>@p.Name</h4>
-                            </a>
-                            <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
-                                <h4>@p.GetType()</h4>
-                            </a>
-                            <a href="@Url.Action("Details", "Product", new { id = p.ProductId })">
-                                <h5>@p.Price</h5>
-                            </a>
-                        </div>
+                        </div><br />
+                            <a href="@Url.Action("ProductDetails", "Home", new { id = p.ProductId })">
+                                <h3>@p.Name</h3>
+                            </a><br />
+                            <h4>$@p.Price.00</h4>
                     </div>
                 }
         </div>
     </div>
 </div>
 
-<div page-model="@Model.PaginationInfo" page-action="Shop" page-class-enabled="true"
-page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
-         page-url-legoType="@Model.CurrentLegoType" class="btn-group pull-right m-1">
-</div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Get the select element
-        var selectElement = document.querySelector('#productsPerPage select');
 
-        // Add event listener to listen for changes in the select element
-        selectElement.addEventListener('change', function () {
-            // Get the selected value
-            var selectedValue = selectElement.value;
 
-            // Set the page-url-pageSize attribute of the pagination controls
-            var paginationControls = document.getElementById('paginationControls');
-            paginationControls.setAttribute('page-url-pageSize', selectedValue);
-        });
-    });
-</script>
+

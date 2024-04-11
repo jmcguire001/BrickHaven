@@ -19,5 +19,6 @@ namespace BrickHaven.Models
         {
             modelBuilder.Entity<LineItem>().HasNoKey(); // Configure LineItem as a keyless entity type
         }
+
     }
 }

@@ -3,30 +3,315 @@
 *@
 @{
 }
+@model Product
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+
+    <link rel="stylesheet" href="./global.css" />
+    <link rel="stylesheet" href="./index.css" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Josefin Sans:wght@500;700&display=swap" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap" />
+</head>
+
+    <div class="product-details">
+        <header class="navbar">
+            <div class="navbar-child"></div>
+            <img class="brickhaven-1-icon"
+                 loading="lazy"
+                 alt=""
+                 src="./public/brickhaven-1@2x.png" />
+
+            <div class="navbar1">
+                <div class="shopping-cart-icon">
+                    <div class="back-button">
+                        <div class="shop" id="sHOPText">SHOP</div>
+                    </div>
+                    <div class="back-button1">
+                        <div class="about" id="aboutText">About</div>
+                    </div>
+                    <div class="back-button2">
+                        <div class="privacy" id="privacyText">Privacy</div>
+                    </div>
+                    <div class="back-button3">
+                        <div class="log-out" id="logOutText">Log Out</div>
+                    </div>
+                    <img class="shopping-cart-icon1"
+                         loading="lazy"
+                         alt=""
+                         src="./public/shopping-cart@2x.png"
+                         id="shoppingCartImage" />
+                </div>
+            </div>
+        </header>
+        <section class="quantity-input">
+            <div class="total-price-display">
+                <div class="header-area-parent">
+                    <div class="header-area">
+                        <div class="back-parent" id="groupContainer">
+                            <img class="back-icon"
+                                 loading="lazy"
+                                 alt=""
+                                 src="./public/back@2x.png" />
+
+                            <div class="scroll-indicator">
+                                <div class="back" data-scroll-to="backText">Back</div>
+                            </div>
+                        </div>
+                        <div class="buy-button">
+                            <h1 class="product-details1">Product Details</h1>
+                        </div>
+                    </div>
+                    <div class="shopping-cart">
+                        <img class="image-3-icon"
+                             loading="lazy"
+                             alt=""
+                             src="./public/image-3@2x.png" />
+                    </div>
+                </div>
+                <div class="one-time-order-button-wrapper">
+                    <div class="one-time-order-button">
+                        <div class="product-name-label">
+                            <h1 class="product-name">LEGO Star Wars: Death Star</h1>
+                        </div>
+                        <div class="see-more-link">
+                            <div class="chevron-down-icon">
+                                <div class="frame-parent">
+                                    <div class="quantity-parent">
+                                        <div class="quantity">Quantity:</div>
+                                        <div class="buttonquantity">
+                                            <div class="button">-</div>
+                                            <div class="button1">1</div>
+                                            <div class="button2">+</div>
+                                        </div>
+                                    </div>
+                                    <div class="total-amount-label">
+                                        <div class="total-price">Total Price:</div>
+                                    </div>
+                                </div>
+                                <button class="one-time-order-button1">
+                                    <div class="unit-price">Unit Price</div>
+                                    <div class="header-area1">$ 12.99</div>
+                                </button>
+                            </div>
+                            <div class="add-to-cart-button">
+                                <div class="one-time-order-button2">
+                                    <div class="total">Total:</div>
+                                    <div class="chevron-down-icon1">$ 12.99</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="header-area-wrapper">
+                            <button class="header-area2" id="headerArea">
+                                <b class="add-to-cart">Add to Cart</b>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="content-container">
+            <div class="frame-group">
+                <div class="header-area-container">
+                    <div class="header-area3">
+                        <h3 class="see-more-like">See More Like This</h3>
+                        <div class="add-to-cart-button1">
+                            <img class="chevron-down-icon2"
+                                 loading="lazy"
+                                 alt=""
+                                 src="./public/chevron-down@2x.png" />
+                        </div>
+                    </div>
+                </div>
+                <div class="frame-container">
+                    <footer class="frame-footer">
+                        <div class="frame-wrapper">
+                            <div class="frame-div">
+                                <div class="lego-millenium-falcon-parent">
+                                    <h2 class="lego-millenium-falcon">LEGO Millenium Falcon</h2>
+                                    <div class="star-wars-89999-container">
+                                        <p class="star-wars">Star Wars</p>
+                                        <p class="blank-line">&nbsp;</p>
+                                        <p class="p">$899.99</p>
+                                    </div>
+                                </div>
+                                <div class="darth-mauls-sith-infiltrator-parent">
+                                    <h2 class="darth-mauls-sith">
+                                        Darth Maul's Sith Infiltrator™
+                                    </h2>
+                                    <div class="star-wars-89999-container1">
+                                        <p class="star-wars1">Star Wars</p>
+                                        <p class="blank-line1">&nbsp;</p>
+                                        <p class="p1">$899.99</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="frame-parent1">
+                            <div class="forward-button-parent">
+                                <div class="forward-button">
+                                    <img class="image-6-icon"
+                                         loading="lazy"
+                                         alt=""
+                                         src="./public/image-6@2x.png" />
+
+                                    <img class="double-images-icon"
+                                         loading="lazy"
+                                         alt=""
+                                         src="./public/rectangle@2x.png" />
+
+                                    <img class="image-4-icon"
+                                         loading="lazy"
+                                         alt=""
+                                         src="./public/image-4@2x.png" />
+
+                                    <img class="forward-button-child" alt="" />
+
+                                    <img class="double-images-icon1"
+                                         alt=""
+                                         src="./public/rectangle-1@2x.png" />
+                                </div>
+                                <h2 class="batman-the-animated-container">
+                                    <span>
+                                        <p class="batman-the-animated">Batman: The Animated</p>
+                                        <p class="series-gotham-city">Series Gotham City™</p>
+                                    </span>
+                                </h2>
+                            </div>
+                            <div class="batman-title">
+                                <div class="star-warstitle">
+                                    <div class="batman-89999">
+                                        <p class="batman">Batman</p>
+                                        <p class="blank-line2">&nbsp;</p>
+                                        <p class="p2">$899.99</p>
+                                    </div>
+                                </div>
+                                <div class="star-wars-89999-container2">
+                                    <p class="star-wars2">Star Wars</p>
+                                    <p class="blank-line3">&nbsp;</p>
+                                    <p class="p3">$899.99</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="darth-mauls-sith-infiltrator-wrapper">
+                            <h2 class="darth-mauls-sith1">
+                                Darth Maul's Sith Infiltrator™
+                            </h2>
+                        </div>
+                    </footer>
+                    <div class="vector-parent">
+                        <img class="frame-child" alt="" />
+
+                        <img class="forward-icon"
+                             loading="lazy"
+                             alt=""
+                             src="./public/forward@2x.png" />
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        var sHOPText = document.getElementById("sHOPText");
+        if (sHOPText) {
+            sHOPText.addEventListener("click", function (e) {
+                // Please sync "Browse Products" to the project
+            });
+        }
+
+        var aboutText = document.getElementById("aboutText");
+        if (aboutText) {
+            aboutText.addEventListener("click", function (e) {
+                // Please sync "About Us" to the project
+            });
+        }
+
+        var privacyText = document.getElementById("privacyText");
+        if (privacyText) {
+            privacyText.addEventListener("click", function (e) {
+                // Please sync "Privacy Policy" to the project
+            });
+        }
+
+        var logOutText = document.getElementById("logOutText");
+        if (logOutText) {
+            logOutText.addEventListener("click", function (e) {
+                // Please sync "Landing Page" to the project
+            });
+        }
+
+        var shoppingCartImage = document.getElementById("shoppingCartImage");
+        if (shoppingCartImage) {
+            shoppingCartImage.addEventListener("click", function (e) {
+                window.location.href = "./shopping-cart.html";
+            });
+        }
+
+        var groupContainer = document.getElementById("groupContainer");
+        if (groupContainer) {
+            groupContainer.addEventListener("click", function () {
+                var anchor = document.querySelector("[data-scroll-to='backText']");
+                if (anchor) {
+                    anchor.scrollIntoView({ block: "start", behavior: "smooth" });
+                }
+            });
+        }
+
+        var headerArea = document.getElementById("headerArea");
+        if (headerArea) {
+            headerArea.addEventListener("click", function (e) {
+                window.location.href = "./shopping-cart.html";
+            });
+        }
+    </script>
 
 
-<div class="container mt-5">
+
+@* 
+    <div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
-            <img src="https://via.placeholder.com/400" class="img-fluid" alt="Product Image">
+            <img src="@Model.ImgLink" class="img-fluid" alt="Product Image">
         </div>
-        <div class="col-md-6">
-            <h2>Product Name</h2>
-            <p>Description of the product goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            <p id="price"><strong>Price: $XX.XX</strong></p>
-            <form action="post">
+            <div class="col-md-6">
+                <h2>@Model.Name</h2>
+                <p>@Model.Description</p>
+                <p>@Model.Category</p>
+            <p id="price"><strong>Price: $@Model.Price</strong></p>
+            <form id=@Model.ProductId method="post" asp-page="/Cart">
                 <div class="form-group">
+                    <input type="hidden" asp-for="@Model.ProductId" />
+                    <input type="hidden" name="ReturnUrl" value="Home/Shop" />
                     <label for="quantity">Quantity:</label>
                     <input type="number" id="quantity" class="form-control" value="1">
+                    <label>Total Price: </label>
+                    <p id="totalPrice">$</p>
                 </div>
-                <label>Total Price: </label><br /><br />
-                <button type="submit" class="button">Add to Cart</button>
+                <!-- Will take us straight to the razor page! But it does so using this route -->
+                <button type="submit" class="btn-outline-success btn-sm float-end">Add to Cart</button>
             </form>
         </div>
     </div>
 </div>
 
-<!-- Bootstrap JS (Optional, for certain components) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function calculateTotal() {
+        var quantity = parseInt(document.getElementById('quantity').value);
+        var price = parseFloat(document.getElementById('price').innerText.replace('$', ''));
+        var totalPrice = quantity * price;
+        document.getElementById('totalPrice').innerText = '$' + totalPrice.toFixed(2);
+        return false; // Prevent form submission
+    }
+</script> *@
