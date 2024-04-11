@@ -61,7 +61,8 @@
 
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        </li>                        
+
 
                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         {

@@ -20,5 +20,6 @@ namespace BrickHaven.Models
         public Product GetProductById(int id);
         //public IQueryable<Customer> Customers { get; }
         public void AddToCart(Product product);
+        public void DeleteTask(Task task); // Method for deleting tasks from the views (This is for when the user deletes)
     }
 }
