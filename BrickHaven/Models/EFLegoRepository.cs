@@ -17,7 +17,7 @@ namespace BrickHaven.Models
 
         public IQueryable<Order> Orders => _context.Orders;
 
-        public Product GetProductById(int productId)
+        public Product GetProductById(int productId);
 
         public void UpdateProduct(Product product)
         {
