@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using BrickHaven.Models;
 using BrickHaven.Models.ViewModels;
 using Azure;
+using Microsoft.EntityFrameworkCore;
 
 namespace BrickHaven.Controllers
 {
@@ -17,10 +18,20 @@ namespace BrickHaven.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            // List of top-rated product IDs
+            var topRatedProductIds = new List<int> { 27, 33, 34, 37, 24 };
+
+            // Fetching products that match the top-rated product IDs
+            var topRatedProducts = await _repo.Products
+                                              .Where(p => topRatedProductIds.Contains(p.ProductId))
+                                              .ToListAsync();
+
+            // Passing the list of top-rated products to the view
+            return View(topRatedProducts);
         }
+
 
         [Authorize(Roles = "Admin")]
         public IActionResult SecureMethod()
