@@ -17,14 +17,16 @@ namespace BrickHaven.Controllers
         //private readonly UserImporter _userImporter;
 
         private LoginDbContext _context;
+        private readonly ILegoRepository _legoRepository;
 
-        public AdministrationController(RoleManager<IdentityRole> roleManager, UserManager<Customer> userManager, LoginDbContext temp)// , UserImporter userImporter)
+        public AdministrationController(RoleManager<IdentityRole> roleManager, UserManager<Customer> userManager, LoginDbContext temp, ILegoRepository legoRepository)// , UserImporter userImporter)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             // _userImporter = userImporter;
 
             _context = temp;
+            _legoRepository = legoRepository;
         }
 
         [HttpGet]
@@ -512,7 +514,28 @@ namespace BrickHaven.Controllers
                 }
             }
 
-            return RedirectToAction("EditUser", new { UserId = UserId });
+            return RedirectToAction("ManageUserRoles", new { UserId = UserId });
+        }
+
+        [HttpGet]
+        public IActionResult ListProducts(string? productCategory, int pageNum = 1, int pageSize = 10)
+        {
+            var productList = new ListProductsViewModel
+            {
+                Products = _legoRepository.Products.OrderBy(p => p.Name).Skip((pageNum - 1) * pageSize).Take(pageSize),
+                PaginationInfo = new PaginationInfo
+                {
+                    CurrentPage = pageNum,
+                    ItemsPerPage = pageSize,
+                    TotalItems = _legoRepository.Products.Count() == 0 ? 1 : _legoRepository.Products.Count()
+                },
+
+                CurrentPageSize = pageSize,
+                Category = productCategory
+            };
+
+            // var users = _userManager.Users;
+            return View(productList);
         }
 
         //// Action method to display a view where the user can trigger CSV import

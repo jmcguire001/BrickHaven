@@ -11,11 +11,12 @@
 {
     <div class="d-grid gap-2">
         <a class="btn btn-outline-secondary" asp-controller="Administration" asp-action="ListUsers" asp-route-projectType="">View All</a>
-        <!-- This is a FOR loop that gets every item based on project type -->
+        
+@*         <!-- This is a FOR loop that gets every item based on project type --> *@
         @foreach (string roleFilter in Model ?? Enumerable.Empty<string>())
         {
-            <!-- Create a button for each specific project type -->
-            <a class="btn @(roleFilter == ViewBag.SelectedFilterRole ? "btn-primary" : "btn-outline-secondary")" asp-controller="Administration" asp-action="ListUsers" asp-route-projectType="@roleFilter" asp-route-pageNum="1">@roleFilter</a>
+            @*<!-- Create a button for each specific project type -->*@
+            <a class="btn @(roleFilter == ViewBag.SelectedRoleFilter ? "btn-primary" : "btn-outline-secondary")" asp-controller="Administration" asp-action="ListUsers" asp-route-projectType="@roleFilter" asp-route-pageNum="1">@roleFilter</a>
         }
     </div>
 }
