@@ -1,0 +1,22 @@
+﻿<!-- This is a default view for the component -->
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    bool isAuthenticated = User.Identity.IsAuthenticated;
+}
+
+@if (ViewContext.RouteData.Values["Action"].ToString().Equals("ListUsers"))
+{
+    <div class="d-grid gap-2">
+        <a class="btn btn-outline-secondary" asp-controller="Administration" asp-action="ListUsers" asp-route-projectType="">View All</a>
+        
+@*         <!-- This is a FOR loop that gets every item based on project type --> *@
+        @foreach (string roleFilter in Model ?? Enumerable.Empty<string>())
+        {
+            @*<!-- Create a button for each specific project type -->*@
+            <a class="btn @(roleFilter == ViewBag.SelectedRoleFilter ? "btn-primary" : "btn-outline-secondary")" asp-controller="Administration" asp-action="ListUsers" asp-route-projectType="@roleFilter" asp-route-pageNum="1">@roleFilter</a>
+        }
+    </div>
+}

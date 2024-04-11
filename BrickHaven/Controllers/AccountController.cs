@@ -753,6 +753,9 @@ namespace BrickHaven.Controllers
             user.Email = model.Email;
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
+            user.Birthday = model.Birthday;
+            user.ResidenceCountry = model.ResidenceCountry;
+            user.Gender = model.Gender;
 
             // Update user data in the AspNetUsers Identity table
             var result = await userManager.UpdateAsync(user);
