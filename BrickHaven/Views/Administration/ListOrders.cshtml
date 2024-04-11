@@ -1,10 +1,5 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
 
-@model ListOrdersViewModel
+﻿@model ListOrdersViewModel
 
 @{
     ViewBag.Title = "All Orders";
@@ -15,8 +10,8 @@
 <div class="page-buttons-container">
     <div class="page-buttons">
         <div page-model="@Model.PaginationInfo" page-action="ListOrders" page-class-enabled="true"
-             page-class-normal="btn-outline-dark" page-class-selected="page-button-selected" page-class="page-button"
-             page-url-legoType="@Model.CurrentLegoType" page-url-pageSize="@Model.CurrentPageSize" class="btn-group pull-right m-1">
+             page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
+             page-url-transactionType="Model.TransactionType" page-url-pageSize="@Model.CurrentPageSize" class="btn-group pull-right m-1">
         </div>
     </div>
 </div>
@@ -34,7 +29,7 @@
                     </div>
                 </div>
                 <br />
-                <a asp-action="" asp-controller="Account" class="btn btn-primary mb-3" style="width:auto">Add New Order</a>
+                    <a asp-action="CreateOrder" asp-controller="Administration" class="btn btn-primary mb-3" style="width:auto">Add New Order</a>
                 <br />
             </div>
         </div>
@@ -86,6 +81,7 @@
                                 <td>@order.Bank</td>
                                 <td>@order.IsFraud</td>
                                 <td>
+
                                     <form method="post" asp-action="DeleteOrder" asp-route-TransactionId="@order.TransactionId" onsubmit="return confirmDelete()">
                                         <a asp-controller="Administration" asp-action="EditOrder" asp-route-TransactionId="@order.TransactionId" class="btn btn-primary">Edit</a>
 
@@ -101,10 +97,11 @@
     </div>
 </div>
 
+
 <script>
     function confirmDelete() {
         // Display an alert box asking the user if they want to delete
-        var confirmation = window.confirm("Are you sure you want to delete this product?");
+        var confirmation = window.confirm("Are you sure you want to delete this order?");
 
         // Return the result of the confirmation (true if user clicks OK, false if Cancel)
         return confirmation;
