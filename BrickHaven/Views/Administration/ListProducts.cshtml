@@ -6,47 +6,62 @@
 
 <h1 class="list-header">All Products</h1>
 
-<div><vc:lego-types /></div>
+<div class="page-buttons-container">
+    <div class="page-buttons">
+        <div page-model="@Model.PaginationInfo" page-action="ListProducts" page-class-enabled="true"
+             page-class-normal="btn-outline-dark" page-class-selected="page-button-selected" page-class="page-button"
+             page-url-legoType="Model.CurrentLegoType" page-url-pageSize="@Model.CurrentPageSize" class="btn-group pull-right m-1">
+        </div>
+    </div>
+</div>
 
-<div page-model="@Model.PaginationInfo" page-action="ListProducts" page-class-enabled="true"
-     page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
-     page-url-legoType="Model.CurrentLegoType" page-url-pageSize="@Model.CurrentPageSize" class="btn-group pull-right m-1">
+<div class="row width">
+
 </div>
 
 
-<a asp-action="" asp-controller="Account" class="btn btn-primary mb-3" style="width:auto">Add New Product</a>
 
-@if (!Model.Products.Any())
-{
-    <p>There are no products in the database</p>
-}
-else
-{
-    <table class="product-table-unlike-any-other">
-        <thead>
-            <tr>
-                <th>Product Name</th>
-                <th>Description</th>
-                <th>Category</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Product 1</td>
-                <td>Description of Product 1</td>
-                <td>Category 1</td>
-                <td>$10.00</td>
-            </tr>
-            <tr>
-                <td>Product 2</td>
-                <td>Description of Product 2</td>
-                <td>Category 2</td>
-                <td>$20.00</td>
-            </tr>
-            <!-- Add more rows as needed -->
-        </tbody>
-    </table>
+    <div class="col-md-2 mb-4">
+        <div><vc:lego-types /></div>
+    </div>
+
+    <div class="col-md-10 contains_sets">
+    <a asp-action="" asp-controller="Account" class="btn btn-primary mb-3" style="width:auto">Add New Product</a>
+
+    @if (!Model.Products.Any())
+    {
+        <p>There are no products in the database</p>
+    }
+    else
+    {
+        <table class="product-table-unlike-any-other">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Product 1</td>
+                    <td>Description of Product 1</td>
+                    <td>Category 1</td>
+                    <td>$10.00</td>
+                </tr>
+                <tr>
+                    <td>Product 2</td>
+                    <td>Description of Product 2</td>
+                    <td>Category 2</td>
+                    <td>$20.00</td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+    </div>
+        
+        
 
     @* <div class="container">
         @foreach (var product in Model.Products)
