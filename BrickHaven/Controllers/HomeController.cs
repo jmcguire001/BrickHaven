@@ -32,7 +32,6 @@ namespace BrickHaven.Controllers
             return View(topRatedProducts);
         }
 
-
         [Authorize(Roles = "Admin")]
         public IActionResult SecureMethod()
         {
