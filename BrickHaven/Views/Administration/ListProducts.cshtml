@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <br />
-                <a asp-action="CreateProduct" asp-controller="Administration" class="btn btn-primary mb-3" style="width:auto">Add New Product</a>
+                <a asp-action="CreateProduct" asp-controller="Administration" class="button" style="width:auto">Add New Product</a><br />
                 <br />
                 <!-- Sidebar -->
                 <div class="sidebar" id="mySidebar">
@@ -43,7 +43,7 @@
         </div>
     </div>
     <div class="col-md-10 contains_sets">
-        <div class="row row-cols-md-4">
+        <div class="row">
             <!-- Updated class to handle varying column counts -->
             @if (!Model.Products.Any())
             {
@@ -51,46 +51,50 @@
             }
             else
             {
-                <table class="product-table-unlike-any-other">
-                    <thead>
-                        <tr>
-                            <th>Product Id</th>
-                            <th>Product Name</th>
-                            <th>Category</th>
-                            <th>Description</th>
-                            <th>Year</th>
-                            <th>Number of Parts</th>
-                            <th>Price</th>
-                            <th>Primary Color</th>
-                            <th>Secondary Color</th>
-                            <th>Image Link</th>
-                            <th>Edit/Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var product in Model.Products)
-                        {
+                <div class="table-container">
+                    <table class="product-table-unlike-any-other">
+                        <thead>
                             <tr>
-                                <td>@product.ProductId</td>
-                                <td>@product.Name</td>
-                                <td>@product.Category</td>
-                                <td>@product.Description</td>
-                                <td>@product.Year</td>
-                                <td>@product.NumParts</td>
-                                <td>@product.Price</td>
-                                <td>@product.PrimaryColor</td>
-                                <td>@product.SecondaryColor</td>
-                                <td>@product.ImgLink</td>
-                                <td>
-                                    <form method="post" asp-action="DeleteProduct" asp-route-ProductId="@product.ProductId" onsubmit="return confirmDelete()">
-                                        <a asp-controller="Administration" asp-action="EditProduct" asp-route-ProductId="@product.ProductId" class="btn btn-primary">Edit</a>
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                    </form>
-                                </td>
+                                <th>Product Id</th>
+                                <th>Product Name</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                                <th>Year</th>
+                                <th>Number of Parts</th>
+                                <th>Price</th>
+                                <th>Primary Color</th>
+                                <th>Secondary Color</th>
+                                <th>Image Link</th>
+                                <th>Edit/Delete</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var product in Model.Products)
+                            {
+                                <tr>
+                                    <td>@product.ProductId</td>
+                                    <td>@product.Name</td>
+                                    <td>@product.Category</td>
+                                    <td>@product.Description</td>
+                                    <td>@product.Year</td>
+                                    <td>@product.NumParts</td>
+                                    <td>@product.Price</td>
+                                    <td>@product.PrimaryColor</td>
+                                    <td>@product.SecondaryColor</td>
+                                    <td>@product.ImgLink</td>
+                                    <td>
+                                        <form method="post" asp-action="DeleteProduct" asp-route-ProductId="@product.ProductId" onsubmit="return confirmDelete()">
+                                            <div class="edit-delete-buttons-container">
+                                                <a asp-controller="Administration" asp-action="EditProduct" asp-route-ProductId="@product.ProductId" class="edit-button">Edit</a>
+                                                <button type="submit" class="delete-button"><img src="~/assets/trash.svg" class="trash-button" /></button>
+                                            </div>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             }
         </div>
     </div>
