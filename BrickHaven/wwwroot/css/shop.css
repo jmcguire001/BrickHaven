@@ -97,12 +97,17 @@
     margin-right: 20px;
 }
 
+.page-buttons-container {
+    display: flex;
+    justify-content: center;
+    padding-left: 21rem;
+}
+
 .page-buttons {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     padding: 1rem 1rem 0 0;
- 
 }
 
 .recommended-product {

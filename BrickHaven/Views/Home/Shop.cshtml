@@ -5,6 +5,14 @@
 <!-- We can pass one model that has lots of stuff in it; we had to use individual model views, though! -->
 @model ProductListViewModel
 
+<div class="page-buttons-container">
+    <div class="page-buttons">
+        <div page-model="@Model.PaginationInfo" page-action="Shop" page-class-enabled="true"
+             page-class-normal="btn-outline-dark" page-class-selected="page-button-selected" page-class="page-button"
+             page-url-legoType="@Model.CurrentLegoType" page-url-pageSize="@Model.CurrentPageSize" class="btn-group pull-right m-1">
+        </div>
+    </div>
+</div>
 
 <div class="">
     <div class="row width">
