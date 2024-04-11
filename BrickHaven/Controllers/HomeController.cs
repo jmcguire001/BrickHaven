@@ -90,9 +90,10 @@ namespace BrickHaven.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult ProductDetails(int id)
+        public async Task<IActionResult> ProductDetails(int id)
         {
             // Retrieve product details by calling the method from the repository
+            // Product product = await _repo.GetProductByIdAsync(id);
             Product product = _repo.GetProductById(id);
 
             // Check if product exists
@@ -101,8 +102,28 @@ namespace BrickHaven.Controllers
                 return NotFound(); // Return a 404 Not Found response
             }
 
+            var recommendationIds = new List<int?>
+            {
+                product.Recommendation1,
+                product.Recommendation2,
+                product.Recommendation3,
+                product.Recommendation4,
+                product.Recommendation5,
+            }.Where(id => id.HasValue).Select(id => id.Value);
+
+            var recommendedProducts = await _repo.Products
+                .Where(p => recommendationIds.Contains(p.ProductId))
+                .ToListAsync();
+
+            var viewModel = new ProductRecommendationsViewModel
+            {
+                Product = product,
+                RecommendedProducts = recommendedProducts
+            };
+
+
             // Pass the product to the view
-            return View(product);
+            return View(viewModel);
         }
 
         [Authorize]

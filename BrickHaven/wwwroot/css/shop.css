@@ -105,12 +105,20 @@
  
 }
 
+.recommended-product {
+    height: 400px;
+    width: 100%;
+}
+
+.recommended-product img {
+    height: 200px;
+    width: 100%;
+}
 
 /*PRODUCT CSS*/
 .product-image {
     max-height: 10rem;
     max-width: 10rem;
-
 }
 
 .product-image-container {
