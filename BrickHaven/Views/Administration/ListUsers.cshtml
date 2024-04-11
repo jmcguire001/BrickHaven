@@ -6,12 +6,13 @@
 
 <h1>All Users</h1>
 
+<div><vc:lego-types /></div>
+<div>Test</div>
+
 <div page-model="@Model.PaginationInfo" page-action="ListUsers" page-class-enabled="true"
      page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
      page-url-legoType="Model.Role" page-url-pageSize="@Model.CurrentPageSize" class="btn-group pull-right m-1">
 </div>
-
-<div><vc:lego-types /></div>
 
 
 <a asp-action="Register" asp-controller="Account"
