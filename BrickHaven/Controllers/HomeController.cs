@@ -40,7 +40,7 @@ namespace BrickHaven.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult Shop(int pageNum, string? legoType, int pageSize=5) // 'page' means something in dotnet
+        public IActionResult Shop(int pageNum, string? legoType, string? legoColor, int pageSize=5) // 'page' means something in dotnet
         {
             // How many items to show per page
             pageNum = pageNum <= 0 ? 1 : pageNum; // If pageNum is 0, set it to 1
@@ -50,7 +50,7 @@ namespace BrickHaven.Controllers
             {
                 // This info is for the legos specifically
                 Products = _repo.Products
-                    .Where(x => x.Category == legoType || legoType == null) // If legoType is null, show all legos
+                    .Where(x => (x.Category == legoType || legoType == null) && (x.PrimaryColor == legoColor || legoColor == null)) // If legoType is null, show all legos
                     .OrderBy(x => x.Name)
                     .Skip((pageNum - 1) * pageSize) // NOT SURE WHAT THIS DOES
                     .Take(pageSize), // Only gets a certain number of legos

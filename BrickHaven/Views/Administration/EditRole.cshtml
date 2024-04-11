@@ -1,4 +1,5 @@
 ﻿@model EditRoleViewModel
+@inject ListUsersViewModel ListUsers
 
 @{
     ViewBag.Title = "Edit Role";
@@ -36,16 +37,38 @@
             <h3>Users in this role</h3>
         </div>
         <div class="card-body">
-            @if (Model.Users != null && Model.Users.Any())
+            @if (!ListUsers.Customers.Any())
             {
-                foreach (var user in Model.Users)
-                {
-                    <h5 class="card-title">@user</h5>
-                }
+                <p>There are no users in the database</p>
             }
             else
             {
-                <h5 class="card-title">None at the moment</h5>
+                <div class="container">
+                    <div page-model="@ListUsers.PaginationInfo" page-action="ListUsers" page-class-enabled="true"
+                         page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
+                         page-url-pageSize="@ListUsers.CurrentPageSize" class="btn-group pull-right m-1">
+                    </div>
+
+                    @foreach (var user in ListUsers.Customers)
+                    {
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                User Id : @user.Id
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">@user.UserName</h5>
+                            </div>
+                            <div class="card-footer">
+
+                                <form method="post" asp-action="DeleteUser" asp-route-UserId="@user.Id" onsubmit="return confirmDelete()">
+                                    <a asp-controller="Administration" asp-action="EditUser" asp-route-UserId="@user.Id" class="btn btn-primary">Edit</a>
+
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                </div>
             }
         </div>
 

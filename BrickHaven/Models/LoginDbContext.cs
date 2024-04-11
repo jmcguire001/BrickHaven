@@ -1,4 +1,5 @@
 ﻿using BrickHaven.Models;
+using BrickHaven.Models.ViewModels;
 using Microsoft.AspNetCore.Hosting.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
