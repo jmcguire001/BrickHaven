@@ -4,48 +4,52 @@
 @{
 }
 @model ProductRecommendationsViewModel
-
-    <div class="container mt-5">
-    <div class="row">
-        <div class="col-md-6">
-            <img src="@Model.Product.ImgLink" class="img-fluid" alt="Product Image">
-        </div>
-            <div class="col-md-6">
-            <h2>@Model.Product.Name</h2>
-            <p>@Model.Product.Description</p>
-            <p>@Model.Product.Category</p>
-            <p id="price"><strong>Price: $@Model.Product.Price</strong></p>
+<div class="main-product-container">
+    <div class="center-main-product">
+        <img src="@Model.Product.ImgLink" class="main-product-img" alt="Product Image">
+    </div>
+    <div class="center-main-product">
+        <div class="center-form">
             <form id=@Model.Product.ProductId method="post" asp-page="/Cart">
-                <div class="form-group">
+                <div class="format-product-details">
+                    <h2 class="text-center">@Model.Product.Name</h2><br />
+                    <p>@Model.Product.Description</p>
                     <input type="hidden" asp-for="@Model.Product.ProductId" />
                     <input type="hidden" name="ReturnUrl" value="Home/Shop" />
-                    <label for="quantity">Quantity:</label>
-                    <input type="number" id="quantity" class="form-control" value="1">
+                    <div class="align-quantity-price">
+                        <div class="">
+                            <label for="quantity">Quantity:</label><br />
+                            <input type="number" id="quantity" class="quantity-input" value="1">
+                        </div>
+                        <div>
+                            <label>Unit Price:</label>
+                            <p class="price-border">@Model.Product.Price</p>
+                        </div>
+                    </div>
                     <label>Total Price: </label>
                     <p id="totalPrice">$</p>
+                    <!-- Will take us straight to the razor page! But it does so using this route -->
+                    <button type="submit" class="btn-outline-success btn-sm float-end">Add to Cart</button>
                 </div>
-                <!-- Will take us straight to the razor page! But it does so using this route -->
-                <button type="submit" class="btn-outline-success btn-sm float-end">Add to Cart</button>
             </form>
         </div>
     </div>
-    <div class="row additional_spacing">
-        <div class="spacing" style="color: #555555">
-            <h4>You might also like: </h4>
-            <div class="products-container" asp-for="ProductDetails">
-                @foreach (var recProduct in Model.RecommendedProducts)
-                {
-                    <div class="recommended-product">
-                        <img src="@recProduct.ImgLink" alt="@recProduct.Name">
-                        <h3>@recProduct.Name</h3>
-                        <!-- Add more details as needed -->
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-    <div class="space-y"></div><br />
 </div>
+
+<br /><br /><br />
+<div class="" style="color: #555555">
+    <h4>You might also like: </h4>
+    <div class="recommend-container" asp-for="ProductDetails">
+        @foreach (var recProduct in Model.RecommendedProducts)
+        {
+            <div class="recommend-item">
+                <img src="@recProduct.ImgLink" alt="@recProduct.Name" class="recommend-img">
+                <h3 class="recommend-header">@recProduct.Name</h3>
+                <!-- Add more details as needed -->
+            </div>
+        }
+    </div>
+</div><br /><br />
 
 <script>
     function calculateTotal() {
