@@ -16,5 +16,11 @@ namespace BrickHaven.Models
         Task UpdateOrderAsync(Order order);
         Task DeleteOrderAsync(Order order);
         Task AddOrder(Order order);
+
+        public Product GetProductById(int id);
+
+        public void AddToCart(Product product); 
+        public void UpdateTask(Task task); 
+        public void DeleteTask(Task task); // Method for deleting tasks from the views (This is for when the user deletes)
     }
 }

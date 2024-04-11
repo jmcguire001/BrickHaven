@@ -20,6 +20,22 @@
     <link rel="stylesheet" href="~/css/privacy.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
 
+    <link rel="stylesheet" href="./global.css" />
+    <link rel="stylesheet" href="./index.css" />
+    <link rel="stylesheet" href="./shopping-cart.css" />
+    <link rel="stylesheet" href="./products-table.css" />
+    <link rel="stylesheet" href="./add-edit-products.css" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Josefin Sans:wght@500;700&display=swap" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700&display=swap" />
+
     <link href="https://fonts.cdnfonts.com/css/batman-forever" rel="stylesheet">
     <!-- Google Fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -88,18 +104,13 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="account" asp-action="register">
-                                    Register
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link" asp-controller="account" asp-action="login">
                                     Login
                                 </a>
                             </li>
                         }
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Cart"><img class="cart" src="~/assets/cart.svg" /></a>
+                            <a class="nav-link" asp-page="/Cart"><img class="cart" src="~/assets/cart.svg" /></a>
                         </li>
                     </ul>
                 </div>
@@ -120,11 +131,11 @@
     </div>
     @if (!(ViewContext.RouteData.Values["Controller"].ToString().Equals("Account")))
     {
-        <footer class="footer">
+@*         <footer>
             <div class="center">
                 &copy; 2024 - Brick Haven
             </div>
-        </footer>
+        </footer> *@
     }
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
 namespace BrickHaven.Models
 {
@@ -41,24 +42,6 @@ namespace BrickHaven.Models
         public async Task AddProduct(Product product)
         {
             _context.Products.Add(product);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task UpdateOrderAsync(Order order)
-        {
-            _context.Orders.Update(order);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteOrderAsync(Order order)
-        {
-            _context.Orders.Remove(order);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task AddOrder(Order order)
-        {
-            _context.Orders.Add(order);
             await _context.SaveChangesAsync();
         }
     }
