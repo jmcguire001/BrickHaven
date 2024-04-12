@@ -192,8 +192,18 @@ namespace BrickHaven.Controllers
             // Fetch list of customers
             var customers = _context.Users.ToList(); // Assuming _context is your DbContext
 
+            Cart cart = HttpContext.Session.GetJson<Cart>("cart");
+
             // Retrieve the current user's ID
             var user = await _userManager.GetUserAsync(HttpContext.User);
+            float? amount = 0;
+
+            foreach (var line in cart.Lines)
+            { 
+                float? price = line.Product.Price * line.Quantity;
+
+                amount += price;
+            }
 
             var viewModel = new AddOrderViewModel
             {
@@ -201,8 +211,12 @@ namespace BrickHaven.Controllers
                 Date = DateTime.Now,
                 Weekday = DateTime.Now.DayOfWeek.ToString(),
                 Time = DateTime.Now.Hour,
-                TransactionCountry = user.ResidenceCountry
+                TransactionCountry = user.ResidenceCountry,
+                Amount = amount
             };
+
+
+
 
             return View(viewModel);
         }

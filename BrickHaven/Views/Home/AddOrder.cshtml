@@ -35,15 +35,25 @@
     <div class="form-group row">
         <label asp-for="CardType" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
-            <input asp-for="CardType" class="form-control">
+            <select asp-for="CardType" class="form-control">
+                <option value="">Select One</option> <!-- Placeholder option -->
+                <option value="Visa">Visa</option>
+                <option value="MasterCard">MasterCard</option>
+            </select>
             <span asp-validation-for="CardType" class="text-danger"></span>
         </div>
     </div>
 
+
     <div class="form-group row">
         <label asp-for="EntryMode" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
-            <input asp-for="EntryMode" class="form-control">
+            <select asp-for="EntryMode" class="form-control">
+                <option value="">Select One</option> <!-- Placeholder option -->
+                <option value="PIN">PIN</option>
+                <option value="TAP">TAP</option>
+                <option value="CVVC">CVC</option>
+            </select>
             <span asp-validation-for="EntryMode" class="text-danger"></span>
         </div>
     </div>
@@ -51,7 +61,7 @@
     <div class="form-group row">
         <label asp-for="Amount" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
-            <input asp-for="Amount" class="form-control">
+            <input asp-for="Amount" class="form-control" readonly>
             <span asp-validation-for="Amount" class="text-danger"></span>
         </div>
     </div>
@@ -59,10 +69,16 @@
     <div class="form-group row">
         <label asp-for="TransactionType" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
-            <input asp-for="TransactionType" class="form-control">
+            <select asp-for="TransactionType" class="form-control">
+                <option value="">Select One</option> <!-- Placeholder option -->
+                <option value="Online">Online</option>
+                <option value="ATM">ATM</option>
+                <option value="POS">POS</option>
+            </select>
             <span asp-validation-for="TransactionType" class="text-danger"></span>
         </div>
     </div>
+
 
     <div class="form-group row">
         <label asp-for="TransactionCountry" class="col-sm-2 col-form-label"></label>
@@ -83,10 +99,20 @@
     <div class="form-group row">
         <label asp-for="Bank" class="col-sm-2 col-form-label"></label>
         <div class="col-sm-10">
-            <input asp-for="Bank" class="form-control">
+            <select asp-for="Bank" class="form-control">
+                <option value="">Select One</option> <!-- Placeholder option -->
+                <option value="RBS">RBS</option>
+                <option value="Barclays">Barclays</option>
+                <option value="Halifax">Halifax</option>
+                <option value="Lloyds">Lloyds</option>
+                <option value="Metro">Metro</option>
+                <option value="Monzo">Monzo</option>
+                <option value="HSBC">HSBC</option>
+            </select>
             <span asp-validation-for="Bank" class="text-danger"></span>
         </div>
     </div>
+
 
     <div asp-validation-summary="All" class="text-danger"></div>
 
