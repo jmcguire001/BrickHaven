@@ -6,15 +6,13 @@
     ViewBag.Title = "All Roles";
 }
 
-<div class="sign-in-container">
-    <div class="center-form">
-        <div class="form-container">
-            <h1>All Roles</h1>
+<div class="center-admin-form">
+    <div class="admin-form-container">
+        <h1 class="admin-table-header">All Roles</h1>
 
             @if (Model.Any())
             {
-                <a class="btn btn-primary mb-3" style="width:auto" asp-action="CreateRole"
-                    asp-controller="Administration">Add New Role</a>
+                
 
                 foreach (var role in Model)
                 {
@@ -26,8 +24,8 @@
                         <div class="card-footer">
 
                             <form method="post" asp-action="DeleteRole" asp-route-roleId="@role.Id" onsubmit="return confirmDelete()">
-                                <a class="btn btn-primary" asp-action="ListUsers" asp-controller="Administration">Assign</a>
-                                <button type="submit" class="btn btn-danger">Delete</button>
+                                <a class="create-button" asp-action="ListUsers" asp-controller="Administration">Assign</a>
+                                <button type="submit" class="cancel-button">Delete</button>
                             </form>
                         </div>
                     </div>
@@ -45,13 +43,14 @@
                         Use the button below to create a role
                     </h5>
 
-                    <a class="btn btn-primary" style="width:auto" asp-controller="Administration" asp-action="CreateRole">Create Role</a>
+                    <a class="create-button" style="width:auto" asp-controller="Administration" asp-action="CreateRole">Create Role</a>
                 </div>
             </div>
             }
+        <a class="button" style="width:auto" asp-action="CreateRole"
+           asp-controller="Administration">Add New Role</a>
         </div>
     </div>
-</div>
 
 <script>
     function confirmDelete() {
