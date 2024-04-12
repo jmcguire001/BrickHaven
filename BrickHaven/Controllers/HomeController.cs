@@ -144,7 +144,7 @@ namespace BrickHaven.Controllers
                 return NotFound(); // Return a 404 Not Found response
             }
 
-            var recommendationIds = new List<int?>
+            var item_recommendation_Ids = new List<int?>
             {
                 product.Recommendation1,
                 product.Recommendation2,
@@ -154,7 +154,7 @@ namespace BrickHaven.Controllers
             }.Where(id => id.HasValue).Select(id => id.Value);
 
             var recommendedProducts = await _repo.Products
-                .Where(p => recommendationIds.Contains(p.ProductId))
+                .Where(p => item_recommendation_Ids.Contains(p.ProductId))
                 .ToListAsync();
 
             var viewModel = new ProductRecommendationsViewModel
@@ -182,6 +182,16 @@ namespace BrickHaven.Controllers
             {
                 return View();
             }
+
+        }
+
+        [AllowAnonymous]
+        public IActionResult TEST()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            ViewData["UserId"] = userId; // Pass UserId to the view through ViewData
+                                         // Alternatively, you can pass it as part of a model to the view
+            return View();
         }
     }
 }
