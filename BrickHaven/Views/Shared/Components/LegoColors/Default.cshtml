@@ -12,7 +12,7 @@
         @foreach (string legoColor in Model ?? Enumerable.Empty<string>())
         {
             <!-- Create a button for each specific project type -->
-            <a class="btn @(legoColor == ViewBag.SelectedLegoColor ? "btn-primary" : "btn-outline-secondary")" asp-controller="Home" asp-action="Shop" asp-route-legoColor="@legoColor" asp-route-pageNum="1" asp-route-pageSize="">@legoColor</a>
+            <a class="btn @(legoColor == ViewBag.SelectedLegoColor ? "btn-primary" : "btn-outline-secondary")" asp-controller="Home" asp-action="Shop" asp-route-legoColor="@legoColor" asp-route-pageNum="1">@legoColor</a>
         }
     </div>
 }
