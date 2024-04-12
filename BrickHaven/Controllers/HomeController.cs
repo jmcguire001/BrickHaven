@@ -73,13 +73,6 @@ namespace BrickHaven.Controllers
             //return View(products);
         }
 
-
-        [Authorize(Roles = "Admin")]
-        public IActionResult SecureMethod()
-        {
-            return View();
-        }
-
         [AllowAnonymous]
         public IActionResult Shop(int pageNum, string? legoType, string? legoColor, int pageSize=5) // 'page' means something in dotnet
         {
@@ -113,12 +106,6 @@ namespace BrickHaven.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult NonSecureMethod()
-        {
-            return View();
-        }
-
-        [AllowAnonymous]
         public IActionResult About()
         {
             return View();
@@ -132,7 +119,7 @@ namespace BrickHaven.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> ProductDetails(int id)
+        public async Task<IActionResult> ProductDetails(int id, string imglink)
         {
             // Retrieve product details by calling the method from the repository
             // Product product = await _repo.GetProductByIdAsync(id);
