@@ -10,6 +10,9 @@ using Microsoft.ML.OnnxRuntime.Tensors;
 using System;
 using System.Security.Claims;
 using SQLitePCL;
+using Microsoft.AspNetCore.Identity;
+using System;
+using BrickHaven.Infrastructure;
 
 namespace BrickHaven.Controllers
 {
@@ -17,10 +20,14 @@ namespace BrickHaven.Controllers
     public class HomeController : Controller
     {
         private ILegoRepository _repo;
-
-        public HomeController(ILegoRepository temp, ILogger<HomeController> logger, IHostEnvironment hostEnvironment)
+        private readonly UserManager<Customer> _userManager;
+        private LoginDbContext _context;
+        
+        public HomeController(UserManager<Customer> userManager,  ILegoRepository temp, LoginDbContext context)
         {
+            _userManager = userManager;
             _repo = temp;
+            _context = context;
         }
 
         [AllowAnonymous]
@@ -215,5 +222,115 @@ namespace BrickHaven.Controllers
                                          // Alternatively, you can pass it as part of a model to the view
             return View();
         }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> AddOrder()
+        {
+            // Fetch list of customers
+            var customers = _context.Users.ToList(); // Assuming _context is your DbContext
+
+            // Retrieve the current user's ID
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            var viewModel = new AddOrderViewModel
+            {
+                UserId = user.Id,
+                Date = DateTime.Now,
+                Weekday = DateTime.Now.DayOfWeek.ToString(),
+                Time = DateTime.Now.Hour,
+                TransactionCountry = user.ResidenceCountry
+            };
+
+            return View(viewModel);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> AddOrder(AddOrderViewModel? viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                // Retrieve the current user's ID
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+
+                // Create a new order
+                var order = new Order
+                {
+                    UserId = user.Id,
+                    Date = viewModel.Date,
+                    Weekday = viewModel.Weekday,
+                    Time = viewModel.Time,
+                    CardType = viewModel.CardType,
+                    EntryMode = viewModel.EntryMode,
+                    Amount = viewModel.Amount,
+                    TransactionType = viewModel.TransactionType,
+                    TransactionCountry = viewModel.TransactionCountry,
+                    ShippingAddress = viewModel.BillingAddress,
+                    Bank = viewModel.Bank
+                };
+
+                // Add the order to the database
+                await _repo.AddOrder(order);
+                await _context.SaveChangesAsync();
+
+                int transactionId = order.TransactionId;
+
+                // Store the transactionId in TempData
+                TempData["TransactionId"] = transactionId;
+
+                return RedirectToAction("ConfirmedOrder");
+            }
+
+            return View(viewModel);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult ConfirmedOrder()
+        {
+            // Retrieve cart from session storage
+            Cart cart = HttpContext.Session.GetJson<Cart>("cart");
+
+            return View(cart);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> ConfirmedOrder(Cart cart)
+        {
+            int? transactionId = TempData["TransactionId"] as int?;
+            cart = HttpContext.Session.GetJson<Cart>("cart");
+
+            if (ModelState.IsValid)
+            {
+                // Loop through each item in the cart and add it to the database
+                foreach (var line in cart.Lines)
+                {
+                    var lineItem = new LineItem
+                    {
+                        TransactionId = transactionId, // Set the TransactionId from the parameter
+                        ProductId = line.Product.ProductId,
+                        Quantity = line.Quantity
+                    };
+
+                    await _repo.AddLineItem(lineItem);
+                }
+
+                // Save changes to the database after all line items have been added
+                await _context.SaveChangesAsync();
+
+                // Clear the cart after confirming the order
+                cart.Clear();
+
+                // Redirect to the shop or wherever appropriate
+                return RedirectToAction("Shop", "Home");
+            }
+
+            // If ModelState is not valid, return the view with the cart
+            return View("ConfirmedOrder", cart);
+        }
+
+
     }
 }

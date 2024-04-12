@@ -16,15 +16,13 @@
             <div class="center-form">
                 <div class="format-product-details">
                     <h2 class="form-header">@Model.Product.Name</h2><br />
-                    <div class="contain-description">
-                        <p>@Model.Product.Description</p>
-                    </div>
-                    <input type="hidden" asp-for="@Model.Product.ProductId" />
-                    <input type="hidden" name="returnUrl" value="Home/Shop" /><br />
+                    <p>@Model.Product.Description</p>
+                    <input type="hidden" name="ProductId" value="@Model.Product.ProductId" />
+                    <input type="hidden" name="ReturnUrl" value="Home/Shop" /><br />
                     <div class="align-quantity-price">
                         <div class="">
                             <label for="quantity">Quantity:</label><br />
-                            <input type="number" id="quantity" class="quantity-input" value="1" min="1">
+                            <input type="number" name="quantity" id="quantity" class="quantity-input" value="1" min="1">
                         </div>
                         <div>
                             <label>Unit Price:</label>

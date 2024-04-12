@@ -4,6 +4,15 @@ namespace BrickHaven.Models
 {
     public class Cart
     {
+        public class CartLine
+        {
+            public int CartLineId { get; set; }
+            public Product Product { get; set; }
+            public int Quantity { get; set; }
+            public float Price { get; set; }
+            public float Amount { get; set; }
+        }
+
         public List<CartLine> Lines { get; set; } = new List<CartLine>(); // Equals sign means if we haven't built a list, then build one
 
         public void AddItem(Product p, int quantity)
@@ -17,10 +26,11 @@ namespace BrickHaven.Models
             if (line == null) // Add a new item if line is null
             {
                 Lines.Add(new CartLine
-                {
+                {   
                     Product = p,
                     Quantity = quantity,
                     Price = (float)p.Price,
+                    Amount = (float)p.Price * quantity
                 });
             }
             else
@@ -29,19 +39,10 @@ namespace BrickHaven.Models
             }
         }
 
-        //
         public void RemoveLine(Product p) => Lines.RemoveAll(x => x.Product.ProductId == p.ProductId);
 
         public void Clear() => Lines.Clear();
 
         public float CalculateTotal() => Lines.Sum(x => x.Price * x.Quantity); // Use Lambda function to get total
-
-        public class CartLine
-        {
-            public int CartLineId { get; set; }
-            public Product Product { get; set; }
-            public int Quantity { get; set; }
-            public float Price { get; set; }
-        }
     }
 }

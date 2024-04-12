@@ -16,6 +16,7 @@ namespace BrickHaven.Models
         // Queries from the context file, but is an additional layer
         public IQueryable<Product> Products => _context.Products;
         public IQueryable<Order> Orders => _context.Orders;
+        public IQueryable<LineItem> LineItems => _context.LineItems;
         public IQueryable<Customer> Customers => _context.Customers;
 
         public Product GetProductById(int productId)
@@ -73,6 +74,11 @@ namespace BrickHaven.Models
         {
             _context.Products.Add(product);
             _context.SaveChanges();
+        }
+        public async Task AddLineItem(LineItem lineItem)
+        {
+            _context.LineItems.Add(lineItem);
+            await _context.SaveChangesAsync();
         }
     }
 }

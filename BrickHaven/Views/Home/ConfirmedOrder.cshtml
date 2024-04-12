@@ -1,0 +1,15 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model Cart
+@{
+}
+
+<p>Your order has been placed</p>
+
+<form method="post" asp-action="ConfirmedOrder" asp-controller="Home">
+    @foreach (var item in Model.Lines)
+    {
+        <input type="hidden" name="lineProductId[]" value="@item.Product.ProductId" />
+        <input type="hidden" name="lineQuantity[]" value="@item.Quantity" />
+    }
+    <button type="submit">Return to Shopping</button>
+</form>
