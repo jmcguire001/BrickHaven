@@ -55,7 +55,7 @@ namespace BrickHaven.Controllers
             //    }
             //}
             //else
-            //{
+            {
                 // List of top-rated product IDs
                 var topRatedProductIds = new List<int> { 27, 33, 34, 37, 24 };
 
@@ -66,12 +66,8 @@ namespace BrickHaven.Controllers
 
                 // Passing the list of top-rated products to the view
                 return View(topRatedProducts);
-            //}
-
-            //var products = await productsQuery.ToListAsync();
-
-            //return View(products);
         }
+    }
 
         [AllowAnonymous]
         public IActionResult Shop(int pageNum, int pageSize, string? legoType, string? legoColor) // 'page' means something in dotnet
