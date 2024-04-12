@@ -54,9 +54,9 @@ else
                         <td>
                             <form method="post" asp-action="DeleteUser" asp-route-CustomerId="@user.Id" onsubmit="return confirmDelete()">
                                 <div class="edit-delete-buttons-container">
-                                    <a asp-controller="Administration" asp-action="EditUser" asp-route-UserId="@user.Id" class="edit-button">Edit</a>
+                                    <a asp-controller="Administration" asp-action="EditUser" asp-route-UserId="@user.Id" class="edit-button" style="padding: 1rem 1rem;">Edit</a>
                                     <button type="submit" class="delete-button"><img src="~/assets/trash.svg" class="trash-button" /></button>
-                                    <a asp-action="ManageUserRoles" asp-controller="Administration" class="btn btn-primary" asp-route-UserId="@user.Id">Manage Roles</a>
+                                    <a asp-action="ManageUserRoles" asp-controller="Administration" class="edit-button2" asp-route-UserId="@user.Id">Manage Roles</a>
 
                                 </div>
                             </form>

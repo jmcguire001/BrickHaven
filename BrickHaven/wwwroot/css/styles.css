@@ -59,6 +59,24 @@
         background-color: #f2f2f2;
     }
 
+.edit-button2 {
+    padding: .5rem 1rem;
+    font-size: 1rem;
+    background-color: #9f9d9d;
+    color: #FFFFFF;
+    border: none;
+    border-radius: .7rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 400ms, color 400ms;
+    font-weight: 500;
+}
+
+    .edit-button2:hover {
+        background-color: #b5b5b5;
+        color: #FFFFFF;
+    }
+
 .edit-button {
     padding: .5rem 1rem;
     font-size: 1rem;
