@@ -17,10 +17,12 @@
         <div class="products-container" asp-for="ProductDetails">
             @foreach (var product in Model)
             {
-                <div class="product">
-                    <img src="@product.ImgLink">
-                    <h3>@product.Name</h3>
-                </div>
+                <a href="@Url.Action("ProductDetails", "Home", new { id = product.ProductId })" class="recommend-item">
+                    <div class="product">
+                        <img src="@product.ImgLink" class="recommend-img">
+                        <h3 class="recommend-header">@product.Name</h3>
+                    </div>
+                </a>
             }
         </div>
     </div>

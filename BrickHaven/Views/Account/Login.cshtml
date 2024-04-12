@@ -6,66 +6,64 @@
 
 <a class="" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/assets/circle-chevron-left.svg" class="home-icon" /></a>
 <div class="sign-in-container">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-container">
-                <h1 class="login-h1">Welcome</h1>
-                <h5 class="text-center">Let’s get you on your way to enjoying your new LEGO sets!</h5><br />
+    <div class="center-form">
+        <div class="form-container">
+            <h1 class="login-h1">Welcome</h1>
+            <h5 class="text-center">Let’s get you on your way to enjoying your new LEGO sets!</h5><br />
 
-                <form method="post">
-                    <input type="hidden" name="ReturnUrl" value="@ViewData["ReturnUrl"]" />
-                    <div asp-validation-summary="All" class=""></div>
+            <form method="post">
+                <input type="hidden" name="ReturnUrl" value="@ViewData["ReturnUrl"]" />
+                <div asp-validation-summary="All" class=""></div>
 
-                    <label asp-for="Username"></label>
-                    <input asp-for="Username" class="form-control" />
-                    <span asp-validation-for="Username" class=""></span>
+                <label asp-for="Username"></label>
+                <input asp-for="Username" class="form-control" />
+                <span asp-validation-for="Username" class=""></span>
 
-                    <label asp-for="Password"></label>
-                    <input asp-for="Password" class="form-control" />
-                    <span asp-validation-for="Password" class=""></span>
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class=""></span>
 
-                    <div>
-                        <a asp-controller="Account" asp-action="ForgotPassword">Forgot Password?</a>
-                    </div><br />
+                <div>
+                    <a asp-controller="Account" asp-action="ForgotPassword">Forgot Password?</a>
+                </div><br />
 
-                    <div class="form-group text-center">
-                        <button type="submit" class="button">Sign In</button>
-                    </div><br />
-                </form>
+                <div class="form-group text-center">
+                    <button type="submit" class="button">Sign In</button>
+                </div><br />
+            </form>
 
-                <div class="new-user-container">
-                    <p>Don't have an account? <a class="new-user" style="" asp-controller="Account" asp-action="Register">sign up now</a></p>
-                </div>
-
-                <div class="grey-line"></div><br />
-
-                <h5 class="text-center">Or sign in with</h5><br />
-                @{
-                    if (Model.ExternalLogins?.Count == 0 || Model.ExternalLogins?.Count == null)
-                    {
-                        <div>No external logins configured</div>
-                    }
-                    else
-                    {
-                        <form method="post" asp-action="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl">
-                            <div class="external-buttons-container">
-                                @foreach (var provider in Model.ExternalLogins)
-                                {
-                                    <button onclick="externalLogin(@provider.Name, @Model.ReturnUrl)" type="submit" class="button"
-                                            name="provider" value="@provider.Name"
-                                            title="Log in using your @provider.DisplayName account">
-                                        <img src='~/assets/@(provider.DisplayName).svg' class='auth-icons' />
-                                    </button>
-                                }
-                            </div>
-                        </form><br />
-                    }
-                }
+            <div class="new-user-container">
+                <p>Don't have an account? <a class="new-user" style="" asp-controller="Account" asp-action="Register">sign up now</a></p>
             </div>
+
+            <div class="grey-line"></div><br />
+
+            <h5 class="text-center">Or sign in with</h5><br />
+            @{
+                if (Model.ExternalLogins?.Count == 0 || Model.ExternalLogins?.Count == null)
+                {
+                    <div>No external logins configured</div>
+                }
+                else
+                {
+                    <form method="post" asp-action="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl">
+                        <div class="external-buttons-container">
+                            @foreach (var provider in Model.ExternalLogins)
+                            {
+                                <button onclick="externalLogin(@provider.Name, @Model.ReturnUrl)" type="submit" class="button"
+                                        name="provider" value="@provider.Name"
+                                        title="Log in using your @provider.DisplayName account">
+                                    <img src='~/assets/@(provider.DisplayName).svg' class='auth-icons' />
+                                </button>
+                            }
+                        </div>
+                    </form><br />
+                }
+            }
         </div>
+    </div>
     
-        <div class="col-md-6">
-            <img src="~/assets/lego-sign-in.jpg" class="lego-guy-sign-in" />
-        </div>
+    <div class="responsive-img">
+        <img src="~/assets/lego-sign-in.jpg" class="lego-guy-sign-in" />
     </div>
 </div>

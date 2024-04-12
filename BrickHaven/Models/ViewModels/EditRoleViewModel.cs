@@ -10,7 +10,5 @@ namespace BrickHaven.Models.ViewModels
         [Required(ErrorMessage = "Role Name is Required")]
         [Display(Name = "Role")]
         public string RoleName { get; set; }
-
-        public List<string>? Users { get; set; }
     }
 }

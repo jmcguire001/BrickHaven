@@ -18,7 +18,6 @@ namespace BrickHaven.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<Customer> _userManager;
 
-        private ILegoRepository _repo;
         private readonly InferenceSession _session;
         private readonly ILogger<HomeController> _logger;
         private readonly string _onnxPath;
@@ -34,7 +33,7 @@ namespace BrickHaven.Controllers
             _userManager = userManager;
             // _userImporter = userImporter;
             _context = temp;
-            _repo = legoRepository;
+            _legoRepository = legoRepository;
             _logger = logger;
             _onnxPath = System.IO.Path.Combine(hostEnvironment.ContentRootPath, "fraud_model.onnx");
 
@@ -52,6 +51,11 @@ namespace BrickHaven.Controllers
 
         [HttpGet]
         public IActionResult CreateRole()
+        {
+            return View();
+        }
+
+        public IActionResult NotFound()
         {
             return View();
         }
@@ -121,21 +125,6 @@ namespace BrickHaven.Controllers
                 RoleName = role.Name
                 // You can add other properties here if needed
             };
-
-            //Initialize the Users Property to avoid Null Reference Exception while Add the username
-            model.Users = new List<string>();
-
-            // Retrieve all the Users
-            foreach (var user in _userManager.Users.ToList())
-            {
-                // If the user is in this role, add the username to
-                // Users property of EditRoleViewModel. 
-                // This model object is then passed to the view for display
-                if (await _userManager.IsInRoleAsync(user, role.Name))
-                {
-                    model.Users.Add(user.UserName);
-                }
-            }
 
             return View(model);
         }
@@ -310,7 +299,7 @@ namespace BrickHaven.Controllers
         }
 
         [HttpGet]
-        public IActionResult ListUsers(string? roleFilter, int pageNum = 1, int pageSize = 10)
+        public IActionResult ListUsers(string? roleFilter, int pageNum = 1, int pageSize = 500)
         {
             var userList = new ListUsersViewModel
             {
@@ -329,6 +318,7 @@ namespace BrickHaven.Controllers
             // var users = _userManager.Users;
             return View(userList);
         }
+
 
         [HttpGet]
         public async Task<IActionResult> EditUser(string UserId, int pageNum = 1, int pageSize = 10)
@@ -698,90 +688,78 @@ namespace BrickHaven.Controllers
             return View(model);
         }
 
-        [HttpGet]
-        public IActionResult ListOrders(string? transactionType, int pageNum = 1, int pageSize = 10)
+        //// Action method to display a view where the user can trigger CSV import
+        //[HttpGet]
+        //public IActionResult ImportUsersFromCsv()
+        //{
+        //    return View();
+        //}
+
+        //// Action method to handle the CSV import
+        //[HttpPost]
+        //public async Task<IActionResult> ImportUsersFromCsv(IFormFile file)
+        //{
+        //    // Ensure a file was provided
+        //    if (file == null || file.Length == 0)
+        //    {
+        //        ModelState.AddModelError("", "Please select a file to import.");
+        //        return View();
+        //    }
+
+        //    // Check if the file is a CSV file
+        //    if (!file.FileName.EndsWith(".csv", StringComparison.OrdinalIgnoreCase))
+        //    {
+        //        ModelState.AddModelError("", "Please select a CSV file.");
+        //        return View();
+        //    }
+
+        //    try
+        //    {
+        //        // Get the path to the temporary file on the server
+        //        var filePath = Path.GetTempFileName();
+
+        //        // Copy the uploaded file to the temporary file
+        //        using (var stream = new FileStream(filePath, FileMode.Create))
+        //        {
+        //            await file.CopyToAsync(stream);
+        //        }
+
+        //        // Call the method to import users from the CSV file
+        //        await _userImporter.ImportUsersFromCsvAsync(filePath);
+
+        //        // Optionally, delete the temporary file
+        //        System.IO.File.Delete(filePath);
+
+        //        // Redirect to a success page or return a success message
+        //        return RedirectToAction("Index", "Home");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Log the exception and display an error message
+        //        ModelState.AddModelError("", "An error occurred while importing users from CSV.");
+        //        // Log the exception
+        //        // Log.Error("An error occurred while importing users from CSV.", ex);
+        //        return View();
+        //    }
+        //}
+
+        public IActionResult ReviewOrders(int pageNum = 1, int pageSize = 20)
         {
-            var orderList = new ListOrdersViewModel
-            {
-                Orders = _legoRepository.Orders.OrderBy(o => o.TransactionId).Skip((pageNum - 1) * pageSize).Take(pageSize),
-                PaginationInfo = new PaginationInfo
-                {
-                    CurrentPage = pageNum,
-                    ItemsPerPage = pageSize,
-                    TotalItems = _legoRepository.Orders.Count() == 0 ? 1 : _legoRepository.Orders.Count()
-                },
+            var ordersQuery = _legoRepository.Orders.OrderByDescending(o => o.Date);
 
-                CurrentPageSize = pageSize,
-                TransactionType = transactionType
-            };
+            var totalItems = ordersQuery.Count();
 
-            // var users = _userManager.Users;
-            return View(orderList);
+            var records = ordersQuery.Skip((pageNum - 1) * pageSize)
+                                    .Take(pageSize)
+                                    .ToList();
 
-         }
-            //// Action method to display a view where the user can trigger CSV import
-            //[HttpGet]
-            //public IActionResult ImportUsersFromCsv()
-            //{
-            //    return View();
-            //}
+            //var records = _legoRepository.Orders
+            //    .OrderByDescending(o => o.Date)
+            //    .Take(20)
+            //    .ToList(); //Fetch the 20 most recent records
 
-            //// Action method to handle the CSV import
-            //[HttpPost]
-            //public async Task<IActionResult> ImportUsersFromCsv(IFormFile file)
-            //{
-            //    // Ensure a file was provided
-            //    if (file == null || file.Length == 0)
-            //    {
-            //        ModelState.AddModelError("", "Please select a file to import.");
-            //        return View();
-            //    }
-
-            //    // Check if the file is a CSV file
-            //    if (!file.FileName.EndsWith(".csv", StringComparison.OrdinalIgnoreCase))
-            //    {
-            //        ModelState.AddModelError("", "Please select a CSV file.");
-            //        return View();
-            //    }
-
-            //    try
-            //    {
-            //        // Get the path to the temporary file on the server
-            //        var filePath = Path.GetTempFileName();
-
-            //        // Copy the uploaded file to the temporary file
-            //        using (var stream = new FileStream(filePath, FileMode.Create))
-            //        {
-            //            await file.CopyToAsync(stream);
-            //        }
-
-            //        // Call the method to import users from the CSV file
-            //        await _userImporter.ImportUsersFromCsvAsync(filePath);
-
-            //        // Optionally, delete the temporary file
-            //        System.IO.File.Delete(filePath);
-
-            //        // Redirect to a success page or return a success message
-            //        return RedirectToAction("Index", "Home");
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        // Log the exception and display an error message
-            //        ModelState.AddModelError("", "An error occurred while importing users from CSV.");
-            //        // Log the exception
-            //        // Log.Error("An error occurred while importing users from CSV.", ex);
-            //        return View();
-            //    }
-            //}
-
-        public IActionResult ReviewOrders()
-        {
-            var records = _repo.Orders
-                .OrderByDescending(o => o.Date)
-                .Take(20)
-                .ToList(); //Fetch the 20 most recent records
-
-            var predictions = new List<OrderPrediction>(); // Viewmodel for the view
+            var predictions = new List<OrderPrediction>();
+            // Viewmodel for the view
 
             // Dictionary mapping the numeric prediction to a fraud type
             var class_type_dict = new Dictionary<int, string>
@@ -849,6 +827,13 @@ namespace BrickHaven.Controllers
 
                 predictions.Add(new OrderPrediction { Orders = record, Prediction = predictionResult });
             }
+
+            ViewData["PaginationInfo"] = new PaginationInfo
+            {
+                CurrentPage = pageNum,
+                ItemsPerPage = pageSize,
+                TotalItems = totalItems
+            };
 
             return View(predictions);
         }
