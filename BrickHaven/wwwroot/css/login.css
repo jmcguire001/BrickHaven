@@ -8,11 +8,33 @@ h1.fp-h1 {
     text-align: center;
 }
 
+.responsive-img {
+    position: fixed;
+    top: 0;
+    right: 0;
+    max-width: 50vw;
+}
+
 .lego-guy-sign-in {
     height: 100vh;
+    max-width: 100%;
+    min-width: 0%;
+}
+
+.side-img {
+    padding-top: 8rem;
+    max-width: 100%;
+    min-width: 0%;
+}
+
+.center-form {
+    display: flex;
+    justify-content: center;
+    max-width: 50vw;
 }
 
 .form-container {
+    max-width: 40rem;
     border-radius: 2rem;
     padding: 2rem 5rem 2rem 5rem;
     margin: 2rem 4rem 2rem 6rem;

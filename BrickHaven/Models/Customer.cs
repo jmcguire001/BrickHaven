@@ -14,6 +14,7 @@ namespace BrickHaven.Models
         public string? ResidenceCountry { get; set; }
         public string? Gender { get; set; }
         public float? Age { get; set; }
+        public int? HighestProduct { get; set; }
         public bool? CookieEnabled { get; set; } = false;
     }
 }

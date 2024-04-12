@@ -4,48 +4,67 @@
     ViewBag.Title = "All Users";
 }
 
-<h1>All Users</h1>
+<h1 class="list-header">All Users</h1>
 
-<div><vc:role-filter /></div>
-
-<div page-model="@Model.PaginationInfo" page-action="ListUsers" page-class-enabled="true"
-     page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-class="btn"
-     page-url-legoType="Model.Role" page-url-pageSize="@Model.CurrentPageSize" class="btn-group pull-right m-1">
+<div class="corner-button">
+    <a asp-action="Register" asp-controller="Account" class="edit-button" style="width:auto">Add New User</a>
 </div>
 
+<div class="button-bar">
+    <div page-model="@Model.PaginationInfo" page-action="ListUsers" page-class-enabled="true"
+         page-class-normal="btn-outline-dark" page-class-selected="page-button-selected" page-class="page-button"
+         page-url-legoType="Model.Role" page-url-pageSize="@Model.CurrentPageSize" class="btn-group pull-right m-1">
+    </div>
+</div>
 
-<a asp-action="Register" asp-controller="Account"
-    class="btn btn-primary mb-3" style="width:auto">
-    Add New User
-</a>
-
+<!-- Updated class to handle varying column counts -->
 @if (!Model.Customers.Any())
 {
     <p>There are no users in the database</p>
 }
-else{
-    <div class="container">
-        @foreach (var user in Model.Customers)
-        {
-            <div class="card mb-3">
-                <div class="card-header">
-                    User Id : @user.Id
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">@user.UserName</h5>
-                </div>
-                <div class="card-footer">
+else
+{
+    <div class="table-container">
+        <table class="product-table-unlike-any-other">
+            <thead>
+                <tr>
+                    <th>User Id</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Birthday</th>
+                    <th>Residence Country</th>
+                    <th>Gender</th>
+                    <th>Age</th>
+                    <th>Cookies Enabled?</th>
+                    <th>Edit/Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model.Customers)
+                {
+                    <tr>
+                        <td>@user.Id</td>
+                        <td>@user.FirstName</td>
+                        <td>@user.LastName</td>
+                        <td>@user.Birthday</td>
+                        <td>@user.ResidenceCountry</td>
+                        <td>@user.Gender</td>
+                        <td>@user.Age</td>
+                        <td>@user.CookieEnabled</td>
+                        <td>
+                            <form method="post" asp-action="DeleteUser" asp-route-CustomerId="@user.Id" onsubmit="return confirmDelete()">
+                                <div class="edit-delete-buttons-container">
+                                    <a asp-controller="Administration" asp-action="EditUser" asp-route-UserId="@user.Id" class="edit-button" style="padding: 1rem 1rem;">Edit</a>
+                                    <button type="submit" class="delete-button"><img src="~/assets/trash.svg" class="trash-button" /></button>
+                                    <a asp-action="ManageUserRoles" asp-controller="Administration" class="edit-button2" asp-route-UserId="@user.Id">Manage Roles</a>
 
-                    <form method="post" asp-action="DeleteUser" asp-route-UserId="@user.Id" onsubmit="return confirmDelete()">
-                        <a asp-controller="Administration" asp-action="EditUser" asp-route-UserId="@user.Id" class="btn btn-primary">Edit</a>
-
-                        <button type="submit" class="btn btn-danger">Delete</button>
-
-                        <a asp-action="ManageUserRoles" asp-controller="Administration" class="btn btn-primary" asp-route-UserId="@user.Id">Manage Roles</a>
-                    </form>
-                </div>
-            </div>
-        }
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 }
 

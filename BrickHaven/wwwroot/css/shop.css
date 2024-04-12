@@ -95,7 +95,8 @@
     align-content: center;
     text-align: center;
     flex-direction: column;
-    width: 20rem;
+    max-width: 20rem;
+    min-width: 10rem;
     height: 20rem;
     border: 1px solid #ccc;
     border-radius: 2rem;
