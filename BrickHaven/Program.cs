@@ -119,6 +119,8 @@ app.MapDefaultControllerRoute();
 app.MapControllerRoute("pageenumandtype", "{legoType}/{pageNum}", new { Controller = "Home", action = "Shop" });
 app.MapControllerRoute("pagination", "{pageNum}", new { Controller = "Home", action = "Shop", pageNum = 1 });
 app.MapControllerRoute("legoType", "{legoType}", new { Controller = "Home", action = "Shop", pageNum = 1 });
+app.MapControllerRoute("legoColor", "{legoColor}/{pageNum}", new { Controller = "Home", action = "Shop", pageNum = 1 });
+
 
 app.MapRazorPages();
 

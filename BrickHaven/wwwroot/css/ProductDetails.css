@@ -10,6 +10,14 @@
     flex-direction: row;
 }
 
+.product {
+    transition: transform 300ms;
+}
+
+    .product:hover {
+        transform: scale(1.02);
+    }
+
 .center-main-product {
     padding-top: 3rem;
     width: 50vw;
