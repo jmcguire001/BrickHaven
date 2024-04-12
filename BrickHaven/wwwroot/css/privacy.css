@@ -4,7 +4,8 @@
     border-radius: 2rem;
     padding: 2rem 3rem 2rem 4rem;
     margin: 2rem 2rem 2rem 4rem;
-    max-height: 40rem;
+    max-height: 30rem;
+    min-height: 30rem;
     overflow-y: scroll;
     scrollbar-width: thin;
     scrollbar-color: transparent transparent;

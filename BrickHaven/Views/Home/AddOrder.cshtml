@@ -6,100 +6,103 @@
     var userDetail = await UserManager.GetUserAsync(User);
 }
 
-<form method="post" class="mt-3">
-    <div class="form-group row">
-        <label asp-for="Date" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <input asp-for="Date" class="form-control" readonly>
-            <span asp-validation-for="Date" class="text-danger"></span>
+<div class="center-admin-form">
+    <div class="admin-form-container">
+        <h1 class="admin-table-header">Confirm Order</h1>
+<form method="post" class="">
+    <div class="">
+        <label asp-for="Date" class=""></label>
+        <div class="">
+                    <input asp-for="Date" class="" readonly><br />
+            <span asp-validation-for="Date" class=""></span>
         </div>
     </div>
 
-    <div class="form-group row">
-        <label asp-for="Weekday" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <input asp-for="Weekday" class="form-control" readonly>
-            <span asp-validation-for="Weekday" class="text-danger"></span>
+    <div class="">
+        <label asp-for="Weekday" class=""></label>
+        <div class="">
+                    <input asp-for="Weekday" class="" readonly><br />
+            <span asp-validation-for="Weekday" class=""></span>
         </div>
     </div>
 
 
-    <div class="form-group row">
-        <label asp-for="Time" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <input asp-for="Time" class="form-control" readonly>
-            <span asp-validation-for="Time" class="text-danger"></span>
+    <div class="">
+        <label asp-for="Time" class=""></label>
+        <div class="">
+                    <input asp-for="Time" class="" readonly><br />
+            <span asp-validation-for="Time" class=""></span>
         </div>
     </div>
 
-    <div class="form-group row">
-        <label asp-for="CardType" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <select asp-for="CardType" class="form-control">
+    <div class="">
+        <label asp-for="CardType" class=""></label>
+        <div class="">
+            <select asp-for="CardType" class="">
                 <option value="">Select One</option> <!-- Placeholder option -->
                 <option value="Visa">Visa</option>
                 <option value="MasterCard">MasterCard</option>
-            </select>
-            <span asp-validation-for="CardType" class="text-danger"></span>
+                    </select><br />
+            <span asp-validation-for="CardType" class=""></span>
         </div>
     </div>
 
 
-    <div class="form-group row">
-        <label asp-for="EntryMode" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <select asp-for="EntryMode" class="form-control">
+    <div class="">
+        <label asp-for="EntryMode" class=""></label>
+        <div class="">
+            <select asp-for="EntryMode" class="">
                 <option value="">Select One</option> <!-- Placeholder option -->
                 <option value="PIN">PIN</option>
                 <option value="TAP">TAP</option>
                 <option value="CVVC">CVC</option>
-            </select>
-            <span asp-validation-for="EntryMode" class="text-danger"></span>
+                    </select><br />
+            <span asp-validation-for="EntryMode" class=""></span>
         </div>
     </div>
 
-    <div class="form-group row">
-        <label asp-for="Amount" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <input asp-for="Amount" class="form-control" readonly>
-            <span asp-validation-for="Amount" class="text-danger"></span>
+    <div class="">
+        <label asp-for="Amount" class=""></label>
+        <div class="">
+                    <input asp-for="Amount" class="" readonly><br />
+            <span asp-validation-for="Amount" class=""></span>
         </div>
     </div>
 
-    <div class="form-group row">
-        <label asp-for="TransactionType" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <select asp-for="TransactionType" class="form-control">
+    <div class="">
+        <label asp-for="TransactionType" class=""></label>
+        <div class="">
+            <select asp-for="TransactionType" class="">
                 <option value="">Select One</option> <!-- Placeholder option -->
                 <option value="Online">Online</option>
                 <option value="ATM">ATM</option>
                 <option value="POS">POS</option>
-            </select>
-            <span asp-validation-for="TransactionType" class="text-danger"></span>
+                    </select><br />
+            <span asp-validation-for="TransactionType" class=""></span>
         </div>
     </div>
 
 
-    <div class="form-group row">
-        <label asp-for="TransactionCountry" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <input asp-for="TransactionCountry" class="form-control">
-            <span asp-validation-for="TransactionCountry" class="text-danger"></span>
+    <div class="">
+        <label asp-for="TransactionCountry" class=""></label>
+        <div class="">
+                    <input asp-for="TransactionCountry" class=""><br />
+            <span asp-validation-for="TransactionCountry" class=""></span>
         </div>
     </div>
 
-    <div class="form-group row">
-        <label asp-for="BillingAddress" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <input asp-for="BillingAddress" class="form-control">
-            <span asp-validation-for="BillingAddress" class="text-danger"></span>
+    <div class="">
+        <label asp-for="BillingAddress" class=""></label>
+        <div class="">
+                    <input asp-for="BillingAddress" class=""><br />
+            <span asp-validation-for="BillingAddress" class=""></span>
         </div>
     </div>
 
-    <div class="form-group row">
-        <label asp-for="Bank" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <select asp-for="Bank" class="form-control">
+    <div class="">
+        <label asp-for="Bank" class=""></label>
+        <div class="">
+            <select asp-for="Bank" class="">
                 <option value="">Select One</option> <!-- Placeholder option -->
                 <option value="RBS">RBS</option>
                 <option value="Barclays">Barclays</option>
@@ -108,16 +111,18 @@
                 <option value="Metro">Metro</option>
                 <option value="Monzo">Monzo</option>
                 <option value="HSBC">HSBC</option>
-            </select>
-            <span asp-validation-for="Bank" class="text-danger"></span>
+                    </select><br />
+            <span asp-validation-for="Bank" class=""></span>
         </div>
-    </div>
+            </div><br /><br />
 
 
-    <div asp-validation-summary="All" class="text-danger"></div>
+    <div asp-validation-summary="All" class=""></div>
 
     <div class="form-group text-center">
         <button type="submit" class="button">Confirm Submission</button>
         <button type="button" class="button" style="width:auto" onclick="history.back()">Cancel</button>
     </div>
 </form>
+</div>
+</div><br /><br />

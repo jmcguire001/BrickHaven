@@ -108,3 +108,9 @@ z
     background-color: rgba(255, 0, 0, 0);
     padding: 2rem 0 0 2rem;
 }
+
+.description-container {
+    max-height: 10rem;
+    overflow-y: auto;
+    scrollbar-color: #FCAB22 #FFC96E;
+}
