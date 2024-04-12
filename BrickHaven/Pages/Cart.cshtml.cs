@@ -15,14 +15,14 @@ namespace BrickHaven.Pages
         }
 
         public Cart? Cart { get; set; }
-        public string ReturnUrl { get; set; } = "/"; 
+        public string ReturnUrl { get; set; } = "/";
 
         public void OnGet(string returnUrl)
         {
             ReturnUrl = returnUrl ?? "/";
             Cart = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
         }
-        
+
         public IActionResult OnPost(int productId, int quantity, string returnUrl)
         {
             Product product = _repo.Products

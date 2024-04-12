@@ -13,7 +13,7 @@
     </div>
     <div class="center-main-product">
         <div class="center-form">
-            <form id=@Model.Product.ProductId method="post">
+            <form id=@Model.Product.ProductId method="post" asp-page="/Cart">
                 <div class="format-product-details">
                     <h2 class="form-header">@Model.Product.Name</h2><br />
                     <p>@Model.Product.Description</p>
@@ -33,7 +33,7 @@
                             <p class="price-border" id="totalPrice">$</p>
                         </div>
                     </div><br /><br />
-                    
+
                     <!-- Will take us straight to the razor page! But it does so using this route -->
                     <div class="center-item">
                         <button type="submit" class="button">Add to Cart</button>
@@ -44,7 +44,9 @@
     </div>
 </div>
 
-<br /><br /><br />
+<br />
+<br />
+<br />
 <div class="" style="color: #555555">
     <h4 class="ymal">You might also like: </h4>
     <div class="recommend-container" asp-for="ProductDetails">
@@ -59,7 +61,9 @@
             </a>
         }
     </div>
-</div><br /><br />
+</div>
+<br />
+<br />
 
 <script>
     // Function to calculate and update total price
