@@ -1,0 +1,97 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model AddOrderViewModel
+@inject SignInManager<Customer> SignInManager
+@inject UserManager<Customer> UserManager
+@{
+    var userDetail = await UserManager.GetUserAsync(User);
+}
+
+<form method="post" class="mt-3">
+    <div class="form-group row">
+        <label asp-for="Date" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Date" class="form-control" readonly>
+            <span asp-validation-for="Date" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Weekday" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Weekday" class="form-control" readonly>
+            <span asp-validation-for="Weekday" class="text-danger"></span>
+        </div>
+    </div>
+
+
+    <div class="form-group row">
+        <label asp-for="Time" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Time" class="form-control" readonly>
+            <span asp-validation-for="Time" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="CardType" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="CardType" class="form-control">
+            <span asp-validation-for="CardType" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="EntryMode" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="EntryMode" class="form-control">
+            <span asp-validation-for="EntryMode" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Amount" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Amount" class="form-control">
+            <span asp-validation-for="Amount" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="TransactionType" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="TransactionType" class="form-control">
+            <span asp-validation-for="TransactionType" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="TransactionCountry" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="TransactionCountry" class="form-control">
+            <span asp-validation-for="TransactionCountry" class="text-danger"></span>
+        </div>
+    </div>
+
+        <div class="form-group row">
+        <label asp-for="BillingAddress" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="BillingAddress" class="form-control">
+            <span asp-validation-for="BillingAddress" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Bank" class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <input asp-for="Bank" class="form-control">
+            <span asp-validation-for="Bank" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group text-center">
+        <button type="submit" class="button">Confirm Submission</button>
+        <button type="button" class="button" style="width:auto" onclick="history.back()">Cancel</button>
+    </div>
+</form>

@@ -24,10 +24,10 @@
         @foreach (var l in Model.Cart?.Lines ?? Enumerable.Empty<Cart.CartLine>())
         {
             <tr>
-                <td class="text-left">@l.Product.Name</td>
+                <td class="text-left" name="productId" value="@l.Product.ProductId">@l.Product.Name</td>
                 <td class="text-left">$@l.Price</td>
                 <td class="text-left">@l.Quantity</td>
-                <td class="text-right">$@(l.Price * l.Quantity)</td>
+                <td class="text-right">$@(l.Amount)</td>
             </tr>
         }
     </tbody>
@@ -42,6 +42,23 @@
 </div><br /><br /><br />
 
 <div class="text-center">
-    <a asp-controller="Home" asp-action="Shop" class="edit-button">Checkout</a>
-    <a class="button" href="@Model.ReturnUrl">Checkout</a>
+    <a class="btn btn-primary" href="@Model.ReturnUrl">Return to Shopping</a>
+</div><br />
+
+@if (Model.Cart != null)
+{
+    <div class="text-center">
+        <form method="post">
+            @foreach (var item in Model.Cart.Lines)
+            {
+                <input type="hidden" name="productId" value="@item.Product.ProductId" />
+                <input type="hidden" name="quantity" value="@item.Quantity" />
+            }
+            <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+            <a type="submit" class="btn btn-primary" asp-action="AddOrder" asp-controller="Home">Checkout</a>
+        </form>
+    </div>
+    <br />
+}
+    
 </div>
