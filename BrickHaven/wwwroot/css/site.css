@@ -28,6 +28,7 @@ h5 {
 
 body {
     font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
 }
 
 .navbar {
@@ -143,6 +144,17 @@ img.cart {
         animation: moveLeftRight .5s 1;
     }
 
+.home-icon-nav {
+    position: absolute;
+    top: 10rem;
+    left: 2rem;
+    height: 3rem;
+    filter: invert(86%) sepia(2%) saturate(24%) hue-rotate(350deg) brightness(99%) contrast(85%);
+}
+.home-icon-nav:hover {
+    animation: moveLeftRight .5s 1;
+}
+
 .back-icon {
     height: 3rem;
     filter: invert(86%) sepia(2%) saturate(24%) hue-rotate(350deg) brightness(99%) contrast(85%);
@@ -151,6 +163,18 @@ img.cart {
 .back-icon:hover {
     animation: moveLeftRight .5s 1;
 }
+
+.form-align {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label-left {
+    text-align: left;
+}
+
+
+
 
 @keyframes moveLeftRight {
     0% {

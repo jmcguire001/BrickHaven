@@ -1,5 +1,4 @@
-﻿body {
-}
+﻿
 
 .main-product-img {
     max-width: 40vw;
@@ -10,6 +9,14 @@
     display: flex;
     flex-direction: row;
 }
+
+.product {
+    transition: transform 300ms;
+}
+
+    .product:hover {
+        transform: scale(1.02);
+    }
 
 .center-main-product {
     padding-top: 3rem;
@@ -74,7 +81,11 @@ z
 .recommend-item {
     padding: 0 2rem;
     text-decoration: none;
+    transition: transform 300ms ease;
 }
+    .recommend-item:hover {
+        transform: scale(1.02);
+    }
 
 .ymal {
     padding-left: 3rem;

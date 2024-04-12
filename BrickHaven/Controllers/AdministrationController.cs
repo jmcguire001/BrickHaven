@@ -4,6 +4,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BrickHaven.Models.ViewModels;
+using Microsoft.AspNetCore.Http;
+using Microsoft.ML.OnnxRuntime.Tensors;
+using Microsoft.ML.OnnxRuntime;
+using Microsoft.Extensions.Logging;
 using SQLitePCL;
 
 namespace BrickHaven.Controllers
@@ -14,23 +18,44 @@ namespace BrickHaven.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<Customer> _userManager;
 
+        private readonly InferenceSession _session;
+        private readonly ILogger<HomeController> _logger;
+        private readonly string _onnxPath;
+
         //private readonly UserImporter _userImporter;
 
         private LoginDbContext _context;
         private readonly ILegoRepository _legoRepository;
 
-        public AdministrationController(RoleManager<IdentityRole> roleManager, UserManager<Customer> userManager, LoginDbContext temp, ILegoRepository legoRepository)// , UserImporter userImporter)
+        public AdministrationController(RoleManager<IdentityRole> roleManager, UserManager<Customer> userManager, LoginDbContext temp, ILegoRepository legoRepository, ILogger<HomeController> logger, IHostEnvironment hostEnvironment)// , UserImporter userImporter)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             // _userImporter = userImporter;
-
             _context = temp;
             _legoRepository = legoRepository;
+            _logger = logger;
+            _onnxPath = System.IO.Path.Combine(hostEnvironment.ContentRootPath, "fraud_model.onnx");
+
+            // Initialize the InferenceSession here; ensure the path is correct.
+            try
+            {
+                _session = new InferenceSession(_onnxPath);
+                _logger.LogInformation("ONNX model loaded successfully.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error loading the ONNX model: {ex.Message}");
+            }
         }
 
         [HttpGet]
         public IActionResult CreateRole()
+        {
+            return View();
+        }
+
+        public IActionResult NotFound()
         {
             return View();
         }
@@ -100,21 +125,6 @@ namespace BrickHaven.Controllers
                 RoleName = role.Name
                 // You can add other properties here if needed
             };
-
-            //Initialize the Users Property to avoid Null Reference Exception while Add the username
-            model.Users = new List<string>();
-
-            // Retrieve all the Users
-            foreach (var user in _userManager.Users.ToList())
-            {
-                // If the user is in this role, add the username to
-                // Users property of EditRoleViewModel. 
-                // This model object is then passed to the view for display
-                if (await _userManager.IsInRoleAsync(user, role.Name))
-                {
-                    model.Users.Add(user.UserName);
-                }
-            }
 
             return View(model);
         }
@@ -289,7 +299,7 @@ namespace BrickHaven.Controllers
         }
 
         [HttpGet]
-        public IActionResult ListUsers(string? roleFilter, int pageNum = 1, int pageSize = 10)
+        public IActionResult ListUsers(string? roleFilter, int pageNum = 1, int pageSize = 500)
         {
             var userList = new ListUsersViewModel
             {
@@ -308,6 +318,7 @@ namespace BrickHaven.Controllers
             // var users = _userManager.Users;
             return View(userList);
         }
+
 
         [HttpGet]
         public async Task<IActionResult> EditUser(string UserId, int pageNum = 1, int pageSize = 10)
@@ -677,81 +688,155 @@ namespace BrickHaven.Controllers
             return View(model);
         }
 
-        [HttpGet]
-        public IActionResult ListOrders(string? transactionType, int pageNum = 1, int pageSize = 10)
-        {
-            var orderList = new ListOrdersViewModel
-            {
-                Orders = _legoRepository.Orders.OrderBy(o => o.TransactionId).Skip((pageNum - 1) * pageSize).Take(pageSize),
-                PaginationInfo = new PaginationInfo
-                {
-                    CurrentPage = pageNum,
-                    ItemsPerPage = pageSize,
-                    TotalItems = _legoRepository.Orders.Count() == 0 ? 1 : _legoRepository.Orders.Count()
-                },
+        //// Action method to display a view where the user can trigger CSV import
+        //[HttpGet]
+        //public IActionResult ImportUsersFromCsv()
+        //{
+        //    return View();
+        //}
 
-                CurrentPageSize = pageSize,
-                TransactionType = transactionType
+        //// Action method to handle the CSV import
+        //[HttpPost]
+        //public async Task<IActionResult> ImportUsersFromCsv(IFormFile file)
+        //{
+        //    // Ensure a file was provided
+        //    if (file == null || file.Length == 0)
+        //    {
+        //        ModelState.AddModelError("", "Please select a file to import.");
+        //        return View();
+        //    }
+
+        //    // Check if the file is a CSV file
+        //    if (!file.FileName.EndsWith(".csv", StringComparison.OrdinalIgnoreCase))
+        //    {
+        //        ModelState.AddModelError("", "Please select a CSV file.");
+        //        return View();
+        //    }
+
+        //    try
+        //    {
+        //        // Get the path to the temporary file on the server
+        //        var filePath = Path.GetTempFileName();
+
+        //        // Copy the uploaded file to the temporary file
+        //        using (var stream = new FileStream(filePath, FileMode.Create))
+        //        {
+        //            await file.CopyToAsync(stream);
+        //        }
+
+        //        // Call the method to import users from the CSV file
+        //        await _userImporter.ImportUsersFromCsvAsync(filePath);
+
+        //        // Optionally, delete the temporary file
+        //        System.IO.File.Delete(filePath);
+
+        //        // Redirect to a success page or return a success message
+        //        return RedirectToAction("Index", "Home");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Log the exception and display an error message
+        //        ModelState.AddModelError("", "An error occurred while importing users from CSV.");
+        //        // Log the exception
+        //        // Log.Error("An error occurred while importing users from CSV.", ex);
+        //        return View();
+        //    }
+        //}
+
+        public IActionResult ReviewOrders(int pageNum = 1, int pageSize = 20)
+        {
+            var ordersQuery = _legoRepository.Orders.OrderByDescending(o => o.Date);
+
+            var totalItems = ordersQuery.Count();
+
+            var records = ordersQuery.Skip((pageNum - 1) * pageSize)
+                                    .Take(pageSize)
+                                    .ToList();
+
+            //var records = _legoRepository.Orders
+            //    .OrderByDescending(o => o.Date)
+            //    .Take(20)
+            //    .ToList(); //Fetch the 20 most recent records
+
+            var predictions = new List<OrderPrediction>();
+            // Viewmodel for the view
+
+            // Dictionary mapping the numeric prediction to a fraud type
+            var class_type_dict = new Dictionary<int, string>
+            {
+                { 0, "Not Fraud" },
+                { 1, "Fraud" }
             };
 
-            // var users = _userManager.Users;
-            return View(orderList);
+            foreach (var record in records)
+            {
+                var input = new List<float>
+                {
+                    (float)record.TransactionId,
+                    (float)record.Time,
+                    (float)(record.Amount ?? 0),
 
-         }
-            //// Action method to display a view where the user can trigger CSV import
-            //[HttpGet]
-            //public IActionResult ImportUsersFromCsv()
-            //{
-            //    return View();
-            //}
+                    // Check the dummy coded
+                    record.Weekday == "Mon" ? 1 : 0,
+                    record.Weekday == "Sat" ? 1 : 0,
+                    record.Weekday == "Sun" ? 1 : 0,
+                    record.Weekday == "Thu" ? 1 : 0,
+                    record.Weekday == "Tue" ? 1 : 0,
+                    record.Weekday == "Wed" ? 1 : 0,
 
-            //// Action method to handle the CSV import
-            //[HttpPost]
-            //public async Task<IActionResult> ImportUsersFromCsv(IFormFile file)
-            //{
-            //    // Ensure a file was provided
-            //    if (file == null || file.Length == 0)
-            //    {
-            //        ModelState.AddModelError("", "Please select a file to import.");
-            //        return View();
-            //    }
+                    record.EntryMode == "Pin" ? 1 : 0,
+                    record.EntryMode == "Tap" ? 1 :0,
 
-            //    // Check if the file is a CSV file
-            //    if (!file.FileName.EndsWith(".csv", StringComparison.OrdinalIgnoreCase))
-            //    {
-            //        ModelState.AddModelError("", "Please select a CSV file.");
-            //        return View();
-            //    }
+                    record.TransactionType == "Online" ? 1 : 0,
+                    record.TransactionType == "POS" ? 1 : 0,
 
-            //    try
-            //    {
-            //        // Get the path to the temporary file on the server
-            //        var filePath = Path.GetTempFileName();
+                    record.TransactionCountry == "India" ? 1 : 0,
+                    record.TransactionCountry == "Russia" ? 1 : 0,
+                    record.TransactionCountry == "USA" ? 1 : 0,
+                    record.TransactionCountry == "UnitedKingdom" ? 1 : 0,
 
-            //        // Copy the uploaded file to the temporary file
-            //        using (var stream = new FileStream(filePath, FileMode.Create))
-            //        {
-            //            await file.CopyToAsync(stream);
-            //        }
+                    // Use CountryOfTransaction if ShippingAddress is null
+                    (record.ShippingAddress ?? record.TransactionCountry) == "India" ? 1 : 0,
+                    (record.ShippingAddress ?? record.TransactionCountry) == "Russia" ? 1 : 0,
+                    (record.ShippingAddress ?? record.TransactionCountry) == "USA" ? 1 : 0,
+                    (record.ShippingAddress ?? record.TransactionCountry) == "UnitedKingdom" ? 1 : 0,
 
-            //        // Call the method to import users from the CSV file
-            //        await _userImporter.ImportUsersFromCsvAsync(filePath);
+                    record.Bank == "HSBC" ? 1 :0,
+                    record.Bank == "Halifax" ? 1 :0,
+                    record.Bank == "Lloyds" ? 1 :0,
+                    record.Bank == "Metro" ? 1 :0,
+                    record.Bank == "Monzo" ? 1 :0,
+                    record.Bank == "RBS" ? 1 :0,
 
-            //        // Optionally, delete the temporary file
-            //        System.IO.File.Delete(filePath);
+                    record.CardType == "Visa" ? 1 : 0
+                };
 
-            //        // Redirect to a success page or return a success message
-            //        return RedirectToAction("Index", "Home");
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        // Log the exception and display an error message
-            //        ModelState.AddModelError("", "An error occurred while importing users from CSV.");
-            //        // Log the exception
-            //        // Log.Error("An error occurred while importing users from CSV.", ex);
-            //        return View();
-            //    }
-            //}
+                var inputTensor = new DenseTensor<float>(input.ToArray(), new[] { 1, input.Count });
+
+                var inputs = new List<NamedOnnxValue>
+                {
+                    NamedOnnxValue.CreateFromTensor("float_input", inputTensor)
+                };
+
+                string predictionResult;
+                using (var results = _session.Run(inputs))
+                {
+                    var prediction = results.FirstOrDefault(item => item.Name == "output_label")?.AsTensor<long>().ToArray();
+                    predictionResult = prediction != null && prediction.Length > 0 ? class_type_dict.GetValueOrDefault((int)prediction[0], "Unknown") : "Error in prediction";
+                }
+
+                predictions.Add(new OrderPrediction { Orders = record, Prediction = predictionResult });
+            }
+
+            ViewData["PaginationInfo"] = new PaginationInfo
+            {
+                CurrentPage = pageNum,
+                ItemsPerPage = pageSize,
+                TotalItems = totalItems
+            };
+
+            return View(predictions);
+        }
 
         //// Action method to display a view where the user can trigger CSV import
         //[HttpGet]
