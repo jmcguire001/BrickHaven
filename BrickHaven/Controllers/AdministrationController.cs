@@ -93,21 +93,6 @@ namespace BrickHaven.Controllers
                 // You can add other properties here if needed
             };
 
-            //Initialize the Users Property to avoid Null Reference Exception while Add the username
-            model.Users = new List<string>();
-
-            // Retrieve all the Users
-            foreach (var user in _userManager.Users.ToList())
-            {
-                // If the user is in this role, add the username to
-                // Users property of EditRoleViewModel. 
-                // This model object is then passed to the view for display
-                if (await _userManager.IsInRoleAsync(user, role.Name))
-                {
-                    model.Users.Add(user.UserName);
-                }
-            }
-
             return View(model);
         }
 

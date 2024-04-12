@@ -30,31 +30,4 @@
             <a asp-action="ListRoles" class="btn btn-primary">Cancel</a>
         </div>
     </div>
-    <br />
-    <div class="card">
-        <div class="card-header">
-            <h3>Users in this role</h3>
-        </div>
-        <div class="card-body">
-            @if (Model.Users != null && Model.Users.Any())
-            {
-                foreach (var user in Model.Users)
-                {
-                    <h5 class="card-title">@user</h5>
-                }
-            }
-            else
-            {
-                <h5 class="card-title">None at the moment</h5>
-            }
-        </div>
-
-        <div class="card-footer">
-            <a asp-controller="Administration" asp-action="EditUsersInRole"
-               asp-route-roleId="@Model.Id" class="btn btn-primary">
-                Add or Remove Users From This Role
-            </a>
-        </div>
-    </div>
-
 </form>
