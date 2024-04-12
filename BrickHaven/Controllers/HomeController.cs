@@ -195,13 +195,24 @@ namespace BrickHaven.Controllers
             // Retrieve the current user's ID
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
+            var cart = HttpContext.Session.GetJson<Cart>("cart");
+
+            float? amount = 0;
+
+            foreach (var line in cart.Lines)
+            {
+                float? priceItem = line.Product.Price * line.Quantity;
+                amount += priceItem;
+            }
+
             var viewModel = new AddOrderViewModel
             {
                 UserId = user.Id,
                 Date = DateTime.Now,
                 Weekday = DateTime.Now.DayOfWeek.ToString(),
                 Time = DateTime.Now.Hour,
-                TransactionCountry = user.ResidenceCountry
+                TransactionCountry = user.ResidenceCountry,
+                Amount = amount
             };
 
             return View(viewModel);
