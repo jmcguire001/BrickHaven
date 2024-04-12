@@ -21,6 +21,12 @@ h1.fp-h1 {
     min-width: 0%;
 }
 
+.side-img {
+    padding-top: 8rem;
+    max-width: 100%;
+    min-width: 0%;
+}
+
 .center-form {
     display: flex;
     justify-content: center;

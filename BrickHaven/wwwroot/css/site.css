@@ -28,6 +28,7 @@ h5 {
 
 body {
     font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
 }
 
 .navbar {
