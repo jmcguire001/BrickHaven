@@ -79,30 +79,11 @@ namespace BrickHaven.Controllers
             var shopInfo = new ProductListViewModel
             {
                 // This info is for the legos specifically
-                Products = (pageSize == 10) ?
-                    _repo.Products
-                        .Where(x => (x.Category == legoType || legoType == null) && (x.PrimaryColor == legoColor || legoColor == null))
-                        .OrderBy(x => x.Name)
-                        .Skip((pageNum - 1) * pageSize)
-                        .Take(pageSize) :
-                    (pageSize == 5) ?
-                    _repo.Products
-                        .Where(x => (x.Category == legoType || legoType == null) && (x.PrimaryColor == legoColor || legoColor == null))
-                        .OrderBy(x => x.Name)
-                        .Take(_repo.Products.Count() / 2) :
-                    (pageSize == 20) ?
-                    _repo.Products
-                        .Where(x => (x.Category == legoType || legoType == null) && (x.PrimaryColor == legoColor || legoColor == null))
-                        .OrderBy(x => x.Name)
-                        .Take(_repo.Products.Count() * 2) :
-                    _repo.Products
-                        .Where(x => (x.Category == legoType || legoType == null) && (x.PrimaryColor == legoColor || legoColor == null))
-                        .OrderBy(x => x.Name)
-                        .Skip((pageNum - 1) * pageSize)
-                        .Take(pageSize),
-
-                // calculates which items to show for the specific page by skipping all the items on the previous pages
-                // Only gets a certain number of legos
+                Products = _repo.Products
+                .Where(x => (x.Category == legoType || legoType == null) && (x.PrimaryColor == legoColor || legoColor == null)) // If legoType is null, show all legos
+                .OrderBy(x => x.Name)
+                .Skip((pageNum - 1) * pageSize) // calculates which items to show for the specific page by skipping all the items on the previous pages
+                .Take(pageSize), // Only gets a certain number of legos
 
                 // This info is for pagination
                 PaginationInfo = new PaginationInfo
@@ -110,24 +91,12 @@ namespace BrickHaven.Controllers
                     // Dynamically calculate the total items (basically number of page buttons needed) by the following conditions
                     CurrentPage = pageNum,
                     ItemsPerPage = pageSize,
-                    TotalItems = (legoType == null && legoColor == null && pageSize == 10) ?
+                    TotalItems = (legoType == null && legoColor == null) ?
                         _repo.Products.Count() :
-                        (legoType == null && legoColor != null && pageSize == 10) ?
+                        (legoType == null && legoColor != null) ?
                         _repo.Products.Where(x => x.PrimaryColor == legoColor).Count() :
-                        (legoType != null && legoColor == null && pageSize == 10) ?
+                        (legoType != null && legoColor == null) ?
                         _repo.Products.Where(x => x.Category == legoType).Count() :
-                        (legoType == null && legoColor == null && pageSize == 5) ?
-                        _repo.Products.Count() / 2 :
-                        (legoType == null && legoColor != null && pageSize == 5) ?
-                        _repo.Products.Where(x => x.PrimaryColor == legoColor).Count() / 2 :
-                        (legoType != null && legoColor == null && pageSize == 5) ?
-                        _repo.Products.Where(x => x.Category == legoType).Count() / 2 :
-                        (legoType == null && legoColor == null && pageSize == 20) ?
-                        _repo.Products.Count() * 2 :
-                        (legoType == null && legoColor != null && pageSize == 20) ?
-                        _repo.Products.Where(x => x.PrimaryColor == legoColor).Count() * 2 :
-                        (legoType != null && legoColor == null && pageSize == 20) ?
-                        _repo.Products.Where(x => x.Category == legoType).Count() * 2 :
                         _repo.Products.Where(x => x.Category == legoType && x.PrimaryColor == legoColor).Count()
 
         },
