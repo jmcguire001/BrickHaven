@@ -8,12 +8,12 @@
 <button type="button" class="back-button" onclick="history.back()"><img src="~/assets/circle-chevron-left.svg" class="back-icon" /></button>
 
 <div class="main-product-container">
-    <div class="center-main-product">
-        <img src="@Model.Product.ImgLink" class="main-product-img" alt="Product Image">
-    </div>
-    <div class="center-main-product">
-        <div class="center-form">
-            <form id=@Model.Product.ProductId method="post">
+    <form id=@Model.Product.ProductId method="post">
+        <div class="center-main-product">
+            <img src="@Model.Product.ImgLink" class="main-product-img" alt="Product Image">
+        </div>
+        <div class="center-main-product">
+            <div class="center-form">
                 <div class="format-product-details">
                     <h2 class="form-header">@Model.Product.Name</h2><br />
                     <div class="contain-description">
@@ -41,9 +41,9 @@
                         <button type="submit" class="button">Add to Cart</button>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 
 <br /><br /><br />
