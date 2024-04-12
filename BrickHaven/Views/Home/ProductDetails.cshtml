@@ -8,11 +8,11 @@
 <button type="button" class="back-button" onclick="history.back()"><img src="~/assets/circle-chevron-left.svg" class="back-icon" /></button>
 
 <div class="main-product-container">
-    <form id=@Model.Product.ProductId method="post">
-        <div class="center-main-product">
-            <img src="@Model.Product.ImgLink" class="main-product-img" alt="Product Image">
-        </div>
-        <div class="center-main-product">
+    <div class="center-main-product">
+        <img src="@Model.Product.ImgLink" class="main-product-img" alt="Product Image">
+    </div>
+    <div class="center-main-product">
+        <form id=@Model.Product.ProductId method="post">
             <div class="center-form">
                 <div class="format-product-details">
                     <h2 class="form-header">@Model.Product.Name</h2><br />
@@ -42,8 +42,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 
 <br /><br /><br />
