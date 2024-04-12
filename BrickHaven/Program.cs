@@ -116,10 +116,13 @@ app.UseAuthorization();
 
 // Looks at the first route, and then the second, etc., but don't show the ones after a route is found
 app.MapDefaultControllerRoute();
-// app.MapControllerRoute("typeColorPageNum", "{pageNum}/{legoType}/{legoColor}", new { Controller = "Home", action = "Shop" });
+app.MapControllerRoute("typeColorPageNum", "{legoType}/{legoColor}/{pageNum}", new { Controller = "Home", action = "Shop" });
+app.MapControllerRoute("typeColor", "{legoType}/{legoColor}", new { Controller = "Home", action = "Shop" });
+app.MapControllerRoute("ColorPageNum", "{legoColor}/{pageNum}", new { Controller = "Home", action = "Shop" });
 app.MapControllerRoute("pageenumandtype", "{legoType}/{pageNum}", new { Controller = "Home", action = "Shop" });
-app.MapControllerRoute("pagination", "{pageNum}", new { Controller = "Home", action = "Shop", pageNum = 1 });
-app.MapControllerRoute("legoType", "{legoType}", new { Controller = "Home", action = "Shop", pageNum = 1 });
+app.MapControllerRoute("legoType", "{legoType}", new { Controller = "Home", action = "Shop", pageNum = 1});
+app.MapControllerRoute("legoColor", "{legoColor}", new { Controller = "Home", action = "Shop", pageNum = 1});
+app.MapControllerRoute("pagination", "{pageNum}", new { Controller = "Home", action = "Shop" });
 
 app.MapRazorPages();
 
