@@ -3,8 +3,10 @@
 @{
 }
 
-<p>Your order has been placed</p>
 
+<div class="center-admin-form">
+    <div class="admin-form-container">
+        <h1 class="admin-table-header">Your order has been placed</h1>
 <form method="post" asp-action="ConfirmedOrder" asp-controller="Home">
     @foreach (var item in Model.Lines)
     {
@@ -13,3 +15,5 @@
     }
     <button type="submit">Return to Shopping</button>
 </form>
+</div>
+</div>

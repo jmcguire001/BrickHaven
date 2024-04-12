@@ -2,18 +2,18 @@
     ViewData["Title"] = "Manage Two Factor Authentication";
 }
 
-<h1>Manage Two Factor Authentication</h1>
+<button type="button" class="back-button" onclick="history.back()"><img src="~/assets/circle-chevron-left.svg" class="back-icon" /></button>
 
-<hr />
-<div class="row">
-    <div class="col-md-6">
+<div class="center-admin-form">
+    <div class="admin-form-container">
+        <h1 class="admin-table-header">Two Factor Authentication</h1><br />
         <form method="post" asp-controller="Account" asp-action="ManageTwoFactorAuthentication">
-            <div class="form-group">
-                <label>Enter the verification code sent to your email</label>
-                <input type="text" name="Token" id="Token" class="form-control" />
-            </div>
+            <div class="">
+                <label>Enter the verification code sent to your email</label><br /><br />
+                <input type="text" name="Token" id="Token" class="" />
+            </div><br /><br />
 
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="button">Submit</button><br />
         </form>
     </div>
 </div>

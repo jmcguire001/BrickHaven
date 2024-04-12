@@ -168,6 +168,7 @@ h1.admin-table-header {
     text-decoration: none;
     transition: background-color 400ms, color 400ms;
     font-weight: 500;
+
 }
 
 .create-button:hover {

@@ -9,71 +9,76 @@
     var userDetail = await UserManager.GetUserAsync(User);
 }
 
-<h1>Update Profile</h1>
+<button type="button" class="back-button" onclick="history.back()"><img src="~/assets/circle-chevron-left.svg" class="back-icon" /></button>
 
-<form method="post" class="mt-3">
-    <div class="form-group row">
-        <label asp-for="UserName" class="col-sm-2 col-form-label"></label>
 
-        <div class="col-sm-10">
-            <input asp-for="UserName" class="form-control">
-            <span asp-validation-for="UserName" class="text-danger"></span>
+<div class="center-admin-form">
+    <div class="admin-form-container">
+        <h1 class="admin-table-header">Edit Profile</h1>
+
+<form method="post" class="">
+    <div class="">
+        <label asp-for="UserName" class=""></label>
+
+        <div class="">
+            <input asp-for="UserName" class="">
+            <span asp-validation-for="UserName" class=""></span>
         </div>
     </div>
 
-    <div class="form-group row">
-        <label asp-for="Email" class="col-sm-2 col-form-label"></label>
+    <div class="">
+        <label asp-for="Email" class=""></label>
 
-        <div class="col-sm-10">
-            <input asp-for="Email" class="form-control">
-            <span asp-validation-for="Email" class="text-danger"></span>
+        <div class="">
+            <input asp-for="Email" class="">
+            <span asp-validation-for="Email" class=""></span>
         </div>
     </div>
 
-    <div class="form-group row">
-        <label asp-for="FirstName" class="col-sm-2 col-form-label"></label>
+    <div class="">
+        <label asp-for="FirstName" class=""></label>
 
-        <div class="col-sm-10">
-            <input asp-for="FirstName" class="form-control">
+        <div class="">
+            <input asp-for="FirstName" class="">
         </div>
     </div>
 
-    <div class="form-group row">
-        <label asp-for="LastName" class="col-sm-2 col-form-label"></label>
+    <div class="">
+        <label asp-for="LastName" class=""></label>
 
-        <div class="col-sm-10">
-            <input asp-for="LastName" class="form-control">
+        <div class="">
+            <input asp-for="LastName" class="">
         </div>
     </div>
 
-    <div class="form-group row">
-        <label asp-for="Birthday" class="col-sm-2 col-form-label"></label>
+    <div class="">
+        <label asp-for="Birthday" class=""></label>
 
-        <div class="col-sm-10">
-            <input asp-for="Birthday" class="form-control">
+        <div class="">
+            <input asp-for="Birthday" class="">
         </div>
     </div>
 
-    <div class="form-group row">
-        <label asp-for="ResidenceCountry" class="col-sm-2 col-form-label"></label>
+    <div class="">
+        <label asp-for="ResidenceCountry" class=""></label>
 
-        <div class="col-sm-10">
-            <input asp-for="ResidenceCountry" class="form-control">
+        <div class="">
+            <input asp-for="ResidenceCountry" class="">
         </div>
     </div>
 
-    <div class="form-group row">
-        <label asp-for="Gender" class="col-sm-2 col-form-label"></label>
+    <div class="">
+        <label asp-for="Gender" class=""></label>
 
-        <div class="col-sm-10">
-            <input asp-for="Gender" class="form-control">
+        <div class="">
+            <input asp-for="Gender" class="">
         </div>
     </div>
 
-    <div asp-validation-summary="All" class="text-danger"></div>
+    <div asp-validation-summary="All" class=""></div>
 
-    <div class="form-group row">
-        <div class="col-sm-10">
+    <div class="">
+        <div class="">
             @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
             {
                 <div class="alert alert-success" role="alert">
@@ -81,26 +86,28 @@
                 </div>
             }
 
-            <button type="submit" class="btn btn-primary">Update</button>
-            <button type="button" class="btn btn-primary" onclick="history.back()">Back</button>
+            <button type="submit" class="create-button">Update</button>
+            <button type="button" class="cancel-button" onclick="history.back()">Back</button>
         </div>
     </div>
-</form>
+</form><br />
+        <a class="" asp-controller="Account" asp-action="ChangePassword">Change Password</a><br />
 
-<a class="btn-info" asp-controller="Account" asp-action="ChangePassword">Change Password</a><br />
+        @if (userDetail != null)
+        {
+            @if (userDetail.TwoFactorEnabled)
+            {
+                <a class="" asp-controller="Account" asp-action="ManageTwoFactorAuthentication">Disable 2FA</a>
+            }
+            else
+            {
+                <a class="" asp-controller="Account" asp-action="ManageTwoFactorAuthentication">Enable 2FA</a>
+            }
+        }
+        else
+        {
+            <span class="dropdown-item disabled">No users found</span>
+        }
+</div>
+</div>
 
-@if (userDetail != null)
-{
-    @if (userDetail.TwoFactorEnabled)
-    {
-        <a class="btn-info" asp-controller="Account" asp-action="ManageTwoFactorAuthentication">Disable 2FA</a>
-    }
-    else
-    {
-        <a class="btn-info" asp-controller="Account" asp-action="ManageTwoFactorAuthentication">Enable 2FA</a>
-    }
-}
-else
-{
-    <span class="dropdown-item disabled">No users found</span>
-}
