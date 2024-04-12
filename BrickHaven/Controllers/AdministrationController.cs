@@ -7,7 +7,7 @@ using BrickHaven.Models.ViewModels;
 
 namespace BrickHaven.Controllers
 {
-    [Authorize(Roles = "Admin")] // Adding another role to this is an OR; place another authorize underneath to be AND
+    [Authorize] // Adding another role to this is an OR; place another authorize underneath to be AND
     public class AdministrationController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;

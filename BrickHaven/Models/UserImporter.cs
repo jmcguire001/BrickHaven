@@ -30,6 +30,7 @@ public class UserImporter
                 var residenceCountry = values[4];
                 var gender = values[5];
                 var age = float.Parse(values[6]); // Assuming age is represented as an integer in the CSV
+                var recommendation = int.Parse(values[7]);
 
                 // Dynamic username generation (but still brickmaster#)
                 var username = $"brickmaster{customerId}";
