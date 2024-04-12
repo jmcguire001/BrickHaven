@@ -114,26 +114,20 @@
         }
     </header>
 
-    <div class="">
-        <div class="">
-            <main role="main" class="">
                 @RenderBody()
-            </main>
-        </div>
-    </div>
 
-    <div id="cookieConsent" style="display:none; position: fixed; bottom: 0; width: 100%; background: black; color: white; text-align: center; padding: 10px; z-index: 1000;">
+    <div id="cookieConsent" style="display:none; position: fixed; bottom: 0; width: 100%; background: #E34749; color: white; text-align: center; padding: 10px; z-index: 1000;">
         <p>
             We use cookies to enhance your experience. By continuing on this site, you consent to our use of cookies.
-            <a href="@Url.Action("Privacy", "Home")" style="color: #4CAF50;">Learn More</a>
-            <button onclick="acceptCookies()" style="margin-left: 15px; background-color: #4CAF50; color: white; border: none; padding: 5px 10px;">Accept</button>
+            <a href="@Url.Action("Privacy", "Home")" style="color: #FCAB22;">Learn More</a>
+            <button onclick="acceptCookies()" style="margin-left: 15px; background-color: #FCAB22; color: white; border: none; padding: 5px 10px;">Accept</button>
         </p>
     </div>
 
     @if (!(ViewContext.RouteData.Values["Controller"].ToString().Equals("Account")))
     {
-@*         <footer>
-            <div class="center">
+        @* <footer class="bg-dark text-light py-4">
+            <div class="container text-center">
                 &copy; 2024 - Brick Haven
             </div>
         </footer> *@

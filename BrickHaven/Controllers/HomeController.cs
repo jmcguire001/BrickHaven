@@ -93,7 +93,7 @@ namespace BrickHaven.Controllers
                 Products = _repo.Products
                     .Where(x => (x.Category == legoType || legoType == null) && (x.PrimaryColor == legoColor || legoColor == null)) // If legoType is null, show all legos
                     .OrderBy(x => x.Name)
-                    .Skip((pageNum - 1) * pageSize) // NOT SURE WHAT THIS DOES
+                    .Skip((pageNum - 1) * pageSize) // calculates which items to show for the specific page by skipping all the items on the previous pages
                     .Take(pageSize), // Only gets a certain number of legos
 
                 // This info is for pagination
@@ -104,7 +104,8 @@ namespace BrickHaven.Controllers
                     TotalItems = legoType == null ? _repo.Products.Count() : _repo.Products.Where(x => x.Category == legoType).Count() // If legoType is null, show all legos, otherwise, filter specific legos
                 },
 
-                CurrentLegoType = legoType,
+                CurrentLegoCategory = legoType,
+                CurrentLegoColor = legoColor,
                 CurrentPageSize = pageSize
             };
 
