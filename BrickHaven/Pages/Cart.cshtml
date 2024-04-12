@@ -1,6 +1,7 @@
 ﻿@page
 @model BrickHaven.Pages.CartModel
 @{
+    ViewBag.Title = "Cart";
 }
 
 <button type="button" class="back-button" onclick="history.back()"><img src="~/assets/circle-chevron-left.svg" class="back-icon" /></button>
@@ -41,5 +42,6 @@
 </div><br /><br /><br />
 
 <div class="text-center">
-    <a class="button" href="@Model.ReturnUrl"></a>
+    <a asp-controller="Home" asp-action="Shop" class="edit-button">Checkout</a>
+    <a class="button" href="@Model.ReturnUrl">Checkout</a>
 </div>
