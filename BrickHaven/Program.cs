@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using BrickHaven.Models;
 using Azure.Identity;
+using BrickHaven.Models.ViewModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,7 @@ builder.Services.AddDbContext<LegoContext>(options => options.UseSqlServer(conne
 
 // When we refer to IWaterRepository, we actually want to use the EFWaterRepository
 builder.Services.AddScoped<ILegoRepository, EFLegoRepository>();
+builder.Services.AddScoped<ProductRecommendationsViewModel>();
 
 builder.Services.AddRazorPages(); // Allows us to use MVVM
 

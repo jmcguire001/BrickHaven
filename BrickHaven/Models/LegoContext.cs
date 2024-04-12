@@ -17,7 +17,6 @@ namespace BrickHaven.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<LineItem>().HasNoKey(); // Configure LineItem as a keyless entity type
         }
 
     }

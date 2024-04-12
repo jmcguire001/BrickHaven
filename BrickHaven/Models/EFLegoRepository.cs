@@ -16,6 +16,7 @@ namespace BrickHaven.Models
         public IQueryable<Product> Products => _context.Products;
 
         public IQueryable<Order> Orders => _context.Orders;
+        public IQueryable<LineItem> LineItems => _context.LineItems;
 
         public Product GetProductById(int productId)
         {
@@ -71,6 +72,11 @@ namespace BrickHaven.Models
         public async void AddToCart(Product product)
         {
             _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+        }
+        public async Task AddLineItem(LineItem lineItem)
+        {
+            _context.LineItems.Add(lineItem);
             await _context.SaveChangesAsync();
         }
     }

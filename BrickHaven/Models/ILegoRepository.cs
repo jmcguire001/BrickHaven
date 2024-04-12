@@ -7,6 +7,7 @@ namespace BrickHaven.Models
         // Query the instances from Lego model and save to set Lego
         public IQueryable<Product> Products { get; }
         public IQueryable<Order> Orders { get; }
+        public IQueryable<LineItem> LineItems { get; }
 
         // Update the product
         Task<int> SaveChangesAsync();
@@ -15,6 +16,7 @@ namespace BrickHaven.Models
         Task AddProduct (Product product);
         Task UpdateOrderAsync(Order order);
         Task DeleteOrderAsync(Order order);
+        Task AddLineItem(LineItem lineItem);
         Task AddOrder(Order order);
 
         public Product GetProductById(int id);
