@@ -81,7 +81,11 @@ z
 .recommend-item {
     padding: 0 2rem;
     text-decoration: none;
+    transition: transform 300ms ease;
 }
+    .recommend-item:hover {
+        transform: scale(1.02);
+    }
 
 .ymal {
     padding-left: 3rem;
