@@ -194,31 +194,33 @@ namespace BrickHaven.Controllers
 
             Cart cart = HttpContext.Session.GetJson<Cart>("cart");
 
-            // Retrieve the current user's ID
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            float? amount = 0;
+            if (cart != null)
+            {
+                // Retrieve the current user's ID
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                float? amount = 0;
 
-            foreach (var line in cart.Lines)
-            { 
-                float? price = line.Product.Price * line.Quantity;
+                foreach (var line in cart.Lines)
+                {
+                    float? price = line.Product.Price * line.Quantity;
 
-                amount += price;
+                    amount += price;
+                }
+
+                var viewModel = new AddOrderViewModel
+                {
+                    UserId = user.Id,
+                    Date = DateTime.Now,
+                    Weekday = DateTime.Now.DayOfWeek.ToString(),
+                    Time = DateTime.Now.Hour,
+                    TransactionCountry = user.ResidenceCountry,
+                    Amount = amount
+                };
+
+                return View(viewModel);
             }
 
-            var viewModel = new AddOrderViewModel
-            {
-                UserId = user.Id,
-                Date = DateTime.Now,
-                Weekday = DateTime.Now.DayOfWeek.ToString(),
-                Time = DateTime.Now.Hour,
-                TransactionCountry = user.ResidenceCountry,
-                Amount = amount
-            };
-
-
-
-
-            return View(viewModel);
+            return RedirectToAction("Shop", "Home");
         }
 
         [Authorize]
