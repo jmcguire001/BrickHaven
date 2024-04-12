@@ -8,9 +8,8 @@ namespace BrickHaven.Models
     {
         [Key]
         public int TransactionId { get; set; }
-
         [ForeignKey("Customer")]
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
         public DateTime? Date { get; set; }
         public string? Weekday { get; set; }
         public int? Time { get; set; }
@@ -21,6 +20,6 @@ namespace BrickHaven.Models
         public string? TransactionCountry { get; set; }
         public string? ShippingAddress { get; set; }
         public string? Bank { get; set; }
-        public bool? IsFraud { get; set; }
+        public bool? IsFraud { get; set; } = false;
     }
 }

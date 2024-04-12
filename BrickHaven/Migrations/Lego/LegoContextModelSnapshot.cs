@@ -22,43 +22,9 @@ namespace BrickHaven.Migrations.Lego
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("BrickHaven.Models.Lego", b =>
-                {
-                    b.Property<int>("LegoId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LegoId"));
-
-                    b.Property<int>("LegoImpact")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("LegoInstallation")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LegoName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LegoPhase")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LegoType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProgramName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("LegoId");
-
-                    b.ToTable("Legos");
-                });
-
             modelBuilder.Entity("BrickHaven.Models.LineItem", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int?>("Quantity")
@@ -67,7 +33,7 @@ namespace BrickHaven.Migrations.Lego
                     b.Property<int?>("Rating")
                         .HasColumnType("int");
 
-                    b.Property<int>("TransactionId")
+                    b.Property<int?>("TransactionId")
                         .HasColumnType("int");
 
                     b.ToTable("LineItems");
@@ -90,8 +56,8 @@ namespace BrickHaven.Migrations.Lego
                     b.Property<string>("CardType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly?>("Date")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("EntryMode")
                         .HasColumnType("nvarchar(max)");
@@ -112,7 +78,6 @@ namespace BrickHaven.Migrations.Lego
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Weekday")
@@ -151,6 +116,21 @@ namespace BrickHaven.Migrations.Lego
 
                     b.Property<string>("PrimaryColor")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Recommendation1")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Recommendation2")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Recommendation3")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Recommendation4")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Recommendation5")
+                        .HasColumnType("int");
 
                     b.Property<string>("SecondaryColor")
                         .HasColumnType("nvarchar(max)");

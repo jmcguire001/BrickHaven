@@ -1,0 +1,81 @@
+﻿@model ListProductsViewModel 
+
+@{
+    ViewBag.Title = "All Products";
+}
+
+<h1 class="list-header">All Products</h1>
+
+<div class="corner-button">
+    <a asp-action="CreateProduct" asp-controller="Administration" class="edit-button" style="width:auto">Add New Product</a>
+</div>
+
+<div class="button-bar">
+    <div page-model="@Model.PaginationInfo" page-action="ListProducts" page-class-enabled="true"
+         page-class-normal="btn-outline-dark" page-class-selected="page-button-selected" page-class="page-button"
+         page-url-legoType="@Model.CurrentLegoType" page-url-pageSize="@Model.CurrentPageSize" class="btn-group pull-right m-1">
+    </div>
+</div>
+
+<!-- Updated class to handle varying column counts -->
+@if (!Model.Products.Any())
+{
+    <p>There are no products in the database</p>
+}
+else
+{
+    <div class="table-container">
+        <table class="product-table-unlike-any-other">
+            <thead>
+                <tr>
+                    <th>Product Id</th>
+                    <th>Product Name</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Year</th>
+                    <th>Number of Parts</th>
+                    <th>Price</th>
+                    <th>Primary Color</th>
+                    <th>Secondary Color</th>
+                    <th>Image Link</th>
+                    <th>Edit/Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model.Products)
+                {
+                    <tr>
+                        <td>@product.ProductId</td>
+                        <td>@product.Name</td>
+                        <td>@product.Category</td>
+                        <td>@product.Description</td>
+                        <td>@product.Year</td>
+                        <td>@product.NumParts</td>
+                        <td>@product.Price</td>
+                        <td>@product.PrimaryColor</td>
+                        <td>@product.SecondaryColor</td>
+                        <td>@product.ImgLink</td>
+                        <td>
+                            <form method="post" asp-action="DeleteProduct" asp-route-ProductId="@product.ProductId" onsubmit="return confirmDelete()">
+                                <div class="edit-delete-buttons-container">
+                                    <a asp-controller="Administration" asp-action="EditProduct" asp-route-ProductId="@product.ProductId" class="edit-button">Edit</a>
+                                    <button type="submit" class="delete-button"><img src="~/assets/trash.svg" class="trash-button" /></button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+<script>
+    function confirmDelete() {
+        // Display an alert box asking the user if they want to delete
+        var confirmation = window.confirm("Are you sure you want to delete this product?");
+
+        // Return the result of the confirmation (true if user clicks OK, false if Cancel)
+        return confirmation;
+    }
+</script>

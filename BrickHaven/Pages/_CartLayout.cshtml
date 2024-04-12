@@ -99,23 +99,10 @@
                                     }
                                 </ul>
                             </li>
-                        }
-                        else
-                        {
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="account" asp-action="register">
-                                    Register
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="account" asp-action="login">
-                                    Login
-                                </a>
+                                <a class="nav-link" asp-area="" asp-action="Cart"><img class="cart" src="~/assets/cart.svg" /></a>
                             </li>
                         }
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-action="Cart"><img class="cart" src="~/assets/cart.svg" /></a>
-                        </li>
                     </ul>
                 </div>
             </nav>

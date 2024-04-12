@@ -31,12 +31,11 @@ builder.Services.AddIdentity<Customer, IdentityRole>(
     {
         // Password settings
         options.Password.RequireDigit = true;
-        options.Password.RequiredLength = 8;
+        options.Password.RequiredLength = 9;
         options.Password.RequireNonAlphanumeric = true;
         options.Password.RequireUppercase = true;
         options.Password.RequireLowercase = true;
         options.Password.RequiredUniqueChars = 4;
-        // Other settings can be configured here
 
     })
     .AddEntityFrameworkStores<LoginDbContext>()
@@ -103,6 +102,7 @@ else
 {
     app.UseExceptionHandler("/Error");
     app.UseStatusCodePagesWithReExecute("/Error/{0}");
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
@@ -119,6 +119,8 @@ app.MapDefaultControllerRoute();
 app.MapControllerRoute("pageenumandtype", "{legoType}/{pageNum}", new { Controller = "Home", action = "Shop" });
 app.MapControllerRoute("pagination", "{pageNum}", new { Controller = "Home", action = "Shop", pageNum = 1 });
 app.MapControllerRoute("legoType", "{legoType}", new { Controller = "Home", action = "Shop", pageNum = 1 });
+app.MapControllerRoute("legoColor", "{legoColor}/{pageNum}", new { Controller = "Home", action = "Shop", pageNum = 1 });
+
 
 app.MapRazorPages();
 

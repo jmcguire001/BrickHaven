@@ -3,40 +3,86 @@
 *@
 @{
 }
-@model Product
+@model ProductRecommendationsViewModel
 
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-6">
-            <img src="@Model.ImgLink" class="img-fluid" alt="Product Image">
+<button type="button" class="back-button" onclick="history.back()"><img src="~/assets/circle-chevron-left.svg" class="back-icon" /></button>
+
+<div class="main-product-container">
+    <form id=@Model.Product.ProductId method="post">
+        <div class="center-main-product">
+            <img src="@Model.Product.ImgLink" class="main-product-img" alt="Product Image">
         </div>
-            <div class="col-md-6">
-                <h2>@Model.Name</h2>
-                <p>@Model.Description</p>
-                <p>@Model.Category</p>
-            <p id="price"><strong>Price: $@Model.Price</strong></p>
-            <form id=@Model.ProductId method="post" asp-page="/Cart">
-                <div class="form-group">
-                    <input type="hidden" asp-for="@Model.ProductId" />
-                    <input type="hidden" name="ReturnUrl" value="Home/Shop" />
-                    <label for="quantity">Quantity:</label>
-                    <input type="number" id="quantity" class="form-control" value="1">
-                    <label>Total Price: </label>
-                    <p id="totalPrice">$</p>
+        <div class="center-main-product">
+            <div class="center-form">
+                <div class="format-product-details">
+                    <h2 class="form-header">@Model.Product.Name</h2><br />
+                    <div class="contain-description">
+                        <p>@Model.Product.Description</p>
+                    </div>
+                    <input type="hidden" asp-for="@Model.Product.ProductId" />
+                    <input type="hidden" name="returnUrl" value="Home/Shop" /><br />
+                    <div class="align-quantity-price">
+                        <div class="">
+                            <label for="quantity">Quantity:</label><br />
+                            <input type="number" id="quantity" class="quantity-input" value="1" min="1">
+                        </div>
+                        <div>
+                            <label>Unit Price:</label>
+                            <p class="price-border">$@Model.Product.Price.00</p>
+                        </div>
+                        <div>
+                            <label>Total Price: </label>
+                            <p class="price-border" id="totalPrice">$</p>
+                        </div>
+                    </div><br /><br />
+                    
+                    <!-- Will take us straight to the razor page! But it does so using this route -->
+                    <div class="center-item">
+                        <button type="submit" class="button">Add to Cart</button>
+                    </div>
                 </div>
-                <!-- Will take us straight to the razor page! But it does so using this route -->
-                <button type="submit" class="btn-outline-success btn-sm float-end">Add to Cart</button>
-            </form>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 
+<br /><br /><br />
+<div class="" style="color: #555555">
+    <h4 class="ymal">You might also like: </h4>
+    <div class="recommend-container" asp-for="ProductDetails">
+        @foreach (var recProduct in Model.RecommendedProducts)
+        {
+
+
+            <a href="@Url.Action("ProductDetails", "Home", new { id = recProduct.ProductId })" class="recommend-item">
+                <img src="@recProduct.ImgLink" alt="@recProduct.Name" class="recommend-img">
+                <h3 class="recommend-header">@recProduct.Name</h3>
+                <!-- Add more details as needed -->
+            </a>
+        }
+    </div>
+</div><br /><br />
+
 <script>
-    function calculateTotal() {
+    // Function to calculate and update total price
+    function updateTotalPrice() {
+        // Get quantity and unit price values
         var quantity = parseInt(document.getElementById('quantity').value);
-        var price = parseFloat(document.getElementById('price').innerText.replace('$', ''));
-        var totalPrice = quantity * price;
+        var unitPrice = parseFloat(document.querySelector('.price-border').innerText.replace('$', ''));
+
+        // Ensure quantity is non-negative
+        quantity = Math.max(quantity, 0);
+
+        // Calculate total price
+        var totalPrice = quantity * unitPrice;
+
+        // Update total price in the HTML
         document.getElementById('totalPrice').innerText = '$' + totalPrice.toFixed(2);
-        return false; // Prevent form submission
     }
+
+    // Add event listener to quantity input
+    document.getElementById('quantity').addEventListener('input', updateTotalPrice);
+
+    // Run updateTotalPrice function initially
+    updateTotalPrice();
 </script>

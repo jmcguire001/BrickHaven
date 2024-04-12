@@ -12,6 +12,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Brick Haven</title>
+
+    <link rel="shortcut icon" href="~/brickhaven-favicon.ico" type="image/x-icon" />
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/bootstrap/styles.css" asp-append-version="true" />
@@ -19,6 +22,14 @@
     <link rel="stylesheet" href="~/css/about.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/privacy.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/ProductDetails.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/list.css" asp-append-version="true" />
+
+
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+
+    <link rel="stylesheet" href="~/css/products-table.css" />
+    <link rel="stylesheet" href="~/css/add-edit-products.css" />
 
     <link href="https://fonts.cdnfonts.com/css/batman-forever" rel="stylesheet">
     <!-- Google Fonts-->
@@ -53,7 +64,8 @@
 
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        </li>                        
+
 
                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         {
@@ -62,8 +74,9 @@
 
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <a class="dropdown-item" asp-controller="Administration" asp-action="ListUsers">Users</a>
-
                                     <a class="dropdown-item" asp-controller="Administration" asp-action="ListRoles">Roles</a>
+                                    <a class="dropdown-item" asp-controller="Administration" asp-action="ListProducts">Products</a>
+                                    <a class="dropdown-item" asp-controller="Administration" asp-action="ReviewOrders">Orders</a>
                                 </ul>
                             </li>
                         }
@@ -80,26 +93,11 @@
                                     
                                     <button type="submit" class="dropdown-item" form="logoutForm">Logout</button>
 
-                                    <a class="dropdown-item" asp-controller="Account" asp-action="UpdateProfile">Update Profile</a>
-
-                                    <a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
-
-                                    @if (userDetail != null)
-                                    {
-                                        @if (userDetail.TwoFactorEnabled)
-                                        {
-                                            <a class="dropdown-item" asp-controller="Account" asp-action="ManageTwoFactorAuthentication">Disable 2FA</a>
-                                        }
-                                        else
-                                        {
-                                            <a class="dropdown-item" asp-controller="Account" asp-action="ManageTwoFactorAuthentication">Enable 2FA</a>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <span class="dropdown-item disabled">No users found</span>
-                                    }
+                                    <a class="dropdown-item" asp-controller="Account" asp-action="UpdateProfile">Profile Settings</a>
                                 </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/Cart"><img class="cart" src="~/assets/cart.svg" /></a>
                             </li>
                         }
                         else
@@ -110,30 +108,26 @@
                                 </a>
                             </li>
                         }
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Cart"><img class="cart" src="~/assets/cart.svg" /></a>
-                        </li>
                     </ul>
                 </div>
             </nav>
         }
     </header>
 
-    <div class="">
-        @* <div class="">
-            <vc:lego-types />
-        </div>
- *@
-        <div class="">
-            <main role="main" class="">
                 @RenderBody()
-            </main>
-        </div>
+
+    <div id="cookieConsent" style="display:none; position: fixed; bottom: 0; width: 100%; background: #E34749; color: white; text-align: center; padding: 10px; z-index: 1000;">
+        <p>
+            We use cookies to enhance your experience. By continuing on this site, you consent to our use of cookies.
+            <a href="@Url.Action("Privacy", "Home")" style="color: #FCAB22;">Learn More</a>
+            <button onclick="acceptCookies()" style="margin-left: 15px; background-color: #FCAB22; color: white; border: none; padding: 5px 10px;">Accept</button>
+        </p>
     </div>
+
     @if (!(ViewContext.RouteData.Values["Controller"].ToString().Equals("Account")))
     {
-@*         <footer>
-            <div class="center">
+        @* <footer class="bg-dark text-light py-4">
+            <div class="container text-center">
                 &copy; 2024 - Brick Haven
             </div>
         </footer> *@
@@ -144,7 +138,6 @@
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
 
     @await RenderSectionAsync("Scripts", required: false)
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BrickHaven.Models.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 
 namespace BrickHaven.Models
@@ -14,28 +15,64 @@ namespace BrickHaven.Models
 
         // Queries from the context file, but is an additional layer
         public IQueryable<Product> Products => _context.Products;
+        public IQueryable<Order> Orders => _context.Orders;
+        public IQueryable<Customer> Customers => _context.Customers;
 
         public Product GetProductById(int productId)
         {
             return _context.Products.FirstOrDefault(p => p.ProductId == productId);
         }
-        public void AddToCart(Product product) // Method is responsible for adding a new task to the database
+
+        public void UpdateProduct(Product product)
         {
-            _context.Add(product);
-            _context.SaveChanges();
+            _context.Products.Update(product);
         }
 
-        public void UpdateTask(Task task) // Method is responsible for updating a tasks to the database
+        public async Task<int> SaveChangesAsync()
         {
-            _context.Update(task);
-            _context.SaveChanges();
+            return await _context.SaveChangesAsync();
         }
 
-        public void DeleteTask(Task task) // Method is responsible for removing tasks to from the database
+        public async Task UpdateProductAsync(Product product)
         {
-            _context.Remove(task);
-            _context.SaveChanges();
+            _context.Products.Update(product);
+            await _context.SaveChangesAsync();
         }
 
+        public async Task DeleteProductAsync(Product product)
+        {
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateOrderAsync(Order order)
+        {
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteOrderAsync(Order order)
+        {
+            _context.Orders.Remove(order);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task AddProduct(Product product)
+        {
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task AddOrder(Order order)
+        {
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
+        }
+
+        public async void AddToCart(Product product)
+        {
+            _context.Products.Add(product);
+            _context.SaveChanges();
+        }
     }
 }
