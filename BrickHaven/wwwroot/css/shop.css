@@ -21,7 +21,7 @@
 
 /* Basic styling */
 .products-container {
-    width: 100%;
+    width: 99vw;
     overflow-x: auto;
     white-space: nowrap;
     padding: 30px 0;
