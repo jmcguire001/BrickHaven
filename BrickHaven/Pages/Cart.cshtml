@@ -4,9 +4,10 @@
 <button type="button" class="back-button" onclick="history.back()"><img src="~/assets/circle-chevron-left.svg" class="back-icon" /></button>
 <br />
 
-<h2>Shopping Cart</h2>
+<h1 class="admin-table-header">Shopping Cart</h1>
 
-<table class="table table-bordered table-striped">
+<div class="table-container">
+    <table class="product-table-unlike-any-other">
     <thead>
         <tr>
             <th>Item</th>
@@ -35,11 +36,14 @@
         </tr>
     </tfoot>
 </table>
-
-<div class="text-center">
-    <a class="btn btn-primary" href="@Model.ReturnUrl">Return to Shopping</a>
 </div>
 <br />
+<br />
+
+<div class="text-center">
+    <a class="create-button" href="@Model.ReturnUrl">Return to Shopping</a>
+    <br /><br />
+</div>
 
 @if (Model.Cart != null)
 {
@@ -51,7 +55,7 @@
                 <input type="hidden" name="quantity" value="@item.Quantity" />
             }
             <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
-            <a type="submit" class="btn btn-primary" asp-action="AddOrder" asp-controller="Home">Checkout</a>
+            <a type="submit" class="button" asp-action="AddOrder" asp-controller="Home">Checkout</a>
         </form>
     </div>
     <br />
