@@ -1,5 +1,4 @@
-﻿using BrickHaven.Models.ViewModels;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 
 namespace BrickHaven.Models
@@ -15,9 +14,9 @@ namespace BrickHaven.Models
 
         // Queries from the context file, but is an additional layer
         public IQueryable<Product> Products => _context.Products;
+
         public IQueryable<Order> Orders => _context.Orders;
         public IQueryable<LineItem> LineItems => _context.LineItems;
-        public IQueryable<Customer> Customers => _context.Customers;
 
         public Product GetProductById(int productId)
         {
@@ -73,7 +72,7 @@ namespace BrickHaven.Models
         public async void AddToCart(Product product)
         {
             _context.Products.Add(product);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
         public async Task AddLineItem(LineItem lineItem)
         {
