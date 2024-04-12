@@ -19,7 +19,7 @@ namespace BrickHaven.Models
         Task AddOrder(Order order);
 
         public Product GetProductById(int id);
-        //public IQueryable<Customer> Customers { get; }
+        public IQueryable<Customer> Customers { get; }
         public void AddToCart(Product product);
     }
 }

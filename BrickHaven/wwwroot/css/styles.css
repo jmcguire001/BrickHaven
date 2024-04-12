@@ -1,5 +1,20 @@
-﻿/* Base styles for the table */
+﻿.not-found-alert {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+.not-found-alert-div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+
+/* Base styles for the table */
 .table-container {
     width: 90%;
     margin: 0 auto;
