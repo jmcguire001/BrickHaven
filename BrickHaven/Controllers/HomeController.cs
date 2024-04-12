@@ -4,10 +4,6 @@ using BrickHaven.Models;
 using BrickHaven.Models.ViewModels;
 using Azure;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.ML;
-using Microsoft.ML.OnnxRuntime;
-using Microsoft.ML.OnnxRuntime.Tensors;
-using System;
 using System.Security.Claims;
 using SQLitePCL;
 using Microsoft.AspNetCore.Identity;
@@ -22,8 +18,8 @@ namespace BrickHaven.Controllers
         private ILegoRepository _repo;
         private readonly UserManager<Customer> _userManager;
         private LoginDbContext _context;
-        
-        public HomeController(UserManager<Customer> userManager,  ILegoRepository temp, LoginDbContext context)
+
+        public HomeController(UserManager<Customer> userManager, ILegoRepository temp, LoginDbContext context)
         {
             _userManager = userManager;
             _repo = temp;
@@ -31,7 +27,6 @@ namespace BrickHaven.Controllers
         }
 
         [AllowAnonymous]
-
         public async Task<IActionResult> Index()
         {
             //var productsQuery = _repo.Products.AsQueryable();
@@ -62,22 +57,33 @@ namespace BrickHaven.Controllers
             //    }
             //}
             //else
-            {
-                // List of top-rated product IDs
-                var topRatedProductIds = new List<int> { 27, 33, 34, 37, 24 };
+            //{
+            // List of top-rated product IDs
+            var topRatedProductIds = new List<int> { 27, 33, 34, 37, 24 };
 
-                // Fetching products that match the top-rated product IDs
-                var topRatedProducts = await _repo.Products
-                                                  .Where(p => topRatedProductIds.Contains(p.ProductId))
-                                                  .ToListAsync();
+            // Fetching products that match the top-rated product IDs
+            var topRatedProducts = await _repo.Products
+                                              .Where(p => topRatedProductIds.Contains(p.ProductId))
+                                              .ToListAsync();
 
-                // Passing the list of top-rated products to the view
-                return View(topRatedProducts);
+            // Passing the list of top-rated products to the view
+            return View(topRatedProducts);
+            //}
+
+            //var products = await productsQuery.ToListAsync();
+
+            //return View(products);
         }
-    }
+
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult SecureMethod()
+        {
+            return View();
+        }
 
         [AllowAnonymous]
-        public IActionResult Shop(int pageNum, string? legoType, string? legoColor, int pageSize=5) // 'page' means something in dotnet
+        public IActionResult Shop(int pageNum, string? legoType, string? legoColor, int pageSize = 5) // 'page' means something in dotnet
         {
             // How many items to show per page
             pageNum = pageNum <= 0 ? 1 : pageNum; // If pageNum is 0, set it to 1
@@ -87,33 +93,30 @@ namespace BrickHaven.Controllers
             {
                 // This info is for the legos specifically
                 Products = _repo.Products
-                .Where(x => (x.Category == legoType || legoType == null) && (x.PrimaryColor == legoColor || legoColor == null)) // If legoType is null, show all legos
-                .OrderBy(x => x.Name)
-                .Skip((pageNum - 1) * pageSize) // calculates which items to show for the specific page by skipping all the items on the previous pages
-                .Take(pageSize), // Only gets a certain number of legos
+                    .Where(x => (x.Category == legoType || legoType == null) && (x.PrimaryColor == legoColor || legoColor == null)) // If legoType is null, show all legos
+                    .OrderBy(x => x.Name)
+                    .Skip((pageNum - 1) * pageSize) // NOT SURE WHAT THIS DOES
+                    .Take(pageSize), // Only gets a certain number of legos
 
                 // This info is for pagination
                 PaginationInfo = new PaginationInfo
                 {
-                    // Dynamically calculate the total items (basically number of page buttons needed) by the following conditions
                     CurrentPage = pageNum,
                     ItemsPerPage = pageSize,
-                    TotalItems = (legoType == null && legoColor == null) ?
-                        _repo.Products.Count() :
-                        (legoType == null && legoColor != null) ?
-                        _repo.Products.Where(x => x.PrimaryColor == legoColor).Count() :
-                        (legoType != null && legoColor == null) ?
-                        _repo.Products.Where(x => x.Category == legoType).Count() :
-                        _repo.Products.Where(x => x.Category == legoType && x.PrimaryColor == legoColor).Count()
+                    TotalItems = legoType == null ? _repo.Products.Count() : _repo.Products.Where(x => x.Category == legoType).Count() // If legoType is null, show all legos, otherwise, filter specific legos
+                },
 
-        },
-                // Store in external state and pass into View
-                CurrentLegoCategory = legoType,
-                CurrentLegoColor = legoColor,
+                CurrentLegoType = legoType,
                 CurrentPageSize = pageSize
             };
 
             return View(shopInfo);
+        }
+
+        [AllowAnonymous]
+        public IActionResult NonSecureMethod()
+        {
+            return View();
         }
 
         [AllowAnonymous]
@@ -130,7 +133,7 @@ namespace BrickHaven.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> ProductDetails(int id, string imglink)
+        public async Task<IActionResult> ProductDetails(int id)
         {
             // Retrieve product details by calling the method from the repository
             // Product product = await _repo.GetProductByIdAsync(id);
@@ -142,7 +145,7 @@ namespace BrickHaven.Controllers
                 return NotFound(); // Return a 404 Not Found response
             }
 
-            var item_recommendation_Ids = new List<int?>
+            var recommendationIds = new List<int?>
             {
                 product.Recommendation1,
                 product.Recommendation2,
@@ -152,7 +155,7 @@ namespace BrickHaven.Controllers
             }.Where(id => id.HasValue).Select(id => id.Value);
 
             var recommendedProducts = await _repo.Products
-                .Where(p => item_recommendation_Ids.Contains(p.ProductId))
+                .Where(p => recommendationIds.Contains(p.ProductId))
                 .ToListAsync();
 
             var viewModel = new ProductRecommendationsViewModel
@@ -168,28 +171,18 @@ namespace BrickHaven.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult ProductDetails(ProductRecommendationsViewModel productRecs)
+        public IActionResult ProductDetails(Product product)
         {
             if (ModelState.IsValid)
             {
                 // Add the new record; this action comes from ITasksRepository and EFTasksRepository
-                _repo.AddToCart(productRecs.Product);
-                return View("/Cart", productRecs.Product);
+                _repo.AddToCart(product);
+                return View("Confirmation", product);
             }
             else
             {
                 return View();
             }
-
-        }
-
-        [AllowAnonymous]
-        public IActionResult TEST()
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            ViewData["UserId"] = userId; // Pass UserId to the view through ViewData
-                                         // Alternatively, you can pass it as part of a model to the view
-            return View();
         }
 
         [Authorize]
@@ -199,8 +192,18 @@ namespace BrickHaven.Controllers
             // Fetch list of customers
             var customers = _context.Users.ToList(); // Assuming _context is your DbContext
 
+            Cart cart = HttpContext.Session.GetJson<Cart>("cart");
+
             // Retrieve the current user's ID
             var user = await _userManager.GetUserAsync(HttpContext.User);
+            float? amount = 0;
+
+            foreach (var line in cart.Lines)
+            { 
+                float? price = line.Product.Price * line.Quantity;
+
+                amount += price;
+            }
 
             var viewModel = new AddOrderViewModel
             {
@@ -208,8 +211,12 @@ namespace BrickHaven.Controllers
                 Date = DateTime.Now,
                 Weekday = DateTime.Now.DayOfWeek.ToString(),
                 Time = DateTime.Now.Hour,
-                TransactionCountry = user.ResidenceCountry
+                TransactionCountry = user.ResidenceCountry,
+                Amount = amount
             };
+
+
+
 
             return View(viewModel);
         }

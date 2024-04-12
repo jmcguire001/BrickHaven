@@ -1,16 +1,12 @@
 ﻿@page
 @model BrickHaven.Pages.CartModel
-@{
-    ViewBag.Title = "Cart";
-}
 
 <button type="button" class="back-button" onclick="history.back()"><img src="~/assets/circle-chevron-left.svg" class="back-icon" /></button>
+<br />
 
+<h2>Shopping Cart</h2>
 
-<h1 class="list-header">Shopping Cart</h1>
-
-<div class="table-container">
-    <table class="product-table-unlike-any-other">
+<table class="table table-bordered table-striped">
     <thead>
         <tr>
             <th>Item</th>
@@ -39,11 +35,11 @@
         </tr>
     </tfoot>
 </table>
-</div><br /><br /><br />
 
 <div class="text-center">
     <a class="btn btn-primary" href="@Model.ReturnUrl">Return to Shopping</a>
-</div><br />
+</div>
+<br />
 
 @if (Model.Cart != null)
 {
@@ -60,5 +56,3 @@
     </div>
     <br />
 }
-    
-</div>

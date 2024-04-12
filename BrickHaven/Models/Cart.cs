@@ -26,7 +26,7 @@ namespace BrickHaven.Models
             if (line == null) // Add a new item if line is null
             {
                 Lines.Add(new CartLine
-                {   
+                {
                     Product = p,
                     Quantity = quantity,
                     Price = (float)p.Price,

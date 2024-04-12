@@ -299,7 +299,7 @@ namespace BrickHaven.Controllers
         }
 
         [HttpGet]
-        public IActionResult ListUsers(string? roleFilter, int pageNum = 1, int pageSize = 500)
+        public IActionResult ListUsers(string? roleFilter, int pageNum = 1, int pageSize = 230)
         {
             var userList = new ListUsersViewModel
             {
